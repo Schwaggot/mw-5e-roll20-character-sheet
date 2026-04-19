@@ -1465,7 +1465,7 @@
 /* ---------- GRENADES ---------- */
 .charsheet .atlas-grenade-row {
   display: grid;
-  grid-template-columns: 2fr 1.3fr 50px 70px 70px 1.3fr 50px 80px;
+  grid-template-columns: 1fr max-content 50px 70px 70px max-content 50px 80px;
   gap: 6px;
   background: #262a2f;
   border: 1px solid #3a3f44;
@@ -1474,8 +1474,9 @@
   margin-bottom: 4px;
 }
 
-.charsheet .atlas-grenade-row input {
-  width: 100%;
+.charsheet .atlas-grenade-row input,
+.charsheet .atlas-grenade-row select {
+  width: 100% !important;
   min-width: 0;
 }
 

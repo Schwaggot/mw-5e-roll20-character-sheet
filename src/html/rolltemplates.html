@@ -37,11 +37,11 @@
     {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
     <div class="sheet-atlas-rt-body">
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Modus</span><span class="sheet-atlas-rt-val">{{mode}}</span></div>
-      {{#t1_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 1</span><span class="sheet-atlas-rt-val">Atk {{t1_atk}}</span></div>{{/t1_atk}}
-      {{#t2_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 2 (-5)</span><span class="sheet-atlas-rt-val">Atk {{t2_atk}}</span></div>{{/t2_atk}}
-      {{#t3_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 3 (-10)</span><span class="sheet-atlas-rt-val">Atk {{t3_atk}}</span></div>{{/t3_atk}}
-      {{#t4_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 4 (-15)</span><span class="sheet-atlas-rt-val">Atk {{t4_atk}}</span></div>{{/t4_atk}}
-      {{#t5_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 5 (-20)</span><span class="sheet-atlas-rt-val">Atk {{t5_atk}}</span></div>{{/t5_atk}}
+      {{#t1_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 1</span><span class="sheet-atlas-rt-val">Atk {{t1_atk}}{{#t1_dmg}} | Dmg {{t1_dmg}}{{/t1_dmg}}</span></div>{{/t1_atk}}
+      {{#t2_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 2 (-5)</span><span class="sheet-atlas-rt-val">Atk {{t2_atk}}{{#t2_dmg}} | Dmg {{t2_dmg}}{{/t2_dmg}}</span></div>{{/t2_atk}}
+      {{#t3_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 3 (-10)</span><span class="sheet-atlas-rt-val">Atk {{t3_atk}}{{#t3_dmg}} | Dmg {{t3_dmg}}{{/t3_dmg}}</span></div>{{/t3_atk}}
+      {{#t4_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 4 (-15)</span><span class="sheet-atlas-rt-val">Atk {{t4_atk}}{{#t4_dmg}} | Dmg {{t4_dmg}}{{/t4_dmg}}</span></div>{{/t4_atk}}
+      {{#t5_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 5 (-20)</span><span class="sheet-atlas-rt-val">Atk {{t5_atk}}{{#t5_dmg}} | Dmg {{t5_dmg}}{{/t5_dmg}}</span></div>{{/t5_atk}}
       {{#damage_link}}<div class="sheet-atlas-rt-row sheet-atlas-rt-damage-link"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage_link}}</span></div>{{/damage_link}}
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>
       {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}

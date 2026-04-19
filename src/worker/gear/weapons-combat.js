@@ -734,6 +734,16 @@
       "train_rwt_saw_mg",
       "train_rwt_launchers",
       "shaken_level",
+      "train_auto_weapons",
+      `${rowPrefix}_wmod_muzzle_slot`,
+      `${rowPrefix}_wmod_stock_slot`,
+      `${rowPrefix}_wmod_underbarrel_slot`,
+      `${rowPrefix}_wmod_sight_slot`,
+      `${rowPrefix}_wmod_magazine_slot`,
+      `${rowPrefix}_wmod_receiver_slot`,
+      `${rowPrefix}_wmod_barrel_slot`,
+      `${rowPrefix}_wmod_trigger_slot`,
+      `${rowPrefix}_wmod_siderails_slot`,
       `${rowPrefix}_wstatus`,
     ];
 
@@ -751,6 +761,7 @@
       const wdamage = v[`${rowPrefix}_wdamage`] || "1d4";
       const wattack = parseInt(v[`${rowPrefix}_wattack`]) || 0;
       const wdmg_bonus = parseInt(v[`${rowPrefix}_wdmg_bonus`]) || 0;
+      const wcrit = v[`${rowPrefix}_wcrit`] || "20";
       const wammo = parseInt(v[`${rowPrefix}_wammo`]) || 0;
       const wammo_max = parseInt(v[`${rowPrefix}_wammo_max`]) || 0;
       const wrecoil = parseInt(v[`${rowPrefix}_wrecoil`]) || 0;
@@ -779,6 +790,18 @@
       const mSight      = v[`${rowPrefix}_wmod_sight_slot`]      || "none";
       const mReceiver   = v[`${rowPrefix}_wmod_receiver_slot`]   || "none";
       const mSiderails  = v[`${rowPrefix}_wmod_siderails_slot`]  || "none";
+      const mBarrel     = v[`${rowPrefix}_wmod_barrel_slot`]     || "none";
+
+      // Crit-Range: Precision Barrel +1
+      let effCritStr = wcrit;
+      if (mBarrel === "precision") {
+        const r = parseRange(wcrit);
+        if (r) {
+          const newMin = Math.max(1, r.min - 1);
+          effCritStr = (newMin === r.max) ? `${newMin}` : `${newMin}-${r.max}`;
+        }
+      }
+      const critRange = parseRange(effCritStr);
 
       const effRecoil = Math.max(0, wrecoil - (mStock === "buffer" ? 4 : 0));
       const recoilDiff = effRecoil - strength;
@@ -847,32 +870,24 @@
       if (shakenDisadv) {
         noteText += ` Shaken 5/Broken: Disadvantage auf alle Attacks (2d20kl1).`;
       }
-      // Head-Shot: bei Multi-Target-Kopfschuss ist jeder Hit ein Crit,
-      // also 2x Damage Dice. Nat-20-Detection pro Ziel fehlt hier (wuerde
-      // extra-Loop brauchen), daher pauschal 2x bei Head.
       const headShotMultiplier = zoneKey === "head" ? 2 : 1;
-      if (headShotMultiplier > 1) {
-        noteText += ` Kopfschuss: alle Damage Dice x${headShotMultiplier} (2x, bei Nat 20 manuell 3x).`;
-      }
-      // Auto-Weapons L4+ addiert einen Damage-Die (also +1 dX wobei X = Basis-Die-Groesse).
-      let dmgDice = multiplyDiceCount(wdamage, headShotMultiplier);
+      
+      // We'll prepare a default fallback dmgFull for the global button
+      let fallbackDmgDice = multiplyDiceCount(wdamage, headShotMultiplier);
       if (autoExtraDie > 0) {
-        const m = /^(\d+)d(\d+)(.*)$/.exec(dmgDice);
-        if (m) dmgDice = `${parseInt(m[1]) + autoExtraDie}d${m[2]}${m[3]}`;
+        const m = /^(\d+)d(\d+)(.*)$/.exec(fallbackDmgDice);
+        if (m) fallbackDmgDice = `${parseInt(m[1]) + autoExtraDie}d${m[2]}${m[3]}`;
       }
-
-      // Two-step: one damage link on the spray card. User clicks it once
-      // per target that hits (per GM adjudication). Each click re-rolls
-      // damage from the stored formula, so fresh dice each time.
-      const baseDmg = `${dmgDice} + ${effDmgBonus}`;
-      const dmgFormula = hasSuppressor ? `${baseDmg} - 1d4` : baseDmg;
+      const fallbackBaseDmg = `${fallbackDmgDice} + ${effDmgBonus}`;
+      const fallbackDmgFormula = hasSuppressor ? `${fallbackBaseDmg} - 1d4` : fallbackBaseDmg;
       const zoneNote = zoneKey !== "torso" ? `${zone.label}: ${zone.effect}` : "";
       const spCritNote = headShotMultiplier > 1 ? `Kopfschuss: alle Dice x${headShotMultiplier}` : "";
-      const dmgFull =
+      const dmgFullFallback =
         `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
-        `{{mode=${modeLabel}}} {{damage=[[${dmgFormula}]]}}` +
+        `{{mode=${modeLabel}}} {{damage=[[${fallbackDmgFormula}]]}}` +
         (spCritNote ? ` {{crit_note=${spCritNote}}}` : "") +
         (zoneNote ? ` {{zone_note=${zoneNote}}}` : "");
+
       const damageLink = `[Schaden würfeln (pro Hit)](~@{character_id}|last_damage)`;
 
       let rollText = `&{template:spray} ` +
@@ -891,11 +906,53 @@
       }
 
       startRoll(rollText, (results) => {
+        const computed = results.results;
+        const computedResults = {};
+
+        for (let i = 0; i < targets; i++) {
+          const res = computed[`t${i+1}_atk`];
+          if (!res) continue;
+
+          // Detect Crit for this target
+          const d20Roll = res.dice[0];
+          const isCrit = critRange && d20Roll >= critRange.min && d20Roll <= critRange.max;
+          
+          let targetMultiplier = headShotMultiplier;
+          let targetCritNote = "";
+          if (isCrit) {
+            if (zoneKey === "head" && d20Roll === 20) {
+              targetMultiplier = 3;
+              targetCritNote = " (Nat 20 Headshot: 3x Dice)";
+            } else if (zoneKey === "head") {
+              targetMultiplier = 2;
+              targetCritNote = " (Headshot Hit: 2x Dice)";
+            } else {
+              targetMultiplier = 2;
+              targetCritNote = " (Crit: 2x Dice)";
+            }
+          } else if (zoneKey === "head") {
+            targetCritNote = " (Headshot: 2x Dice)";
+          }
+
+          let tDmgDice = multiplyDiceCount(wdamage, targetMultiplier);
+          if (autoExtraDie > 0) {
+            const m = /^(\d+)d(\d+)(.*)$/.exec(tDmgDice);
+            if (m) tDmgDice = `${parseInt(m[1]) + autoExtraDie}d${m[2]}${m[3]}`;
+          }
+          const tBaseDmg = `${tDmgDice} + ${effDmgBonus}`;
+          const tDmgFormula = hasSuppressor ? `${tBaseDmg} - 1d4` : tBaseDmg;
+
+          computedResults[`t${i+1}_dmg`] = tDmgFormula + targetCritNote;
+        }
+
+        // Finish the roll immediately so the chat message appears
+        finishRoll(results.rollId, computedResults);
+
+        // Update attributes in the background
         setAttrs({
           [`${rowPrefix}_wammo`]: ammoAfter,
-          last_damage_full: dmgFull,
+          last_damage_full: dmgFullFallback,
         });
-        finishRoll(results.rollId);
       });
     });
   }

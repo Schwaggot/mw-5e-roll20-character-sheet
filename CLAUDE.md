@@ -15,13 +15,18 @@ autouploader extension.
   INCLUDE line in the skeleton. No build-script changes needed.
 - Adding a new CSS file under `src/css/`: also add it to `CSS_SOURCES` in
   `scripts/build.mjs` — order matters (cascade).
+- Adding a new worker file under `src/worker/`: also add it to
+  `WORKER_SOURCES` in `scripts/build.mjs`. All files concat into one
+  `<script type="text/worker">` block — consts/functions declared in one
+  file are visible to later-concatenated files, so list dependencies before
+  dependents.
 
 ## Where to edit
 
 | Change                                  | File                                                                        |
 |-----------------------------------------|-----------------------------------------------------------------------------|
 | HTML markup                             | `src/html/header.html`, `src/html/tabs-nav.html`, `src/html/tabs/<tab>.html`, `src/html/rolltemplates.html` (skeleton in `src/sheet.html`) |
-| Sheet-worker JS (derived values, rolls) | `src/sheet-worker.js`                                                       |
+| Sheet-worker JS (derived values, rolls) | `src/worker/<topic>.js` — `core.js`, `skills.js`, `overview/*.js`, `gear/*.js`, `features/*.js` |
 | Styling                                 | `src/css/base/*.css` (shared) or `src/css/tabs/<tab>.css`                   |
 | Roll-template chat output               | `src/css/rolltemplates.css` and `<rolltemplate>` blocks in `src/sheet.html` |
 | Dev-preview wrapping / Roll20 API stub  | `preview/main.js`, `preview/roll20-stub.js`                                 |

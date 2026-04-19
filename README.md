@@ -24,7 +24,6 @@ your autouploader at the repo root.
 
 ```
 src/sheet.html                  skeleton (~30 lines) with <!-- INCLUDE: … --> directives and <!-- SHEET_WORKER -->
-src/sheet-worker.js             sheet-worker JavaScript
 src/html/header.html            character header fields (codename, level, prof, …)
 src/html/tabs-nav.html          radio toggles + <nav> labels that switch tabs
 src/html/tabs/<tab>.html        per-tab panes: overview, skills, gear, features, notes
@@ -32,6 +31,12 @@ src/html/rolltemplates.html     chat rolltemplate definitions
 src/css/base/*.css              shared styles (root, header, tab nav, checkboxes, buttons, …)
 src/css/tabs/<tab>.css          per-tab styles: overview, skills, gear, features
 src/css/rolltemplates.css       chat rolltemplate styles
+src/worker/core.js              attribute modifiers, proficiency bonus, on-open init
+src/worker/skills.js            save / skill / check training & shaken-disadvantage
+src/worker/overview/stress.js   stress-damage automation + shaken tiers
+src/worker/overview/hp-rest.js  HP triage, short/long rest, hit dice
+src/worker/gear/*.js            encumbrance, weapons (combat + data), armor, grenades, inventory
+src/worker/features/*.js        designation, drone, personality, leadership, medic, companions
 
 sheet.html, sheet.css           build output at root, the only Roll20 artifacts
 preview/index.html              dev-only entry (full HTML doc wrapper)
@@ -53,10 +58,14 @@ the Roll20 sheet.
    Partials are discovered by walking `src/html/**/*.html`, so adding a new
    partial just means creating the file and adding an INCLUDE line.
 2. Replace `<!-- SHEET_WORKER -->` with `<script type="text/worker">…</script>`
-   wrapping `src/sheet-worker.js` verbatim.
+   wrapping the concatenation of every file in `WORKER_SOURCES`
+   (`scripts/build.mjs`). Each block is preceded by a `// === src/worker/… ===`
+   banner so chat-side errors trace back to the right source file.
 
-The resulting file is byte-identical to what you'd get by pasting everything
-back inline.
+The HTML portion is byte-identical to what you'd get by pasting all partials
+inline. The worker script itself is reorganised from the original order —
+sections are grouped by topic rather than by where they happened to live in
+the pre-split file — but the set of handlers registered is unchanged.
 
 `sheet.css` at the root is the concatenation of every file in `src/css/`, in
 the order defined by `CSS_SOURCES` in `scripts/build.mjs` — base files first

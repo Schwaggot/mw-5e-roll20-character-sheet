@@ -1400,6 +1400,7 @@
 <!-- ============================================================ -->
 
 <script type="text/worker">
+  // === src/worker/core.js ===
   // ---- Attribute Modifier ----
   const ATTRS = ["strength","dexterity","constitution","intelligence","wisdom","charisma"];
 
@@ -1414,7 +1415,6 @@
       });
     });
   });
-
   // ---- Proficiency Bonus from Level ----
   on("change:level sheet:opened", () => {
     getAttrs(["level"], (v) => {
@@ -1427,7 +1427,19 @@
       setAttrs({ prof_bonus: prof });
     });
   });
+  // ---- Init: make sure mods exist on sheet open ----
+  on("sheet:opened", () => {
+    getAttrs(ATTRS, (v) => {
+      const upd = {};
+      ATTRS.forEach(a => {
+        const score = parseInt(v[a]) || 10;
+        upd[`${a}_mod`] = Math.floor((score - 10) / 2);
+      });
+      setAttrs(upd);
+    });
+  });
 
+  // === src/worker/gear/encumbrance.js ===
   // ---- Encumbrance (Weight-Sum + Status-Indicator) ----
   // Summiert Weapons (wweight) + equipped Armor (aweight) + Inventory
   // (iweight * iqty). Max = STR * 7 kg. Status als 3 kumulative Checkboxen
@@ -1519,6 +1531,7 @@
     () => recalcEncumbrance()
   );
 
+  // === src/worker/features/designation.js ===
   // ---- Sharpshooter-Sichtbarkeit (Marksmanship Level >= 3) ----
   // Hidden-Checkbox attr_sharpshooter_available wird vom Worker gesetzt;
   // CSS :has() blendet pro Weapon die Sharpshooter-Checkbox ein/aus.
@@ -1570,6 +1583,22 @@
     });
   });
 
+  // ---- Designation-Sichtbarkeit (Leadership / Medic / Demo / Tech / Dog) ----
+  // Mapping Designation-Value -> Flag-Attribute. Leere Flags = Sektion versteckt.
+  on("change:combat_designation sheet:opened", () => {
+    getAttrs(["combat_designation"], (v) => {
+      const d = (v.combat_designation || "").trim();
+      setAttrs({
+        desig_unit_leader: d === "Unit Leader"            ? "1" : "0",
+        desig_medic:       d === "Combat Medic"           ? "1" : "0",
+        desig_demo:        d === "Demolitions Specialist" ? "1" : "0",
+        desig_tech:        d === "Tech Specialist"        ? "1" : "0",
+        desig_dog:         d === "Dog Handler"            ? "1" : "0",
+      });
+    });
+  });
+
+  // === src/worker/features/drone.js ===
   // ---- Drone Upgrade Auto-Apply ----
   // Armor Kit: AC 15 -> 18 (readonly drone_ac).
   // Structural Support: HP-Max 10 + Operator-Level (readonly drone_hp_max).
@@ -1620,6 +1649,108 @@
   on("change:level",             recalcDroneUpgrades);
   on("sheet:opened",             recalcDroneUpgrades);
 
+  // ---- B-1 Recon Drone ----
+  // Operator steuert die Drohne mit eigenem DEX + Proficiency.
+  // Tech Master (18th): kein Move-Test noetig, Auto-Success.
+  // Tech Master (18th): Doppelter Prof-Bonus auf alle Drohnen-Dex-Checks.
+  function droneCheck(dc, label) {
+    getAttrs(["dexterity_mod", "prof_bonus", "level", "character_name"], (v) => {
+      const dexMod = parseInt(v.dexterity_mod) || 0;
+      const prof = parseInt(v.prof_bonus) || 2;
+      const lvl = parseInt(v.level) || 1;
+      const charName = v.character_name || "Operator";
+      // Tech Master L18: keine Movement-Tests noetig.
+      if (lvl >= 18) {
+        const rollText = `&{template:check} ` +
+          `{{title=B1-RD ${label}}} ` +
+          `{{who=${charName}}} ` +
+          `{{result=Auto-Success (Tech Master L18)}} ` +
+          `{{note=No movement test required.}}`;
+        startRoll(rollText, (r) => finishRoll(r.rollId));
+        return;
+      }
+      const rollText = `&{template:check} ` +
+        `{{title=B1-RD ${label}}} ` +
+        `{{who=${charName}}} ` +
+        `{{result=[[1d20 + ${dexMod} + ${prof}]] vs DC ${dc}}}`;
+      startRoll(rollText, (r) => finishRoll(r.rollId));
+    });
+  }
+
+  on("clicked:drone_move", () => droneCheck(15, "Bewegung (60ft)"));
+  on("clicked:drone_dash", () => droneCheck(20, "Bewegung-Dash (120ft)"));
+
+  on("clicked:drone_pistol", () => {
+    getAttrs(["dexterity_mod", "prof_bonus", "level", "character_name"], (v) => {
+      const dexMod = parseInt(v.dexterity_mod) || 0;
+      const prof = parseInt(v.prof_bonus) || 2;
+      const lvl = parseInt(v.level) || 1;
+      const charName = v.character_name || "Operator";
+      // Tech Master L18: doppelter Prof-Bonus
+      const techMaster = lvl >= 18;
+      const effProf = techMaster ? prof * 2 : prof;
+      const note = techMaster
+        ? `Pistol-Mount: nur wenn Drohne diesen Zug <= 60 ft. Tech Master L18: doppelter Prof-Bonus (${effProf} statt ${prof}).`
+        : `Pistol-Mount: nur wenn Drohne diesen Zug <= 60 ft bewegt. Angriff gegen markiertes Ziel hat Advantage.`;
+      const rollText = `&{template:attack} ` +
+        `{{title=B1-RD Pistol Mount}} ` +
+        `{{who=${charName}}} ` +
+        `{{mode=Drohnen-Angriff}} ` +
+        `{{attack=[[1d20 + ${dexMod} + ${effProf}]]}} ` +
+        `{{damage=[[1d10 + 1]]}} ` +
+        `{{note=${note}}}`;
+      startRoll(rollText, (r) => finishRoll(r.rollId));
+    });
+  });
+
+  // Mark Target (3rd Level, bei L10+ bis zu INT-Mod Ziele)
+  on("clicked:drone_mark", () => {
+    getAttrs(["level", "intelligence_mod", "character_name"], (v) => {
+      const lvl = parseInt(v.level) || 1;
+      const intMod = parseInt(v.intelligence_mod) || 0;
+      const charName = v.character_name || "Operator";
+      const enhanced = lvl >= 10;
+      const count = enhanced ? Math.max(1, intMod) : 1;
+      const label = enhanced
+        ? `Bis zu ${count} Ziele markiert (Enhanced B1-RD L10, INT-Mod ${intMod})`
+        : `1 Ziel markiert (B1-RD L3)`;
+      const rollText = `&{template:check} ` +
+        `{{title=B1-RD Mark Target}} ` +
+        `{{who=${charName}}} ` +
+        `{{result=${label}}} ` +
+        `{{note=Innerhalb 120 ft von der Drohne. Ranged-Attacks gegen markierte Ziele haben Advantage.}}`;
+      startRoll(rollText, (r) => finishRoll(r.rollId));
+    });
+  });
+
+  // MacGyver (15th Level): Technology-Check gegen GM-DC fuer Ad-hoc Tech-Device
+  on("clicked:drone_macgyver", () => {
+    getAttrs(
+      ["intelligence_mod", "skill_technology_bonus", "skill_technology_extra",
+       "skill_technology_die", "level", "character_name"],
+      (v) => {
+        const intMod = parseInt(v.intelligence_mod) || 0;
+        const bonus = parseInt(v.skill_technology_bonus) || 0;
+        const extra = parseInt(v.skill_technology_extra) || 0;
+        const die = v.skill_technology_die || "1d20";
+        const lvl = parseInt(v.level) || 1;
+        const charName = v.character_name || "Operator";
+        // Tech Master (18th): Advantage auf alle Tech-Checks
+        const effDie = lvl >= 18 ? "2d20kh1" : die;
+        const note = lvl >= 18
+          ? "Tech Master L18: Advantage auf alle Tech-Checks. DC vom GM. Benoetigt Drone Repair Kit im Inventar."
+          : "DC vom GM. Benoetigt Drone Repair Kit im Inventar. Beispiele: Audio-Bug, Basic-Comms, Radio-Fix.";
+        const rollText = `&{template:check} ` +
+          `{{title=MacGyver Tech-Check}} ` +
+          `{{who=${charName}}} ` +
+          `{{result=Technology [[${effDie} + ${intMod} + ${bonus} + ${extra}]]}} ` +
+          `{{note=${note}}}`;
+        startRoll(rollText, (r) => finishRoll(r.rollId));
+      }
+    );
+  });
+
+  // === src/worker/gear/weapons-combat.js ===
   // ---- Unarmed Strike Roll ----
   // Damage-Die skaliert mit Training-Level. Worker waehlt STR oder DEX
   // (jeweils den hoeheren Mod) fuer Attack und Damage.
@@ -1671,399 +1802,6 @@
         );
       }
     );
-  });
-
-  // ---- Designation-Sichtbarkeit (Leadership / Medic / Demo / Tech / Dog) ----
-  // Mapping Designation-Value -> Flag-Attribute. Leere Flags = Sektion versteckt.
-  on("change:combat_designation sheet:opened", () => {
-    getAttrs(["combat_designation"], (v) => {
-      const d = (v.combat_designation || "").trim();
-      setAttrs({
-        desig_unit_leader: d === "Unit Leader"            ? "1" : "0",
-        desig_medic:       d === "Combat Medic"           ? "1" : "0",
-        desig_demo:        d === "Demolitions Specialist" ? "1" : "0",
-        desig_tech:        d === "Tech Specialist"        ? "1" : "0",
-        desig_dog:         d === "Dog Handler"            ? "1" : "0",
-      });
-    });
-  });
-
-  // ---- Save / Skill / Check Training Level + Shaken Auto-Apply ----
-  // Level-Werte -> (Prof-Bonus + Extra-Bonus) + Advantage-Die.
-  //   L0: d20, kein Bonus
-  //   L1: d20, +prof
-  //   L2: d20, +prof +1
-  //   L3: d20, +prof +2
-  //   L4: 2d20kh1 (Advantage), +prof +2
-  //
-  // Shaken-Level imposed Disadvantage (pro Ability):
-  //   L1: Disadv auf INT/WIS/CHA Checks (ability checks und skills)
-  //   L2: + Disadv auf INT/WIS/CHA Saves
-  //   L3: + Disadv auf Initiative
-  //   L4: + Disadv auf STR/DEX Checks und Saves
-  //   L5: + Disadv auf alle Attacks und CON-Checks/Saves (Attacks via Worker)
-  //
-  // D&D-5E Rule: Advantage + Disadvantage cancel to normal 1d20.
-  const SAVE_ABILITIES = ["str", "dex", "con", "int", "wis", "cha"];
-
-  function saveBonusForLevel(level, profBonus) {
-    if (level <= 0) return 0;
-    if (level === 1) return profBonus;
-    if (level === 2) return profBonus + 1;
-    return profBonus + 2; // Level 3 and 4
-  }
-
-  // kind = "check" (ability check) / "save" / "skill" (uses ability for check)
-  // abil = "str" | "dex" | "con" | "int" | "wis" | "cha"
-  function shakenImposesDisadv(kind, abil, shaken) {
-    if (kind === "check" || kind === "skill") {
-      // Ability checks (incl. skills): INT/WIS/CHA at L1, STR/DEX at L4, CON at L5
-      if (shaken >= 1 && (abil === "int" || abil === "wis" || abil === "cha")) return true;
-      if (shaken >= 4 && (abil === "str" || abil === "dex")) return true;
-      if (shaken >= 5 && abil === "con") return true;
-      return false;
-    }
-    if (kind === "save") {
-      // Saves: INT/WIS/CHA at L2, STR/DEX at L4, CON at L5
-      if (shaken >= 2 && (abil === "int" || abil === "wis" || abil === "cha")) return true;
-      if (shaken >= 4 && (abil === "str" || abil === "dex")) return true;
-      if (shaken >= 5 && abil === "con") return true;
-      return false;
-    }
-    if (kind === "init") {
-      // Initiative: disadv at Shaken L3+
-      return shaken >= 3;
-    }
-    return false;
-  }
-
-  // Kombiniert Training-Level-Advantage mit Shaken-Disadvantage.
-  // Advantage + Disadvantage = normal 1d20 (cancel).
-  function dieForState(trainLevel, disadv) {
-    const hasAdv = trainLevel >= 4;
-    if (hasAdv && disadv) return "1d20";       // Cancel
-    if (hasAdv)           return "2d20kh1";
-    if (disadv)           return "2d20kl1";
-    return "1d20";
-  }
-
-  // Skill slug -> primary ability (for Shaken-Disadv-Check)
-  const SKILL_ABILITY_MAP = {
-    acrobatics: "dex", animal: "wis", athletics: "str", deception: "cha",
-    history: "int", insight: "wis", intimidation: "cha", investigation: "int",
-    medicine: "wis", nature: "int", perception: "wis", performance: "cha",
-    persuasion: "cha", science: "int", sleight: "dex", stealth: "dex",
-    survival: "wis", technology: "int",
-  };
-
-  function recalcAllSaves(prof, shaken) {
-    const lvlAttrs = SAVE_ABILITIES.map((a) => `save_${a}_level`);
-    getAttrs(lvlAttrs, (v) => {
-      const upd = {};
-      for (const a of SAVE_ABILITIES) {
-        const lvl = parseInt(v[`save_${a}_level`]) || 0;
-        const disadv = shakenImposesDisadv("save", a, shaken);
-        upd[`save_${a}_bonus`] = saveBonusForLevel(lvl, prof);
-        upd[`save_${a}_die`]   = dieForState(lvl, disadv);
-      }
-      setAttrs(upd);
-    });
-  }
-
-  // Bei jeder Level-Aenderung: nur das eine Save neu rechnen.
-  SAVE_ABILITIES.forEach((a) => {
-    on(`change:save_${a}_level`, () => {
-      getAttrs([`save_${a}_level`, "prof_bonus", "shaken_level"], (v) => {
-        const lvl = parseInt(v[`save_${a}_level`]) || 0;
-        const prof = parseInt(v.prof_bonus) || 2;
-        const shaken = parseInt(v.shaken_level) || 0;
-        setAttrs({
-          [`save_${a}_bonus`]: saveBonusForLevel(lvl, prof),
-          [`save_${a}_die`]:   dieForState(lvl, shakenImposesDisadv("save", a, shaken)),
-        });
-      });
-    });
-  });
-
-  // Bei Prof-Bonus / Shaken-Aenderung (Level-Up oder Stress) alle Dice neu rechnen.
-  on("change:prof_bonus change:shaken_level sheet:opened", () => {
-    getAttrs(["prof_bonus", "shaken_level"], (v) => {
-      const prof = parseInt(v.prof_bonus) || 2;
-      const shaken = parseInt(v.shaken_level) || 0;
-      recalcAllSaves(prof, shaken);
-      recalcAllSkills(prof, shaken);
-      recalcAllChecks(shaken);
-    });
-  });
-
-  // ---- Skill Training Level Auto-Apply ----
-  const SKILL_SLUGS = [
-    "acrobatics", "animal", "athletics", "deception", "history", "insight",
-    "intimidation", "investigation", "medicine", "nature", "perception",
-    "performance", "persuasion", "science", "sleight", "stealth", "survival",
-    "technology",
-  ];
-
-  function recalcAllSkills(prof, shaken) {
-    const lvlAttrs = SKILL_SLUGS.map((s) => `skill_${s}_level`);
-    getAttrs(lvlAttrs, (v) => {
-      const upd = {};
-      for (const s of SKILL_SLUGS) {
-        const lvl = parseInt(v[`skill_${s}_level`]) || 0;
-        const abil = SKILL_ABILITY_MAP[s];
-        const disadv = shakenImposesDisadv("skill", abil, shaken);
-        upd[`skill_${s}_bonus`] = saveBonusForLevel(lvl, prof);
-        upd[`skill_${s}_die`]   = dieForState(lvl, disadv);
-      }
-      setAttrs(upd);
-    });
-  }
-
-  // Pro Skill: Level-Aenderung -> nur dieses Skill neu rechnen.
-  SKILL_SLUGS.forEach((s) => {
-    on(`change:skill_${s}_level`, () => {
-      getAttrs([`skill_${s}_level`, "prof_bonus", "shaken_level"], (v) => {
-        const lvl = parseInt(v[`skill_${s}_level`]) || 0;
-        const prof = parseInt(v.prof_bonus) || 2;
-        const shaken = parseInt(v.shaken_level) || 0;
-        const abil = SKILL_ABILITY_MAP[s];
-        setAttrs({
-          [`skill_${s}_bonus`]: saveBonusForLevel(lvl, prof),
-          [`skill_${s}_die`]:   dieForState(lvl, shakenImposesDisadv("skill", abil, shaken)),
-        });
-      });
-    });
-  });
-
-  // Ability-Check-Dice (keine Trainings-Levels, nur Shaken-Disadv).
-  // Genutzt von den 6 Attribut-Roll-Buttons oben rechts.
-  function recalcAllChecks(shaken) {
-    const upd = {};
-    for (const a of SAVE_ABILITIES) {
-      const disadv = shakenImposesDisadv("check", a, shaken);
-      upd[`check_${a}_die`] = disadv ? "2d20kl1" : "1d20";
-    }
-    // Initiative-Die (Shaken 3+)
-    upd.init_die = shakenImposesDisadv("init", null, shaken) ? "2d20kl1" : "1d20";
-    setAttrs(upd);
-  }
-
-  // ---- Stress / Shaken Automation ----
-  // Stress akkumuliert separat vom HP. Pro Treffer += (Dmg - WIS, min 1).
-  // Jedes Vielfache von WIS triggert einen Save (DCs 12/15/20/25/30).
-  // Fail = Shaken Level steigt. Heilung senkt Stress und ggf. Shaken-Level.
-  const STRESS_DCS = [12, 15, 20, 25, 30]; // [threshold 1x .. 5x WIS]
-
-  function thresholdCount(stress, wis) {
-    if (wis <= 0) return 0;
-    return Math.max(0, Math.min(5, Math.floor(stress / wis)));
-  }
-
-  function nextDcLabel(currentLevel, stress, wis) {
-    const nextLvl = Math.min(5, currentLevel + 1);
-    if (nextLvl > 5) return "-";
-    const toCross = nextLvl * wis;
-    const remaining = Math.max(0, toCross - stress);
-    return `DC ${STRESS_DCS[nextLvl - 1]} (bei ${toCross} Stress, noch ${remaining})`;
-  }
-
-  // Auto-Save + Shaken-Update bei aendernder Stress-Anzeige.
-  on("change:stress_total change:wisdom sheet:opened", (info) => {
-    getAttrs(
-      ["stress_total", "shaken_level", "stress_last_threshold",
-       "wisdom", "wisdom_mod", "character_name"],
-      (v) => {
-        const stress = Math.max(0, parseInt(v.stress_total) || 0);
-        const wis = Math.max(1, parseInt(v.wisdom) || 10);
-        const wisMod = parseInt(v.wisdom_mod) || 0;
-        let shaken = parseInt(v.shaken_level) || 0;
-        const lastT = parseInt(v.stress_last_threshold) || 0;
-        const charName = v.character_name || "Operator";
-
-        const newT = thresholdCount(stress, wis);
-
-        // Nach oben ueberschritten: Save triggern am HOECHSTEN neuen Breakpoint.
-        // Fuer RAW-Puristen: manuell den Stress-Save-Button fuer jeden weiteren Breakpoint klicken.
-        const eventChangedStress = info && info.sourceAttribute === "stress_total";
-        if (eventChangedStress && newT > lastT && newT > 0) {
-          const targetLevel = newT;
-          const dc = STRESS_DCS[targetLevel - 1];
-          const d20 = Math.floor(Math.random() * 20) + 1;
-          const total = d20 + wisMod;
-          const passed = total >= dc;
-          if (!passed) shaken = Math.max(shaken, targetLevel);
-          const note = passed
-            ? `Bestanden. Shaken bleibt bei ${shaken}.`
-            : `FAIL. Shaken steigt auf ${targetLevel}${lastT > 0 ? ` (von ${Math.max(lastT, shaken)})` : ""}.`;
-          startRoll(
-            `&{template:check} {{title=Stress Save (Breakpoint ${targetLevel}x WIS)}} ` +
-            `{{who=${charName}}} ` +
-            `{{result=[[${d20} + ${wisMod}]] vs DC ${dc}}} ` +
-            `{{note=${note}}}`,
-            (r) => finishRoll(r.rollId)
-          );
-        }
-
-        // Nach unten unter aktuellen Shaken-Level: Shaken floor auf neuen Threshold.
-        if (newT < shaken) shaken = newT;
-
-        const upd = {
-          stress_last_threshold: String(newT),
-          shaken_level: String(shaken),
-          stress_next_dc: (shaken >= 5) ? "Max (Broken)" : nextDcLabel(shaken, stress, wis),
-        };
-        setAttrs(upd);
-      }
-    );
-  });
-
-  // Next-DC-Label aktualisieren wenn Shaken-Level manuell geaendert wird.
-  on("change:shaken_level", () => {
-    getAttrs(["stress_total", "shaken_level", "wisdom"], (v) => {
-      const stress = parseInt(v.stress_total) || 0;
-      const wis = Math.max(1, parseInt(v.wisdom) || 10);
-      const shaken = parseInt(v.shaken_level) || 0;
-      setAttrs({
-        stress_next_dc: (shaken >= 5) ? "Max (Broken)" : nextDcLabel(shaken, stress, wis),
-      });
-    });
-  });
-
-  // Manueller Stress-Save (Button): rollt gegen aktuellen Next-DC.
-  on("clicked:stress_save", () => {
-    getAttrs(
-      ["stress_total", "shaken_level", "wisdom", "wisdom_mod", "character_name"],
-      (v) => {
-        const stress = parseInt(v.stress_total) || 0;
-        const wis = Math.max(1, parseInt(v.wisdom) || 10);
-        const wisMod = parseInt(v.wisdom_mod) || 0;
-        let shaken = parseInt(v.shaken_level) || 0;
-        const charName = v.character_name || "Operator";
-
-        if (shaken >= 5) {
-          startRoll(
-            `&{template:check} {{title=Stress Save}} {{who=${charName}}} {{result=Broken - kein weiterer Save moeglich}}`,
-            (r) => finishRoll(r.rollId)
-          );
-          return;
-        }
-
-        const targetLevel = Math.min(5, shaken + 1);
-        const dc = STRESS_DCS[targetLevel - 1];
-        const d20 = Math.floor(Math.random() * 20) + 1;
-        const total = d20 + wisMod;
-        const passed = total >= dc;
-        if (!passed) shaken = targetLevel;
-        startRoll(
-          `&{template:check} {{title=Stress Save (Manuell, DC ${dc})}} ` +
-          `{{who=${charName}}} ` +
-          `{{result=[[${d20} + ${wisMod}]] vs DC ${dc}}} ` +
-          `{{note=${passed ? "Bestanden." : `FAIL - Shaken steigt auf ${shaken}.`}}}`,
-          (r) => {
-            setAttrs({
-              shaken_level: String(shaken),
-              stress_next_dc: (shaken >= 5) ? "Max (Broken)" : nextDcLabel(shaken, stress, wis),
-            });
-            finishRoll(r.rollId);
-          }
-        );
-      }
-    );
-  });
-
-  // Heal-Buttons (Short / Long Rest). Heal-Dice haengen vom aktuellen
-  // Shaken-Level ab. Wird von Stress abgezogen, Shaken-Level floort auto
-  // via change:stress_total-Handler.
-  function rollFormula(formula) {
-    // Parst "NdX + M" oder "NdX" oder "N". Rollt die Dice in JS.
-    const m = /^\s*(\d+)d(\d+)\s*(?:\+\s*(-?\d+))?\s*$/.exec(formula);
-    if (m) {
-      const count = parseInt(m[1]);
-      const sides = parseInt(m[2]);
-      const mod = m[3] !== undefined ? parseInt(m[3]) : 0;
-      let sum = 0;
-      for (let i = 0; i < count; i++) sum += Math.floor(Math.random() * sides) + 1;
-      return sum + mod;
-    }
-    const n = parseInt(formula);
-    return isNaN(n) ? 0 : n;
-  }
-
-  function stressHeal(mode) {
-    getAttrs(
-      ["stress_total", "shaken_level", "wisdom_mod", "character_name"],
-      (v) => {
-        const stress = parseInt(v.stress_total) || 0;
-        const shaken = parseInt(v.shaken_level) || 0;
-        const wisMod = parseInt(v.wisdom_mod) || 0;
-        const charName = v.character_name || "Operator";
-
-        // Heal-Tabelle [short, long] je Shaken-Level 0-5.
-        // MED = Medical Help erforderlich, kein Self-Heal.
-        const table = [
-          [`1d10 + ${wisMod}`,  `${stress}`],     // Shaken 0: generic
-          [`1d6 + ${wisMod}`,   `1d12 + ${wisMod}`],
-          [`1d4 + ${wisMod}`,   `1d8 + ${wisMod}`],
-          [`1`,                  `1d4 + ${wisMod}`],
-          [`MED`,                `1 + ${wisMod}`],
-          [`MED`,                `MED`],
-        ];
-        const formula = table[shaken][mode === "long" ? 1 : 0];
-        const restLabel = mode === "long" ? "Long Rest" : "Short Rest";
-
-        if (formula === "MED") {
-          startRoll(
-            `&{template:check} {{title=Stress-Heilung ${restLabel}}} ` +
-            `{{who=${charName}}} ` +
-            `{{result=Medical Help erforderlich}} ` +
-            `{{note=Shaken ${shaken} heilt bei ${restLabel} NICHT selbst. Combat Medic / I.V. / Morphine noetig.}}`,
-            (r) => finishRoll(r.rollId)
-          );
-          return;
-        }
-
-        const amount = Math.max(0, rollFormula(formula));
-        const newStress = Math.max(0, stress - amount);
-        setAttrs({ stress_total: String(newStress) });
-        startRoll(
-          `&{template:check} {{title=Stress-Heilung ${restLabel}}} ` +
-          `{{who=${charName}}} ` +
-          `{{result=-${amount} Stress (Formel ${formula})}} ` +
-          `{{note=Stress ${stress} -> ${newStress}. Shaken-Level floort automatisch wenn unter Breakpoint.}}`,
-          (r) => finishRoll(r.rollId)
-        );
-      }
-    );
-  }
-
-  on("clicked:stress_heal_short", () => stressHeal("short"));
-  on("clicked:stress_heal_long",  () => stressHeal("long"));
-
-  // ---- Triage Code from HP ----
-  on("change:hp change:hp_max sheet:opened", () => {
-    getAttrs(["hp", "hp_max"], (v) => {
-      const hp = parseInt(v.hp) || 0;
-      const max = parseInt(v.hp_max) || 1;
-      const pct = (hp / max) * 100;
-      let label = "Green";
-      if (hp <= 0) label = "Black";
-      else if (pct <= 25) label = "Red";
-      else if (pct <= 50) label = "Orange";
-      else if (pct <= 75) label = "Yellow";
-      setAttrs({ triage_label: label });
-    });
-  });
-
-  // ---- Init: make sure mods exist on sheet open ----
-  on("sheet:opened", () => {
-    getAttrs(ATTRS, (v) => {
-      const upd = {};
-      ATTRS.forEach(a => {
-        const score = parseInt(v[a]) || 10;
-        upd[`${a}_mod`] = Math.floor((score - 10) / 2);
-      });
-      setAttrs(upd);
-    });
   });
 
   // ---- Weapon Fire Handler (Action Buttons + startRoll API) ----
@@ -2869,6 +2607,57 @@
   on("clicked:repeating_weapons:wspray",  (info) => sprayRiddle(info, "spray"));
   on("clicked:repeating_weapons:wriddle", (info) => sprayRiddle(info, "riddle"));
 
+  // ---- Recoil-vs-STR Auto-Penalty ----
+  // Compendium: Wenn STR < Recoil -> Single -1 flat, Burst/Auto -(Recoil-STR).
+  // Hidden attrs wrecoil_pen_single und wrecoil_pen_auto werden auto-berechnet
+  // und direkt in den Attack-Formeln abgezogen.
+  function computeRecoilPenalties(str, recoil) {
+    const diff = recoil - str;
+    return {
+      single: diff > 0 ? 1 : 0,
+      auto: diff > 0 ? diff : 0,
+    };
+  }
+
+  // Wenn STR sich ändert: alle Waffen neu berechnen
+  on("change:strength sheet:opened", () => {
+    getAttrs(["strength"], (v) => {
+      const str = parseInt(v.strength) || 10;
+      getSectionIDs("repeating_weapons", (ids) => {
+        if (!ids.length) return;
+        const recoilAttrs = ids.map(id => `repeating_weapons_${id}_wrecoil`);
+        getAttrs(recoilAttrs, (vals) => {
+          const upd = {};
+          ids.forEach(id => {
+            const recoil = parseInt(vals[`repeating_weapons_${id}_wrecoil`]) || 0;
+            const pen = computeRecoilPenalties(str, recoil);
+            upd[`repeating_weapons_${id}_wrecoil_pen_single`] = pen.single;
+            upd[`repeating_weapons_${id}_wrecoil_pen_auto`] = pen.auto;
+          });
+          setAttrs(upd);
+        });
+      });
+    });
+  });
+
+  // Wenn Recoil einer einzelnen Waffe sich ändert: nur diese neu berechnen
+  on("change:repeating_weapons:wrecoil", (info) => {
+    const src = info.sourceAttribute || "";
+    const lastUnderscore = src.lastIndexOf("_");
+    if (lastUnderscore < 0) return;
+    const prefix = src.substring(0, lastUnderscore);
+    getAttrs(["strength", src], (v) => {
+      const str = parseInt(v.strength) || 10;
+      const recoil = parseInt(v[src]) || 0;
+      const pen = computeRecoilPenalties(str, recoil);
+      const upd = {};
+      upd[`${prefix}_wrecoil_pen_single`] = pen.single;
+      upd[`${prefix}_wrecoil_pen_auto`] = pen.auto;
+      setAttrs(upd);
+    });
+  });
+
+  // === src/worker/gear/weapons-data.js ===
   // ---- Property-Slug-Mapping (Token -> Checkbox-Slug) ----
   // Keys matchen die Tokens aus den properties-Strings in WEAPON_PRESETS.
   // Werte sind die Slugs der statischen Pill-Checkboxes im HTML.
@@ -3047,6 +2836,561 @@
     at4heat:      { name: "Bofors AT4 HEAT",        caliber: "Rocket",      damage: "2d10 + 3d10",  range: "50 ft", recoil: 1, misfire: "1-2", crit: "20",     ammo_max: 1,  properties: "2H, Inaccurate -5, Blast 10ft, Force+Piercing" },
   };
 
+  // === src/worker/skills.js ===
+  // ---- Save / Skill / Check Training Level + Shaken Auto-Apply ----
+  // Level-Werte -> (Prof-Bonus + Extra-Bonus) + Advantage-Die.
+  //   L0: d20, kein Bonus
+  //   L1: d20, +prof
+  //   L2: d20, +prof +1
+  //   L3: d20, +prof +2
+  //   L4: 2d20kh1 (Advantage), +prof +2
+  //
+  // Shaken-Level imposed Disadvantage (pro Ability):
+  //   L1: Disadv auf INT/WIS/CHA Checks (ability checks und skills)
+  //   L2: + Disadv auf INT/WIS/CHA Saves
+  //   L3: + Disadv auf Initiative
+  //   L4: + Disadv auf STR/DEX Checks und Saves
+  //   L5: + Disadv auf alle Attacks und CON-Checks/Saves (Attacks via Worker)
+  //
+  // D&D-5E Rule: Advantage + Disadvantage cancel to normal 1d20.
+  const SAVE_ABILITIES = ["str", "dex", "con", "int", "wis", "cha"];
+
+  function saveBonusForLevel(level, profBonus) {
+    if (level <= 0) return 0;
+    if (level === 1) return profBonus;
+    if (level === 2) return profBonus + 1;
+    return profBonus + 2; // Level 3 and 4
+  }
+
+  // kind = "check" (ability check) / "save" / "skill" (uses ability for check)
+  // abil = "str" | "dex" | "con" | "int" | "wis" | "cha"
+  function shakenImposesDisadv(kind, abil, shaken) {
+    if (kind === "check" || kind === "skill") {
+      // Ability checks (incl. skills): INT/WIS/CHA at L1, STR/DEX at L4, CON at L5
+      if (shaken >= 1 && (abil === "int" || abil === "wis" || abil === "cha")) return true;
+      if (shaken >= 4 && (abil === "str" || abil === "dex")) return true;
+      if (shaken >= 5 && abil === "con") return true;
+      return false;
+    }
+    if (kind === "save") {
+      // Saves: INT/WIS/CHA at L2, STR/DEX at L4, CON at L5
+      if (shaken >= 2 && (abil === "int" || abil === "wis" || abil === "cha")) return true;
+      if (shaken >= 4 && (abil === "str" || abil === "dex")) return true;
+      if (shaken >= 5 && abil === "con") return true;
+      return false;
+    }
+    if (kind === "init") {
+      // Initiative: disadv at Shaken L3+
+      return shaken >= 3;
+    }
+    return false;
+  }
+
+  // Kombiniert Training-Level-Advantage mit Shaken-Disadvantage.
+  // Advantage + Disadvantage = normal 1d20 (cancel).
+  function dieForState(trainLevel, disadv) {
+    const hasAdv = trainLevel >= 4;
+    if (hasAdv && disadv) return "1d20";       // Cancel
+    if (hasAdv)           return "2d20kh1";
+    if (disadv)           return "2d20kl1";
+    return "1d20";
+  }
+
+  // Skill slug -> primary ability (for Shaken-Disadv-Check)
+  const SKILL_ABILITY_MAP = {
+    acrobatics: "dex", animal: "wis", athletics: "str", deception: "cha",
+    history: "int", insight: "wis", intimidation: "cha", investigation: "int",
+    medicine: "wis", nature: "int", perception: "wis", performance: "cha",
+    persuasion: "cha", science: "int", sleight: "dex", stealth: "dex",
+    survival: "wis", technology: "int",
+  };
+
+  function recalcAllSaves(prof, shaken) {
+    const lvlAttrs = SAVE_ABILITIES.map((a) => `save_${a}_level`);
+    getAttrs(lvlAttrs, (v) => {
+      const upd = {};
+      for (const a of SAVE_ABILITIES) {
+        const lvl = parseInt(v[`save_${a}_level`]) || 0;
+        const disadv = shakenImposesDisadv("save", a, shaken);
+        upd[`save_${a}_bonus`] = saveBonusForLevel(lvl, prof);
+        upd[`save_${a}_die`]   = dieForState(lvl, disadv);
+      }
+      setAttrs(upd);
+    });
+  }
+
+  // Bei jeder Level-Aenderung: nur das eine Save neu rechnen.
+  SAVE_ABILITIES.forEach((a) => {
+    on(`change:save_${a}_level`, () => {
+      getAttrs([`save_${a}_level`, "prof_bonus", "shaken_level"], (v) => {
+        const lvl = parseInt(v[`save_${a}_level`]) || 0;
+        const prof = parseInt(v.prof_bonus) || 2;
+        const shaken = parseInt(v.shaken_level) || 0;
+        setAttrs({
+          [`save_${a}_bonus`]: saveBonusForLevel(lvl, prof),
+          [`save_${a}_die`]:   dieForState(lvl, shakenImposesDisadv("save", a, shaken)),
+        });
+      });
+    });
+  });
+
+  // Bei Prof-Bonus / Shaken-Aenderung (Level-Up oder Stress) alle Dice neu rechnen.
+  on("change:prof_bonus change:shaken_level sheet:opened", () => {
+    getAttrs(["prof_bonus", "shaken_level"], (v) => {
+      const prof = parseInt(v.prof_bonus) || 2;
+      const shaken = parseInt(v.shaken_level) || 0;
+      recalcAllSaves(prof, shaken);
+      recalcAllSkills(prof, shaken);
+      recalcAllChecks(shaken);
+    });
+  });
+
+  // ---- Skill Training Level Auto-Apply ----
+  const SKILL_SLUGS = [
+    "acrobatics", "animal", "athletics", "deception", "history", "insight",
+    "intimidation", "investigation", "medicine", "nature", "perception",
+    "performance", "persuasion", "science", "sleight", "stealth", "survival",
+    "technology",
+  ];
+
+  function recalcAllSkills(prof, shaken) {
+    const lvlAttrs = SKILL_SLUGS.map((s) => `skill_${s}_level`);
+    getAttrs(lvlAttrs, (v) => {
+      const upd = {};
+      for (const s of SKILL_SLUGS) {
+        const lvl = parseInt(v[`skill_${s}_level`]) || 0;
+        const abil = SKILL_ABILITY_MAP[s];
+        const disadv = shakenImposesDisadv("skill", abil, shaken);
+        upd[`skill_${s}_bonus`] = saveBonusForLevel(lvl, prof);
+        upd[`skill_${s}_die`]   = dieForState(lvl, disadv);
+      }
+      setAttrs(upd);
+    });
+  }
+
+  // Pro Skill: Level-Aenderung -> nur dieses Skill neu rechnen.
+  SKILL_SLUGS.forEach((s) => {
+    on(`change:skill_${s}_level`, () => {
+      getAttrs([`skill_${s}_level`, "prof_bonus", "shaken_level"], (v) => {
+        const lvl = parseInt(v[`skill_${s}_level`]) || 0;
+        const prof = parseInt(v.prof_bonus) || 2;
+        const shaken = parseInt(v.shaken_level) || 0;
+        const abil = SKILL_ABILITY_MAP[s];
+        setAttrs({
+          [`skill_${s}_bonus`]: saveBonusForLevel(lvl, prof),
+          [`skill_${s}_die`]:   dieForState(lvl, shakenImposesDisadv("skill", abil, shaken)),
+        });
+      });
+    });
+  });
+
+  // Ability-Check-Dice (keine Trainings-Levels, nur Shaken-Disadv).
+  // Genutzt von den 6 Attribut-Roll-Buttons oben rechts.
+  function recalcAllChecks(shaken) {
+    const upd = {};
+    for (const a of SAVE_ABILITIES) {
+      const disadv = shakenImposesDisadv("check", a, shaken);
+      upd[`check_${a}_die`] = disadv ? "2d20kl1" : "1d20";
+    }
+    // Initiative-Die (Shaken 3+)
+    upd.init_die = shakenImposesDisadv("init", null, shaken) ? "2d20kl1" : "1d20";
+    setAttrs(upd);
+  }
+
+  // === src/worker/overview/stress.js ===
+  // ---- Stress / Shaken Automation ----
+  // Stress akkumuliert separat vom HP. Pro Treffer += (Dmg - WIS, min 1).
+  // Jedes Vielfache von WIS triggert einen Save (DCs 12/15/20/25/30).
+  // Fail = Shaken Level steigt. Heilung senkt Stress und ggf. Shaken-Level.
+  const STRESS_DCS = [12, 15, 20, 25, 30]; // [threshold 1x .. 5x WIS]
+
+  function thresholdCount(stress, wis) {
+    if (wis <= 0) return 0;
+    return Math.max(0, Math.min(5, Math.floor(stress / wis)));
+  }
+
+  function nextDcLabel(currentLevel, stress, wis) {
+    const nextLvl = Math.min(5, currentLevel + 1);
+    if (nextLvl > 5) return "-";
+    const toCross = nextLvl * wis;
+    const remaining = Math.max(0, toCross - stress);
+    return `DC ${STRESS_DCS[nextLvl - 1]} (bei ${toCross} Stress, noch ${remaining})`;
+  }
+
+  // Auto-Save + Shaken-Update bei aendernder Stress-Anzeige.
+  on("change:stress_total change:wisdom sheet:opened", (info) => {
+    getAttrs(
+      ["stress_total", "shaken_level", "stress_last_threshold",
+       "wisdom", "wisdom_mod", "character_name"],
+      (v) => {
+        const stress = Math.max(0, parseInt(v.stress_total) || 0);
+        const wis = Math.max(1, parseInt(v.wisdom) || 10);
+        const wisMod = parseInt(v.wisdom_mod) || 0;
+        let shaken = parseInt(v.shaken_level) || 0;
+        const lastT = parseInt(v.stress_last_threshold) || 0;
+        const charName = v.character_name || "Operator";
+
+        const newT = thresholdCount(stress, wis);
+
+        // Nach oben ueberschritten: Save triggern am HOECHSTEN neuen Breakpoint.
+        // Fuer RAW-Puristen: manuell den Stress-Save-Button fuer jeden weiteren Breakpoint klicken.
+        const eventChangedStress = info && info.sourceAttribute === "stress_total";
+        if (eventChangedStress && newT > lastT && newT > 0) {
+          const targetLevel = newT;
+          const dc = STRESS_DCS[targetLevel - 1];
+          const d20 = Math.floor(Math.random() * 20) + 1;
+          const total = d20 + wisMod;
+          const passed = total >= dc;
+          if (!passed) shaken = Math.max(shaken, targetLevel);
+          const note = passed
+            ? `Bestanden. Shaken bleibt bei ${shaken}.`
+            : `FAIL. Shaken steigt auf ${targetLevel}${lastT > 0 ? ` (von ${Math.max(lastT, shaken)})` : ""}.`;
+          startRoll(
+            `&{template:check} {{title=Stress Save (Breakpoint ${targetLevel}x WIS)}} ` +
+            `{{who=${charName}}} ` +
+            `{{result=[[${d20} + ${wisMod}]] vs DC ${dc}}} ` +
+            `{{note=${note}}}`,
+            (r) => finishRoll(r.rollId)
+          );
+        }
+
+        // Nach unten unter aktuellen Shaken-Level: Shaken floor auf neuen Threshold.
+        if (newT < shaken) shaken = newT;
+
+        const upd = {
+          stress_last_threshold: String(newT),
+          shaken_level: String(shaken),
+          stress_next_dc: (shaken >= 5) ? "Max (Broken)" : nextDcLabel(shaken, stress, wis),
+        };
+        setAttrs(upd);
+      }
+    );
+  });
+
+  // Next-DC-Label aktualisieren wenn Shaken-Level manuell geaendert wird.
+  on("change:shaken_level", () => {
+    getAttrs(["stress_total", "shaken_level", "wisdom"], (v) => {
+      const stress = parseInt(v.stress_total) || 0;
+      const wis = Math.max(1, parseInt(v.wisdom) || 10);
+      const shaken = parseInt(v.shaken_level) || 0;
+      setAttrs({
+        stress_next_dc: (shaken >= 5) ? "Max (Broken)" : nextDcLabel(shaken, stress, wis),
+      });
+    });
+  });
+
+  // Manueller Stress-Save (Button): rollt gegen aktuellen Next-DC.
+  on("clicked:stress_save", () => {
+    getAttrs(
+      ["stress_total", "shaken_level", "wisdom", "wisdom_mod", "character_name"],
+      (v) => {
+        const stress = parseInt(v.stress_total) || 0;
+        const wis = Math.max(1, parseInt(v.wisdom) || 10);
+        const wisMod = parseInt(v.wisdom_mod) || 0;
+        let shaken = parseInt(v.shaken_level) || 0;
+        const charName = v.character_name || "Operator";
+
+        if (shaken >= 5) {
+          startRoll(
+            `&{template:check} {{title=Stress Save}} {{who=${charName}}} {{result=Broken - kein weiterer Save moeglich}}`,
+            (r) => finishRoll(r.rollId)
+          );
+          return;
+        }
+
+        const targetLevel = Math.min(5, shaken + 1);
+        const dc = STRESS_DCS[targetLevel - 1];
+        const d20 = Math.floor(Math.random() * 20) + 1;
+        const total = d20 + wisMod;
+        const passed = total >= dc;
+        if (!passed) shaken = targetLevel;
+        startRoll(
+          `&{template:check} {{title=Stress Save (Manuell, DC ${dc})}} ` +
+          `{{who=${charName}}} ` +
+          `{{result=[[${d20} + ${wisMod}]] vs DC ${dc}}} ` +
+          `{{note=${passed ? "Bestanden." : `FAIL - Shaken steigt auf ${shaken}.`}}}`,
+          (r) => {
+            setAttrs({
+              shaken_level: String(shaken),
+              stress_next_dc: (shaken >= 5) ? "Max (Broken)" : nextDcLabel(shaken, stress, wis),
+            });
+            finishRoll(r.rollId);
+          }
+        );
+      }
+    );
+  });
+
+  // Heal-Buttons (Short / Long Rest). Heal-Dice haengen vom aktuellen
+  // Shaken-Level ab. Wird von Stress abgezogen, Shaken-Level floort auto
+  // via change:stress_total-Handler.
+  function rollFormula(formula) {
+    // Parst "NdX + M" oder "NdX" oder "N". Rollt die Dice in JS.
+    const m = /^\s*(\d+)d(\d+)\s*(?:\+\s*(-?\d+))?\s*$/.exec(formula);
+    if (m) {
+      const count = parseInt(m[1]);
+      const sides = parseInt(m[2]);
+      const mod = m[3] !== undefined ? parseInt(m[3]) : 0;
+      let sum = 0;
+      for (let i = 0; i < count; i++) sum += Math.floor(Math.random() * sides) + 1;
+      return sum + mod;
+    }
+    const n = parseInt(formula);
+    return isNaN(n) ? 0 : n;
+  }
+
+  function stressHeal(mode) {
+    getAttrs(
+      ["stress_total", "shaken_level", "wisdom_mod", "character_name"],
+      (v) => {
+        const stress = parseInt(v.stress_total) || 0;
+        const shaken = parseInt(v.shaken_level) || 0;
+        const wisMod = parseInt(v.wisdom_mod) || 0;
+        const charName = v.character_name || "Operator";
+
+        // Heal-Tabelle [short, long] je Shaken-Level 0-5.
+        // MED = Medical Help erforderlich, kein Self-Heal.
+        const table = [
+          [`1d10 + ${wisMod}`,  `${stress}`],     // Shaken 0: generic
+          [`1d6 + ${wisMod}`,   `1d12 + ${wisMod}`],
+          [`1d4 + ${wisMod}`,   `1d8 + ${wisMod}`],
+          [`1`,                  `1d4 + ${wisMod}`],
+          [`MED`,                `1 + ${wisMod}`],
+          [`MED`,                `MED`],
+        ];
+        const formula = table[shaken][mode === "long" ? 1 : 0];
+        const restLabel = mode === "long" ? "Long Rest" : "Short Rest";
+
+        if (formula === "MED") {
+          startRoll(
+            `&{template:check} {{title=Stress-Heilung ${restLabel}}} ` +
+            `{{who=${charName}}} ` +
+            `{{result=Medical Help erforderlich}} ` +
+            `{{note=Shaken ${shaken} heilt bei ${restLabel} NICHT selbst. Combat Medic / I.V. / Morphine noetig.}}`,
+            (r) => finishRoll(r.rollId)
+          );
+          return;
+        }
+
+        const amount = Math.max(0, rollFormula(formula));
+        const newStress = Math.max(0, stress - amount);
+        setAttrs({ stress_total: String(newStress) });
+        startRoll(
+          `&{template:check} {{title=Stress-Heilung ${restLabel}}} ` +
+          `{{who=${charName}}} ` +
+          `{{result=-${amount} Stress (Formel ${formula})}} ` +
+          `{{note=Stress ${stress} -> ${newStress}. Shaken-Level floort automatisch wenn unter Breakpoint.}}`,
+          (r) => finishRoll(r.rollId)
+        );
+      }
+    );
+  }
+
+  on("clicked:stress_heal_short", () => stressHeal("short"));
+  on("clicked:stress_heal_long",  () => stressHeal("long"));
+
+  // ---- Stress Damage Akkumulator ----
+  // Compendium:
+  //   Netto-Stress = Schaden - WIS (min 1)
+  //   Überschreitet stress_total ein WIS-Vielfaches -> WIS-Save
+  //   Fail = nächste Shaken-Stufe
+  const STRESS_TIERS = [
+    { dc: 12, effect: "Shaken 1", heal: "Short: 1d6+WIS / Long: 1d12+WIS" },
+    { dc: 15, effect: "Shaken 2", heal: "Short: 1d4+WIS / Long: 1d8+WIS" },
+    { dc: 20, effect: "Shaken 3", heal: "Short: 1 / Long: 1d4+WIS" },
+    { dc: 25, effect: "Shaken 4", heal: "Short: Medic / Long: 1+WIS" },
+    { dc: 30, effect: "Broken",   heal: "Nur medizinische Versorgung" },
+  ];
+
+  // Second Wind: beim Heal-Klick automatisch als verbraucht markieren.
+  on("clicked:second_wind", () => {
+    setAttrs({ second_wind_used: 1 });
+  });
+
+  // Languages-Roll nutzt type="roll" direkt im Button, kein Worker nötig.
+
+  on("clicked:apply_stress", () => {
+    getAttrs([
+      "stress_damage_input",
+      "wisdom",
+      "wisdom_mod",
+      "stress_total",
+      "character_name",
+      "save_wis_prof",
+      "save_wis_extra",
+      "prof_bonus",
+    ], (v) => {
+      const dmg = parseInt(v.stress_damage_input) || 0;
+      const wis = Math.max(1, parseInt(v.wisdom) || 10);
+      const wisMod = parseInt(v.wisdom_mod) || 0;
+      const oldTotal = parseInt(v.stress_total) || 0;
+      const charName = v.character_name || "Operator";
+      const saveProf = parseInt(v.save_wis_prof) || 0;
+      const saveExtra = parseInt(v.save_wis_extra) || 0;
+      const profBonus = parseInt(v.prof_bonus) || 2;
+
+      if (dmg <= 0) return;
+
+      const netStress = Math.max(1, dmg - wis);
+      const newTotal = oldTotal + netStress;
+
+      // Wieviele WIS-Vielfache wurden NEU gekreuzt?
+      const oldMultiple = Math.floor(oldTotal / wis);
+      const newMultiple = Math.floor(newTotal / wis);
+
+      const upd = {
+        stress_total: newTotal,
+        stress_damage_input: 0,
+      };
+
+      if (newMultiple > oldMultiple && newMultiple > 0) {
+        // Tier für den höchsten neu erreichten Wert
+        const tierIdx = Math.min(newMultiple, STRESS_TIERS.length) - 1;
+        const tier = STRESS_TIERS[tierIdx];
+
+        setAttrs(upd);
+
+        const saveBonus = wisMod + (saveProf * profBonus) + saveExtra;
+        const headline = `STRESS THRESHOLD (${newMultiple}x WIS)`;
+        const note = `Netto +${netStress} -> Stress-Total ${newTotal}. Fail = ${tier.effect}. Heilung: ${tier.heal}.`;
+
+        const rollText = `&{template:check} ` +
+          `{{title=${headline}}} ` +
+          `{{who=${charName}}} ` +
+          `{{result=[[1d20 + ${saveBonus}]] vs DC ${tier.dc}}} ` +
+          `{{note=${note}}}`;
+
+        startRoll(rollText, (results) => finishRoll(results.rollId));
+      } else {
+        // Kein Schwellen-Überschreiten - schlichte Bestätigung
+        setAttrs(upd);
+        const bisNächster = wis - (newTotal % wis);
+        const rollText = `&{template:check} ` +
+          `{{title=Stress +${netStress}}} ` +
+          `{{who=${charName}}} ` +
+          `{{result=Total ${newTotal}}} ` +
+          `{{note=${bisNächster} bis zum nächsten WIS-Vielfachen (${newMultiple + 1}x = ${(newMultiple + 1) * wis}).}}`;
+        startRoll(rollText, (results) => finishRoll(results.rollId));
+      }
+    });
+  });
+
+  // === src/worker/overview/hp-rest.js ===
+  // ---- Triage Code from HP ----
+  on("change:hp change:hp_max sheet:opened", () => {
+    getAttrs(["hp", "hp_max"], (v) => {
+      const hp = parseInt(v.hp) || 0;
+      const max = parseInt(v.hp_max) || 1;
+      const pct = (hp / max) * 100;
+      let label = "Green";
+      if (hp <= 0) label = "Black";
+      else if (pct <= 25) label = "Red";
+      else if (pct <= 50) label = "Orange";
+      else if (pct <= 75) label = "Yellow";
+      setAttrs({ triage_label: label });
+    });
+  });
+
+  // ---- Short / Long Rest ----
+  // Short: kurze Regeneration. Long: alles zurückgesetzt, HP voll.
+  // Kein Chat-Output - Resets sind am Sheet selbst sichtbar.
+  on("clicked:short_rest", () => {
+    getAttrs(["ld_max", "brawler_max"], (v) => {
+      setAttrs({
+        second_wind_used: 0,
+        ld_current: parseInt(v.ld_max) || 0,
+        brawler_current: parseInt(v.brawler_max) || 0,
+      });
+    });
+    stressHeal("short");
+  });
+
+  on("clicked:long_rest", () => {
+    getAttrs([
+      "hp_max", "ld_max", "brawler_max",
+      "hit_dice_max", "hit_dice",
+      "ifak_max", "tourniquet_max", "trauma_max", "medsupply_max",
+      "tech_sensors_max", "tech_seekers_max", "tech_bugs_max",
+    ], (v) => {
+      const hpMax = parseInt(v.hp_max) || 10;
+      const hdMax = parseInt(v.hit_dice_max) || 1;
+      const hdCurrent = parseInt(v.hit_dice) || 0;
+      const hdRegained = Math.max(1, Math.floor(hdMax / 2));
+      const newHD = Math.min(hdMax, hdCurrent + hdRegained);
+      setAttrs({
+        hp: hpMax,
+        hp_temp: 0,
+        second_wind_used: 0,
+        action_surge_used: 0,
+        indomitable_used: 0,
+        ld_current: parseInt(v.ld_max) || 0,
+        brawler_current: parseInt(v.brawler_max) || 0,
+        ifak_uses: parseInt(v.ifak_max) || 10,
+        tourniquet_count: parseInt(v.tourniquet_max) || 2,
+        trauma_uses: parseInt(v.trauma_max) || 5,
+        medsupply_uses: parseInt(v.medsupply_max) || 10,
+        tech_sensors: parseInt(v.tech_sensors_max) || 3,
+        tech_seekers: parseInt(v.tech_seekers_max) || 2,
+        tech_bugs:    parseInt(v.tech_bugs_max)    || 5,
+        hit_dice: newHD,
+        ds_s1: 0, ds_s2: 0, ds_s3: 0,
+        ds_f1: 0, ds_f2: 0, ds_f3: 0,
+      });
+    });
+    stressHeal("long");
+  });
+
+  // ---- Hit Dice Roll ----
+  on("clicked:roll_hd", () => {
+    getAttrs(["hit_dice", "constitution_mod", "hp", "hp_max", "character_name"], (v) => {
+      const current = parseInt(v.hit_dice) || 0;
+      const conMod = parseInt(v.constitution_mod) || 0;
+      const hp = parseInt(v.hp) || 0;
+      const hpMax = parseInt(v.hp_max) || 0;
+      const charName = v.character_name || "Operator";
+
+      if (current <= 0) {
+        startRoll(
+          `&{template:check} {{title=Hit Dice - leer}} {{who=${charName}}} {{result=Keine Hit Dice mehr uebrig}}`,
+          (r) => finishRoll(r.rollId)
+        );
+        return;
+      }
+
+      // 1d10 + CON-Mod, clamp zwischen 1 und (hpMax - hp)
+      const healed = Math.floor(Math.random() * 10) + 1 + conMod;
+      const healClamped = Math.max(1, healed);
+      const newHP = Math.min(hpMax, hp + healClamped);
+      const actualHealed = newHP - hp;
+      const newHD = current - 1;
+
+      setAttrs({
+        hit_dice: newHD,
+        hp: newHP,
+      });
+
+      startRoll(
+        `&{template:check} {{title=Hit Dice (Short Rest)}} {{who=${charName}}} {{result=+${actualHealed} HP (Wurf: [[${healed}]])}} {{note=HD ${current} -> ${newHD}. HP ${hp} -> ${newHP} / ${hpMax}.}}`,
+        (r) => finishRoll(r.rollId)
+      );
+    });
+  });
+
+  on("clicked:dog_grapple", () => {
+    getAttrs(["dog_name", "character_name"], (v) => {
+      const dogName = v.dog_name || "Dog";
+      const charName = v.character_name || "Operator";
+      // Attack Dog Lock Jaw: +10 Athletics on grapple
+      const rollText = `&{template:check} ` +
+        `{{title=${dogName} - Lock Jaw Grapple}} ` +
+        `{{who=${charName}}} ` +
+        `{{result=Athletics [[1d20 + 2 + 10]] vs Ziel-Save}} ` +
+        `{{note=Attack Dog only. Grapple statt Attack-Action. +10 Athletics durch Lock Jaw.}}`;
+      startRoll(rollText, (r) => finishRoll(r.rollId));
+    });
+  });
+
+  // === src/worker/features/personality.js ===
   // ---- Personality Trait Auto-Apply + Display ----
   // Bei Trait-Wechsel: Effekte des alten Traits rueckgaengig machen,
   // dann Effekte des neuen anwenden. personality_trait_applied haelt
@@ -3194,6 +3538,7 @@
     });
   });
 
+  // === src/worker/gear/armor.js ===
   // ---- Armor Presets ----
   const ARMOR_PRESETS = {
     plate_light:     { name: "Plate Carrier (Light)",          ac: "12 + Dex",          coverage: "Torso",                                    resist: "Piercing, Slashing",                 stealth: "",             weight: "5.5 kg" },
@@ -3237,6 +3582,7 @@
     });
   });
 
+  // === src/worker/gear/grenades.js ===
   // ---- Grenade/Explosive Presets ----
   // weight = kg pro Einzel-Item (fuer Encumbrance-Sum, multipliziert mit gcount).
   const GRENADE_PRESETS = {
@@ -3269,6 +3615,71 @@
     });
   });
 
+  // ---- Grenade Throw Handler (Action Button + startRoll) ----
+  on("clicked:repeating_grenades:gthrow", (info) => {
+    const src = (info && info.sourceAttribute) || "";
+    const match = /^(repeating_grenades_[^_]+)_/i.exec(src);
+    if (!match) return;
+    const rowPrefix = match[1];
+
+    const attrsNeeded = [
+      `${rowPrefix}_gname`,
+      `${rowPrefix}_gdamage`,
+      `${rowPrefix}_gdmg_bonus`,
+      `${rowPrefix}_grange`,
+      `${rowPrefix}_gblast`,
+      `${rowPrefix}_gdc`,
+      `${rowPrefix}_gcount`,
+      "dexterity_mod",
+      "prof_bonus",
+      "character_name",
+    ];
+
+    getAttrs(attrsNeeded, (v) => {
+      const gname = v[`${rowPrefix}_gname`] || "Grenade";
+      const gdamage = v[`${rowPrefix}_gdamage`] || "1d6";
+      const gdmg_bonus = parseInt(v[`${rowPrefix}_gdmg_bonus`]) || 0;
+      const grange = v[`${rowPrefix}_grange`] || "";
+      const gblast = v[`${rowPrefix}_gblast`] || "";
+      const gdc = v[`${rowPrefix}_gdc`] || "";
+      const gcount = parseInt(v[`${rowPrefix}_gcount`]) || 0;
+      const dexMod = parseInt(v.dexterity_mod) || 0;
+      const prof = parseInt(v.prof_bonus) || 0;
+      const charName = v.character_name || "Operator";
+
+      // Bail wenn keine Granaten mehr - Chat-Hinweis statt leerer Klick.
+      if (gcount <= 0) {
+        startRoll(
+          `&{template:check} {{title=${gname} - aus!}} {{who=${charName}}} {{result=Keine ${gname} mehr im Loadout}}`,
+          (results) => finishRoll(results.rollId)
+        );
+        return;
+      }
+
+      const countAfter = Math.max(0, gcount - 1);
+      const countDisplay = `${gcount} &rarr; ${countAfter}`;
+      const noteParts = [];
+      if (gblast) noteParts.push(`Blast ${gblast}`);
+      if (gdc) noteParts.push(gdc);
+      const note = noteParts.join(" | ");
+
+      const rollText = `&{template:attack} ` +
+        `{{title=${gname}}} ` +
+        `{{mode=Throw / Deviation}} ` +
+        `{{attack=[[1d20 + ${dexMod} + ${prof}]]}} ` +
+        `{{damage=[[${gdamage} + ${gdmg_bonus}]]}} ` +
+        (note ? `{{note=${note}}} ` : "") +
+        `{{ammo=${countDisplay}}} ` +
+        `{{who=${charName}}}`;
+
+      startRoll(rollText, (results) => {
+        setAttrs({ [`${rowPrefix}_gcount`]: countAfter });
+        finishRoll(results.rollId);
+      });
+    });
+  });
+
+  // === src/worker/gear/inventory.js ===
   // ---- Inventory Presets ----
   const GEAR_PRESETS = {
     // Standard Issue
@@ -3333,6 +3744,7 @@
     });
   });
 
+  // === src/worker/features/leadership.js ===
   // ---- Leadership Dice (Unit Leader) ----
   on("clicked:roll_ld", () => {
     getAttrs(["ld_current", "ld_max", "ld_size", "character_name"], (v) => {
@@ -3451,6 +3863,7 @@
   on("clicked:order_security",       () => executeOrder("security"));
   on("clicked:order_inspire",        () => executeOrder("inspire"));
 
+  // === src/worker/features/medic.js ===
   // ---- Trauma Bag: IFAK / Trauma Kit Use ----
   // DC 15 Wisdom (Medicine) - on pass heal (dice) + WIS mod.
   // Dice scale: 1d10 (L1-9), 2d10 (L10-17), 3d10 (L20+).
@@ -3537,107 +3950,7 @@
     });
   });
 
-  // ---- B-1 Recon Drone ----
-  // Operator steuert die Drohne mit eigenem DEX + Proficiency.
-  // Tech Master (18th): kein Move-Test noetig, Auto-Success.
-  // Tech Master (18th): Doppelter Prof-Bonus auf alle Drohnen-Dex-Checks.
-  function droneCheck(dc, label) {
-    getAttrs(["dexterity_mod", "prof_bonus", "level", "character_name"], (v) => {
-      const dexMod = parseInt(v.dexterity_mod) || 0;
-      const prof = parseInt(v.prof_bonus) || 2;
-      const lvl = parseInt(v.level) || 1;
-      const charName = v.character_name || "Operator";
-      // Tech Master L18: keine Movement-Tests noetig.
-      if (lvl >= 18) {
-        const rollText = `&{template:check} ` +
-          `{{title=B1-RD ${label}}} ` +
-          `{{who=${charName}}} ` +
-          `{{result=Auto-Success (Tech Master L18)}} ` +
-          `{{note=No movement test required.}}`;
-        startRoll(rollText, (r) => finishRoll(r.rollId));
-        return;
-      }
-      const rollText = `&{template:check} ` +
-        `{{title=B1-RD ${label}}} ` +
-        `{{who=${charName}}} ` +
-        `{{result=[[1d20 + ${dexMod} + ${prof}]] vs DC ${dc}}}`;
-      startRoll(rollText, (r) => finishRoll(r.rollId));
-    });
-  }
-
-  on("clicked:drone_move", () => droneCheck(15, "Bewegung (60ft)"));
-  on("clicked:drone_dash", () => droneCheck(20, "Bewegung-Dash (120ft)"));
-
-  on("clicked:drone_pistol", () => {
-    getAttrs(["dexterity_mod", "prof_bonus", "level", "character_name"], (v) => {
-      const dexMod = parseInt(v.dexterity_mod) || 0;
-      const prof = parseInt(v.prof_bonus) || 2;
-      const lvl = parseInt(v.level) || 1;
-      const charName = v.character_name || "Operator";
-      // Tech Master L18: doppelter Prof-Bonus
-      const techMaster = lvl >= 18;
-      const effProf = techMaster ? prof * 2 : prof;
-      const note = techMaster
-        ? `Pistol-Mount: nur wenn Drohne diesen Zug <= 60 ft. Tech Master L18: doppelter Prof-Bonus (${effProf} statt ${prof}).`
-        : `Pistol-Mount: nur wenn Drohne diesen Zug <= 60 ft bewegt. Angriff gegen markiertes Ziel hat Advantage.`;
-      const rollText = `&{template:attack} ` +
-        `{{title=B1-RD Pistol Mount}} ` +
-        `{{who=${charName}}} ` +
-        `{{mode=Drohnen-Angriff}} ` +
-        `{{attack=[[1d20 + ${dexMod} + ${effProf}]]}} ` +
-        `{{damage=[[1d10 + 1]]}} ` +
-        `{{note=${note}}}`;
-      startRoll(rollText, (r) => finishRoll(r.rollId));
-    });
-  });
-
-  // Mark Target (3rd Level, bei L10+ bis zu INT-Mod Ziele)
-  on("clicked:drone_mark", () => {
-    getAttrs(["level", "intelligence_mod", "character_name"], (v) => {
-      const lvl = parseInt(v.level) || 1;
-      const intMod = parseInt(v.intelligence_mod) || 0;
-      const charName = v.character_name || "Operator";
-      const enhanced = lvl >= 10;
-      const count = enhanced ? Math.max(1, intMod) : 1;
-      const label = enhanced
-        ? `Bis zu ${count} Ziele markiert (Enhanced B1-RD L10, INT-Mod ${intMod})`
-        : `1 Ziel markiert (B1-RD L3)`;
-      const rollText = `&{template:check} ` +
-        `{{title=B1-RD Mark Target}} ` +
-        `{{who=${charName}}} ` +
-        `{{result=${label}}} ` +
-        `{{note=Innerhalb 120 ft von der Drohne. Ranged-Attacks gegen markierte Ziele haben Advantage.}}`;
-      startRoll(rollText, (r) => finishRoll(r.rollId));
-    });
-  });
-
-  // MacGyver (15th Level): Technology-Check gegen GM-DC fuer Ad-hoc Tech-Device
-  on("clicked:drone_macgyver", () => {
-    getAttrs(
-      ["intelligence_mod", "skill_technology_bonus", "skill_technology_extra",
-       "skill_technology_die", "level", "character_name"],
-      (v) => {
-        const intMod = parseInt(v.intelligence_mod) || 0;
-        const bonus = parseInt(v.skill_technology_bonus) || 0;
-        const extra = parseInt(v.skill_technology_extra) || 0;
-        const die = v.skill_technology_die || "1d20";
-        const lvl = parseInt(v.level) || 1;
-        const charName = v.character_name || "Operator";
-        // Tech Master (18th): Advantage auf alle Tech-Checks
-        const effDie = lvl >= 18 ? "2d20kh1" : die;
-        const note = lvl >= 18
-          ? "Tech Master L18: Advantage auf alle Tech-Checks. DC vom GM. Benoetigt Drone Repair Kit im Inventar."
-          : "DC vom GM. Benoetigt Drone Repair Kit im Inventar. Beispiele: Audio-Bug, Basic-Comms, Radio-Fix.";
-        const rollText = `&{template:check} ` +
-          `{{title=MacGyver Tech-Check}} ` +
-          `{{who=${charName}}} ` +
-          `{{result=Technology [[${effDie} + ${intMod} + ${bonus} + ${extra}]]}} ` +
-          `{{note=${note}}}`;
-        startRoll(rollText, (r) => finishRoll(r.rollId));
-      }
-    );
-  });
-
+  // === src/worker/features/companions.js ===
   // ---- War Dog ----
   function dogBite() {
     getAttrs(["dog_name", "dog_type", "character_name"], (v) => {
@@ -3674,105 +3987,6 @@
         `{{who=${charName}}} ` +
         `{{result=[[1d20 + 5]] (auf Hören/Riechen mit Advantage)}} ` +
         `{{note=${note}}}`;
-      startRoll(rollText, (r) => finishRoll(r.rollId));
-    });
-  });
-
-  // ---- Short / Long Rest ----
-  // Short: kurze Regeneration. Long: alles zurückgesetzt, HP voll.
-  // Kein Chat-Output - Resets sind am Sheet selbst sichtbar.
-  on("clicked:short_rest", () => {
-    getAttrs(["ld_max", "brawler_max"], (v) => {
-      setAttrs({
-        second_wind_used: 0,
-        ld_current: parseInt(v.ld_max) || 0,
-        brawler_current: parseInt(v.brawler_max) || 0,
-      });
-    });
-    stressHeal("short");
-  });
-
-  on("clicked:long_rest", () => {
-    getAttrs([
-      "hp_max", "ld_max", "brawler_max",
-      "hit_dice_max", "hit_dice",
-      "ifak_max", "tourniquet_max", "trauma_max", "medsupply_max",
-      "tech_sensors_max", "tech_seekers_max", "tech_bugs_max",
-    ], (v) => {
-      const hpMax = parseInt(v.hp_max) || 10;
-      const hdMax = parseInt(v.hit_dice_max) || 1;
-      const hdCurrent = parseInt(v.hit_dice) || 0;
-      const hdRegained = Math.max(1, Math.floor(hdMax / 2));
-      const newHD = Math.min(hdMax, hdCurrent + hdRegained);
-      setAttrs({
-        hp: hpMax,
-        hp_temp: 0,
-        second_wind_used: 0,
-        action_surge_used: 0,
-        indomitable_used: 0,
-        ld_current: parseInt(v.ld_max) || 0,
-        brawler_current: parseInt(v.brawler_max) || 0,
-        ifak_uses: parseInt(v.ifak_max) || 10,
-        tourniquet_count: parseInt(v.tourniquet_max) || 2,
-        trauma_uses: parseInt(v.trauma_max) || 5,
-        medsupply_uses: parseInt(v.medsupply_max) || 10,
-        tech_sensors: parseInt(v.tech_sensors_max) || 3,
-        tech_seekers: parseInt(v.tech_seekers_max) || 2,
-        tech_bugs:    parseInt(v.tech_bugs_max)    || 5,
-        hit_dice: newHD,
-        ds_s1: 0, ds_s2: 0, ds_s3: 0,
-        ds_f1: 0, ds_f2: 0, ds_f3: 0,
-      });
-    });
-    stressHeal("long");
-  });
-
-  // ---- Hit Dice Roll ----
-  on("clicked:roll_hd", () => {
-    getAttrs(["hit_dice", "constitution_mod", "hp", "hp_max", "character_name"], (v) => {
-      const current = parseInt(v.hit_dice) || 0;
-      const conMod = parseInt(v.constitution_mod) || 0;
-      const hp = parseInt(v.hp) || 0;
-      const hpMax = parseInt(v.hp_max) || 0;
-      const charName = v.character_name || "Operator";
-
-      if (current <= 0) {
-        startRoll(
-          `&{template:check} {{title=Hit Dice - leer}} {{who=${charName}}} {{result=Keine Hit Dice mehr uebrig}}`,
-          (r) => finishRoll(r.rollId)
-        );
-        return;
-      }
-
-      // 1d10 + CON-Mod, clamp zwischen 1 und (hpMax - hp)
-      const healed = Math.floor(Math.random() * 10) + 1 + conMod;
-      const healClamped = Math.max(1, healed);
-      const newHP = Math.min(hpMax, hp + healClamped);
-      const actualHealed = newHP - hp;
-      const newHD = current - 1;
-
-      setAttrs({
-        hit_dice: newHD,
-        hp: newHP,
-      });
-
-      startRoll(
-        `&{template:check} {{title=Hit Dice (Short Rest)}} {{who=${charName}}} {{result=+${actualHealed} HP (Wurf: [[${healed}]])}} {{note=HD ${current} -> ${newHD}. HP ${hp} -> ${newHP} / ${hpMax}.}}`,
-        (r) => finishRoll(r.rollId)
-      );
-    });
-  });
-
-  on("clicked:dog_grapple", () => {
-    getAttrs(["dog_name", "character_name"], (v) => {
-      const dogName = v.dog_name || "Dog";
-      const charName = v.character_name || "Operator";
-      // Attack Dog Lock Jaw: +10 Athletics on grapple
-      const rollText = `&{template:check} ` +
-        `{{title=${dogName} - Lock Jaw Grapple}} ` +
-        `{{who=${charName}}} ` +
-        `{{result=Athletics [[1d20 + 2 + 10]] vs Ziel-Save}} ` +
-        `{{note=Attack Dog only. Grapple statt Attack-Action. +10 Athletics durch Lock Jaw.}}`;
       startRoll(rollText, (r) => finishRoll(r.rollId));
     });
   });
@@ -3879,204 +4093,4 @@
   on("clicked:tech_sensor_deploy", () => deployTech("sensor"));
   on("clicked:tech_seeker_deploy", () => deployTech("seeker"));
   on("clicked:tech_bug_deploy",    () => deployTech("bug"));
-
-  // ---- Stress Damage Akkumulator ----
-  // Compendium:
-  //   Netto-Stress = Schaden - WIS (min 1)
-  //   Überschreitet stress_total ein WIS-Vielfaches -> WIS-Save
-  //   Fail = nächste Shaken-Stufe
-  const STRESS_TIERS = [
-    { dc: 12, effect: "Shaken 1", heal: "Short: 1d6+WIS / Long: 1d12+WIS" },
-    { dc: 15, effect: "Shaken 2", heal: "Short: 1d4+WIS / Long: 1d8+WIS" },
-    { dc: 20, effect: "Shaken 3", heal: "Short: 1 / Long: 1d4+WIS" },
-    { dc: 25, effect: "Shaken 4", heal: "Short: Medic / Long: 1+WIS" },
-    { dc: 30, effect: "Broken",   heal: "Nur medizinische Versorgung" },
-  ];
-
-  // Second Wind: beim Heal-Klick automatisch als verbraucht markieren.
-  on("clicked:second_wind", () => {
-    setAttrs({ second_wind_used: 1 });
-  });
-
-  // Languages-Roll nutzt type="roll" direkt im Button, kein Worker nötig.
-
-  on("clicked:apply_stress", () => {
-    getAttrs([
-      "stress_damage_input",
-      "wisdom",
-      "wisdom_mod",
-      "stress_total",
-      "character_name",
-      "save_wis_prof",
-      "save_wis_extra",
-      "prof_bonus",
-    ], (v) => {
-      const dmg = parseInt(v.stress_damage_input) || 0;
-      const wis = Math.max(1, parseInt(v.wisdom) || 10);
-      const wisMod = parseInt(v.wisdom_mod) || 0;
-      const oldTotal = parseInt(v.stress_total) || 0;
-      const charName = v.character_name || "Operator";
-      const saveProf = parseInt(v.save_wis_prof) || 0;
-      const saveExtra = parseInt(v.save_wis_extra) || 0;
-      const profBonus = parseInt(v.prof_bonus) || 2;
-
-      if (dmg <= 0) return;
-
-      const netStress = Math.max(1, dmg - wis);
-      const newTotal = oldTotal + netStress;
-
-      // Wieviele WIS-Vielfache wurden NEU gekreuzt?
-      const oldMultiple = Math.floor(oldTotal / wis);
-      const newMultiple = Math.floor(newTotal / wis);
-
-      const upd = {
-        stress_total: newTotal,
-        stress_damage_input: 0,
-      };
-
-      if (newMultiple > oldMultiple && newMultiple > 0) {
-        // Tier für den höchsten neu erreichten Wert
-        const tierIdx = Math.min(newMultiple, STRESS_TIERS.length) - 1;
-        const tier = STRESS_TIERS[tierIdx];
-
-        setAttrs(upd);
-
-        const saveBonus = wisMod + (saveProf * profBonus) + saveExtra;
-        const headline = `STRESS THRESHOLD (${newMultiple}x WIS)`;
-        const note = `Netto +${netStress} -> Stress-Total ${newTotal}. Fail = ${tier.effect}. Heilung: ${tier.heal}.`;
-
-        const rollText = `&{template:check} ` +
-          `{{title=${headline}}} ` +
-          `{{who=${charName}}} ` +
-          `{{result=[[1d20 + ${saveBonus}]] vs DC ${tier.dc}}} ` +
-          `{{note=${note}}}`;
-
-        startRoll(rollText, (results) => finishRoll(results.rollId));
-      } else {
-        // Kein Schwellen-Überschreiten - schlichte Bestätigung
-        setAttrs(upd);
-        const bisNächster = wis - (newTotal % wis);
-        const rollText = `&{template:check} ` +
-          `{{title=Stress +${netStress}}} ` +
-          `{{who=${charName}}} ` +
-          `{{result=Total ${newTotal}}} ` +
-          `{{note=${bisNächster} bis zum nächsten WIS-Vielfachen (${newMultiple + 1}x = ${(newMultiple + 1) * wis}).}}`;
-        startRoll(rollText, (results) => finishRoll(results.rollId));
-      }
-    });
-  });
-
-  // ---- Grenade Throw Handler (Action Button + startRoll) ----
-  on("clicked:repeating_grenades:gthrow", (info) => {
-    const src = (info && info.sourceAttribute) || "";
-    const match = /^(repeating_grenades_[^_]+)_/i.exec(src);
-    if (!match) return;
-    const rowPrefix = match[1];
-
-    const attrsNeeded = [
-      `${rowPrefix}_gname`,
-      `${rowPrefix}_gdamage`,
-      `${rowPrefix}_gdmg_bonus`,
-      `${rowPrefix}_grange`,
-      `${rowPrefix}_gblast`,
-      `${rowPrefix}_gdc`,
-      `${rowPrefix}_gcount`,
-      "dexterity_mod",
-      "prof_bonus",
-      "character_name",
-    ];
-
-    getAttrs(attrsNeeded, (v) => {
-      const gname = v[`${rowPrefix}_gname`] || "Grenade";
-      const gdamage = v[`${rowPrefix}_gdamage`] || "1d6";
-      const gdmg_bonus = parseInt(v[`${rowPrefix}_gdmg_bonus`]) || 0;
-      const grange = v[`${rowPrefix}_grange`] || "";
-      const gblast = v[`${rowPrefix}_gblast`] || "";
-      const gdc = v[`${rowPrefix}_gdc`] || "";
-      const gcount = parseInt(v[`${rowPrefix}_gcount`]) || 0;
-      const dexMod = parseInt(v.dexterity_mod) || 0;
-      const prof = parseInt(v.prof_bonus) || 0;
-      const charName = v.character_name || "Operator";
-
-      // Bail wenn keine Granaten mehr - Chat-Hinweis statt leerer Klick.
-      if (gcount <= 0) {
-        startRoll(
-          `&{template:check} {{title=${gname} - aus!}} {{who=${charName}}} {{result=Keine ${gname} mehr im Loadout}}`,
-          (results) => finishRoll(results.rollId)
-        );
-        return;
-      }
-
-      const countAfter = Math.max(0, gcount - 1);
-      const countDisplay = `${gcount} &rarr; ${countAfter}`;
-      const noteParts = [];
-      if (gblast) noteParts.push(`Blast ${gblast}`);
-      if (gdc) noteParts.push(gdc);
-      const note = noteParts.join(" | ");
-
-      const rollText = `&{template:attack} ` +
-        `{{title=${gname}}} ` +
-        `{{mode=Throw / Deviation}} ` +
-        `{{attack=[[1d20 + ${dexMod} + ${prof}]]}} ` +
-        `{{damage=[[${gdamage} + ${gdmg_bonus}]]}} ` +
-        (note ? `{{note=${note}}} ` : "") +
-        `{{ammo=${countDisplay}}} ` +
-        `{{who=${charName}}}`;
-
-      startRoll(rollText, (results) => {
-        setAttrs({ [`${rowPrefix}_gcount`]: countAfter });
-        finishRoll(results.rollId);
-      });
-    });
-  });
-
-  // ---- Recoil-vs-STR Auto-Penalty ----
-  // Compendium: Wenn STR < Recoil -> Single -1 flat, Burst/Auto -(Recoil-STR).
-  // Hidden attrs wrecoil_pen_single und wrecoil_pen_auto werden auto-berechnet
-  // und direkt in den Attack-Formeln abgezogen.
-  function computeRecoilPenalties(str, recoil) {
-    const diff = recoil - str;
-    return {
-      single: diff > 0 ? 1 : 0,
-      auto: diff > 0 ? diff : 0,
-    };
-  }
-
-  // Wenn STR sich ändert: alle Waffen neu berechnen
-  on("change:strength sheet:opened", () => {
-    getAttrs(["strength"], (v) => {
-      const str = parseInt(v.strength) || 10;
-      getSectionIDs("repeating_weapons", (ids) => {
-        if (!ids.length) return;
-        const recoilAttrs = ids.map(id => `repeating_weapons_${id}_wrecoil`);
-        getAttrs(recoilAttrs, (vals) => {
-          const upd = {};
-          ids.forEach(id => {
-            const recoil = parseInt(vals[`repeating_weapons_${id}_wrecoil`]) || 0;
-            const pen = computeRecoilPenalties(str, recoil);
-            upd[`repeating_weapons_${id}_wrecoil_pen_single`] = pen.single;
-            upd[`repeating_weapons_${id}_wrecoil_pen_auto`] = pen.auto;
-          });
-          setAttrs(upd);
-        });
-      });
-    });
-  });
-
-  // Wenn Recoil einer einzelnen Waffe sich ändert: nur diese neu berechnen
-  on("change:repeating_weapons:wrecoil", (info) => {
-    const src = info.sourceAttribute || "";
-    const lastUnderscore = src.lastIndexOf("_");
-    if (lastUnderscore < 0) return;
-    const prefix = src.substring(0, lastUnderscore);
-    getAttrs(["strength", src], (v) => {
-      const str = parseInt(v.strength) || 10;
-      const recoil = parseInt(v[src]) || 0;
-      const pen = computeRecoilPenalties(str, recoil);
-      const upd = {};
-      upd[`${prefix}_wrecoil_pen_single`] = pen.single;
-      upd[`${prefix}_wrecoil_pen_auto`] = pen.auto;
-      setAttrs(upd);
-    });
-  });
 </script>

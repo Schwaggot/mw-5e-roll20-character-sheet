@@ -1,0 +1,74 @@
+<!-- ============================================================ -->
+<!-- ROLL TEMPLATES                                                -->
+<!-- ============================================================ -->
+
+<!-- ==== Rolltemplates ==== Klassen INNERHALB von <rolltemplate> werden  -->
+<!-- von Roll20 NICHT auto-präfixiert (anders als im Sheet-Body).        -->
+<!-- Daher hier alle Klassen explizit mit "sheet-" Prefix schreiben, und  -->
+<!-- die CSS-Seite matcht auf dieselben vollstaendigen Klassennamen.      -->
+
+<rolltemplate class="sheet-rolltemplate-check">
+  <div class="sheet-atlas-rt">
+    <div class="sheet-atlas-rt-head">{{title}}</div>
+    {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
+    <div class="sheet-atlas-rt-body">
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ergebnis</span><span class="sheet-atlas-rt-val">{{result}}</span></div>
+      {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
+    </div>
+  </div>
+</rolltemplate>
+
+<rolltemplate class="sheet-rolltemplate-order">
+  <div class="sheet-atlas-rt sheet-atlas-rt-order">
+    <div class="sheet-atlas-rt-head">Order: {{title}}</div>
+    {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
+    <div class="sheet-atlas-rt-body">
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Aktion</span><span class="sheet-atlas-rt-val">{{action_type}}</span></div>
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">LD-Wert</span><span class="sheet-atlas-rt-val">{{result}}</span></div>
+      <div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{effect}}</div>
+      <div class="sheet-atlas-rt-row sheet-atlas-rt-ld-tracker"><span class="sheet-atlas-rt-label">LD</span><span class="sheet-atlas-rt-val">{{ld_before}} → {{ld_after}}</span></div>
+    </div>
+  </div>
+</rolltemplate>
+
+<rolltemplate class="sheet-rolltemplate-spray">
+  <div class="sheet-atlas-rt sheet-atlas-rt-spray">
+    <div class="sheet-atlas-rt-head">{{title}}</div>
+    {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
+    <div class="sheet-atlas-rt-body">
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Modus</span><span class="sheet-atlas-rt-val">{{mode}}</span></div>
+      {{#t1_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 1</span><span class="sheet-atlas-rt-val">Atk {{t1_atk}} | Dmg {{t1_dmg}}</span></div>{{/t1_atk}}
+      {{#t2_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 2 (-5)</span><span class="sheet-atlas-rt-val">Atk {{t2_atk}} | Dmg {{t2_dmg}}</span></div>{{/t2_atk}}
+      {{#t3_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 3 (-10)</span><span class="sheet-atlas-rt-val">Atk {{t3_atk}} | Dmg {{t3_dmg}}</span></div>{{/t3_atk}}
+      {{#t4_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 4 (-15)</span><span class="sheet-atlas-rt-val">Atk {{t4_atk}} | Dmg {{t4_dmg}}</span></div>{{/t4_atk}}
+      {{#t5_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 5 (-20)</span><span class="sheet-atlas-rt-val">Atk {{t5_atk}} | Dmg {{t5_dmg}}</span></div>{{/t5_atk}}
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>
+      {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
+    </div>
+  </div>
+</rolltemplate>
+
+<rolltemplate class="sheet-rolltemplate-attack">
+  <div class="sheet-atlas-rt sheet-atlas-rt-attack">
+    <div class="sheet-atlas-rt-head">{{title}}</div>
+    {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
+    <div class="sheet-atlas-rt-body">
+      {{#caliber}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Kaliber</span><span class="sheet-atlas-rt-val">{{caliber}}</span></div>{{/caliber}}
+      {{#mode}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Modus</span><span class="sheet-atlas-rt-val">{{mode}}</span></div>{{/mode}}
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Angriff</span><span class="sheet-atlas-rt-val">{{attack}}</span></div>
+      {{#recoil_pen}}<div class="sheet-atlas-rt-row sheet-atlas-rt-recoil"><span class="sheet-atlas-rt-label">Recoil-Pen</span><span class="sheet-atlas-rt-val">{{recoil_pen}}</span></div>{{/recoil_pen}}
+      {{#zone}}<div class="sheet-atlas-rt-row sheet-atlas-rt-zone"><span class="sheet-atlas-rt-label">Zielzone</span><span class="sheet-atlas-rt-val">{{zone}}</span></div>{{/zone}}
+      {{#zone_effect}}<div class="sheet-atlas-rt-row sheet-atlas-rt-zone-effect">{{zone_effect}}</div>{{/zone_effect}}
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage}}</span></div>
+      {{#burst_size}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo verbraucht</span><span class="sheet-atlas-rt-val">{{burst_size}}</span></div>{{/burst_size}}
+      {{#misfire_no}}<div class="sheet-atlas-rt-row sheet-atlas-rt-misfire-no"><span class="sheet-atlas-rt-label">{{misfire_label}}</span><span class="sheet-atlas-rt-val">Nein</span></div>{{/misfire_no}}
+      {{#misfire_miss}}<div class="sheet-atlas-rt-row sheet-atlas-rt-misfire-miss"><span class="sheet-atlas-rt-label">{{misfire_label}}</span><span class="sheet-atlas-rt-val">Miss - Waffe OK</span></div>{{/misfire_miss}}
+      {{#misfire_yes}}<div class="sheet-atlas-rt-row sheet-atlas-rt-misfire-yes"><span class="sheet-atlas-rt-label">{{misfire_label}}</span><span class="sheet-atlas-rt-val">JA - Waffe beschädigt!</span></div>{{/misfire_yes}}
+      {{#misfire_yes}}<div class="sheet-atlas-rt-row sheet-atlas-rt-misfire"><span class="sheet-atlas-rt-label">FUBAR-d100</span><span class="sheet-atlas-rt-val">{{misfire_d100}}</span></div>{{/misfire_yes}}
+      {{#crit_yes}}<div class="sheet-atlas-rt-row sheet-atlas-rt-crit-yes"><span class="sheet-atlas-rt-label">{{crit_label}}</span><span class="sheet-atlas-rt-val">JA!</span></div>{{/crit_yes}}
+      {{#crit_no}}<div class="sheet-atlas-rt-row sheet-atlas-rt-crit-no"><span class="sheet-atlas-rt-label">{{crit_label}}</span><span class="sheet-atlas-rt-val">Nein</span></div>{{/crit_no}}
+      {{#ammo}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>{{/ammo}}
+      {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
+    </div>
+  </div>
+</rolltemplate>

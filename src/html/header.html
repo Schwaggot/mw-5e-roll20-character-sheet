@@ -1,0 +1,78 @@
+  <!-- ===================== HEADER ===================== -->
+  <header class="atlas-header">
+    <div class="atlas-header-row">
+      <div class="atlas-field atlas-field-wide">
+        <label>Codename / Operator</label>
+        <input type="text" name="attr_character_name" />
+      </div>
+      <div class="atlas-field">
+        <label>Spieler</label>
+        <input type="text" name="attr_player_name" />
+      </div>
+      <div class="atlas-field atlas-field-narrow">
+        <label>Level</label>
+        <input type="number" name="attr_level" value="1" min="1" max="20" />
+      </div>
+      <div class="atlas-field atlas-field-narrow">
+        <label>Prof</label>
+        <input type="number" name="attr_prof_bonus" value="2" disabled />
+      </div>
+    </div>
+    <div class="atlas-header-row">
+      <div class="atlas-field">
+        <label>Combat Designation / Rolle</label>
+        <select name="attr_combat_designation">
+          <option value="">-- Wählen --</option>
+          <option value="Rifleman"               title="Assault-Rifle-Spezialist. Jack of All (reroll Skill-Check), Close with and Destroy (Bonus-AR-Attack), Assault Rifle Master (+2 Atk/Dmg mit ARs), Weathered Vet (Resistance fast allen Schaden).">Rifleman / Schütze</option>
+          <option value="Machine Gunner"         title="SAW/GPM/Heavy-MG-Spezialist. Die Fuzzy Bunny Die (max Rounds, reroll 1/2 Dmg), Beating Zone (Cube-AoE mit Dex-Save), Mass Suppression (Bonus-Action Suppressive Fire).">Machine Gunner / MG-Schütze</option>
+          <option value="Marksman"               title="Scharfschütze (Bolt-Action + Semi-Auto). Critical Shot (Auto-Crit 1x/Tag), Stalker (Ghillie-Suit-Boni), One Shot One Kill (Ziel Con-Save DC=Dmg oder 0 HP).">Marksman / Präzisionsschütze</option>
+          <option value="Demolitions Specialist" title="Sprengstoff-Experte. Deadly Demolitionist (Extra Dmg-Dice), Explosive Bag (Bow Tie, X Charge, C4 etc.), Rocket Expert (Auto-Crit bei Raketen), Explosive Master.">Demolitions Specialist / Sprengmeister</option>
+          <option value="Unit Leader"            title="Taktischer Anführer. Leadership Dice (d4-d12) + Orders (Fire on My Target, Rally, Suppression, Reposition, Take Cover, Go Silent, etc.), Inspiring Leader, Tactician.">Unit Leader / Einheitsführer</option>
+          <option value="Combat Medic"           title="Sanitäter. Trauma Bag (IFAK + Trauma Kit + Medical Supply), Medicine-Check DC 15 = 1d10+WIS Heilung (skaliert mit Level), Corpsman's Bag ab Lvl 15.">Combat Medic / Sanitäter</option>
+          <option value="Dog Handler"            title="Hundeführer. War Dog Companion (Tracking- oder Attack-Dog-Variante), War Dog Training Traits ab Lvl 7, Handler Technique (Bonus-Aktions-Kommandos), zweiter Hund ab Lvl 18.">Dog Handler / Hundeführer</option>
+          <option value="Tech Specialist"        title="Drohnen-Operator. B-1 Recon Drone (AC 15, 10 HP) mit Upgrades (Night Vision, Thermal, Pistol Mount etc.), Tech Package (Motion Sensors, Seeker Grenades, Audio Bugs), MacGyver ab Lvl 15.">Tech Specialist / Techniker</option>
+        </select>
+      </div>
+      <div class="atlas-field">
+        <label title="Dein 'Race'-Pick. Bestimmt kleine Attribut-Boni/-Mali und oft Skill-Proficiencies. 'Trait' = Charakterzug / Persoenlichkeitsmerkmal - wird einmalig bei der Charakter-Erstellung gewählt.">Personality Trait / Charakterzug</label>
+        <select name="attr_personality_trait">
+          <option value="">-- Wählen --</option>
+          <option value="adaptable"   title="Automatisch: nichts (Choice-based).&#10;Manuell: +1 auf 2 Attribute deiner Wahl, Proficiency in 1 Skill deiner Wahl.">Adaptable / Anpassungsfähig</option>
+          <option value="agile"       title="Automatisch: +2 DEX, -2 STR, Speed +5 ft.&#10;Manuell: Proficiency in Acrobatics.">Agile / Flink</option>
+          <option value="brainy"      title="Automatisch: +2 INT, -2 STR.&#10;Manuell: Proficiency in Science + Technology.">Brainy / Pfiffig</option>
+          <option value="burly"       title="Automatisch: +2 STR, -2 DEX, AC +1.&#10;Manuell: Proficiency in Athletics.">Burly / Bullig</option>
+          <option value="caustic"     title="Automatisch: +2 CHA, -2 WIS.&#10;Manuell: Proficiency in Intimidation + Deception.">Caustic / Bissig</option>
+          <option value="clever"      title="Automatisch: +2 INT, -2 CON.&#10;Manuell: Proficiency in History + Insight.">Clever / Clever</option>
+          <option value="convincing"  title="Automatisch: +2 CHA, -2 INT.&#10;Manuell: Proficiency in Deception + Persuasion.">Convincing / Überzeugend</option>
+          <option value="cunning"     title="Automatisch: +2 INT, -2 WIS.&#10;Manuell: Proficiency in Investigation + Persuasion.">Cunning / Gerissen</option>
+          <option value="daring"      title="Automatisch: +2 DEX, -2 INT, Init +5.&#10;Manuell: nichts.">Daring / Waghalsig</option>
+          <option value="disciplined" title="Automatisch: nichts (Choice-based).&#10;Manuell: +2/-2 auf je 1 Attribut, +1 auf alle Saving Throws.">Disciplined / Diszipliniert</option>
+          <option value="fierce"      title="Automatisch: +2 STR, -2 CHA.&#10;Manuell: +1 auf Melee-Attacks und Melee-Damage (im Weapon +Atk/+Dmg).">Fierce / Ungestüm</option>
+          <option value="fit"         title="Automatisch: +2 STR, -2 INT, Speed +5 ft.&#10;Manuell: Proficiency in Athletics.">Fit / Fit</option>
+          <option value="gifted"      title="Automatisch: nichts (Choice-based).&#10;Manuell: +2/-2 auf je 1 Attribut, +1 auf ALLE Skill-Checks.">Gifted / Begabt</option>
+          <option value="graceful"    title="Automatisch: +2 DEX, -2 CON.&#10;Manuell: Proficiency in Performance + Sleight of Hand.">Graceful / Anmutig</option>
+          <option value="grizzled"    title="Automatisch: +2 CON, -2 DEX, AC +1.&#10;Manuell: +1 HP pro Level (auch pro Level-Up).">Grizzled / Erfahren</option>
+          <option value="mysterious"  title="Automatisch: +2 WIS, -2 CHA.&#10;Manuell: Proficiency in Insight, +5 Passive Perception.">Mysterious / Mysteriös</option>
+          <option value="persistent"  title="Automatisch: +2 CON, -2 CHA.&#10;Manuell: 1x pro Tag Skill-Check retry ohne Penalty.">Persistent / Hartnäckig</option>
+          <option value="resolute"    title="Automatisch: +2 WIS, -2 DEX.&#10;Manuell: Proficiency in Survival, +2 auf WIS- und CON-Saves.">Resolute / Entschlossen</option>
+          <option value="vigilant"    title="Automatisch: +2 WIS, -2 CHA.&#10;Manuell: Proficiency in Perception. Kann nicht überrascht werden.">Vigilant / Wachsam</option>
+          <option value="witty"       title="Automatisch: +2 CHA, -2 STR.&#10;Manuell: Proficiency in Deception + Persuasion.">Witty / Geistreich</option>
+        </select>
+      </div>
+      <div class="atlas-field">
+        <label>Einheit</label>
+        <input type="text" name="attr_unit" value="ATLAS" />
+      </div>
+      <div class="atlas-field atlas-field-narrow">
+        <label>Req Points</label>
+        <input type="number" name="attr_req_points" value="0" />
+      </div>
+    </div>
+    <div class="atlas-header-row">
+      <div class="atlas-field">
+        <label>Trait-Effekte (Attribut/Speed/AC/Init auto-angewendet, Rest manuell)</label>
+        <input type="text" name="attr_personality_trait_effects" readonly placeholder="(Wähle oben einen Personality Trait)" />
+      </div>
+    </div>
+    <input type="hidden" name="attr_personality_trait_applied" value="" />
+  </header>

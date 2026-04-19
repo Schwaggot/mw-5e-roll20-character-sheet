@@ -2,11 +2,13 @@
 // Exported for the Vite dev plugin (auto-sync on save); runnable as a CLI
 // (`npm run build`) for one-shot builds / CI.
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+
+const INCLUDE_LINE = /^(\s*)<!--\s*INCLUDE:\s*(\S+)\s*-->\s*$/;
 
 // CSS is split by tab + shared base. Files are concatenated in this exact
 // order — base first (global resets, layout primitives, shared components),
@@ -39,18 +41,55 @@ export function buildCss() {
   return chunks.join('\n');
 }
 
+// Resolves `<!-- INCLUDE: path -->` lines by inlining the referenced file's
+// contents. The include directive must sit alone on a line; indentation
+// before the directive is discarded (the included file provides its own
+// indentation). Trailing newlines on the included file are stripped so the
+// directive's own line-terminator remains the sole separator — this is what
+// makes the build output byte-identical to the pre-split source.
+function resolveIncludes(text) {
+  return text
+    .split('\n')
+    .map((line) => {
+      const m = line.match(INCLUDE_LINE);
+      if (!m) return line;
+      const body = readFileSync(resolve(repoRoot, m[2]), 'utf8');
+      return body.endsWith('\n') ? body.slice(0, -1) : body;
+    })
+    .join('\n');
+}
+
 export function buildHtml() {
-  const html = readFileSync(resolve(repoRoot, HTML_SOURCE), 'utf8');
+  const skeleton = readFileSync(resolve(repoRoot, HTML_SOURCE), 'utf8');
+  const inlined = resolveIncludes(skeleton);
   const worker = readFileSync(resolve(repoRoot, WORKER_SOURCE), 'utf8').replace(/\s+$/, '');
-  if (!html.includes('<!-- SHEET_WORKER -->')) {
+  if (!inlined.includes('<!-- SHEET_WORKER -->')) {
     throw new Error(`${HTML_SOURCE} is missing the <!-- SHEET_WORKER --> placeholder`);
   }
   const scriptBlock = `<script type="text/worker">\n${worker}\n</script>`;
-  return html.replace('<!-- SHEET_WORKER -->', scriptBlock);
+  return inlined.replace('<!-- SHEET_WORKER -->', scriptBlock);
+}
+
+// Walk src/html/ to discover every included partial so the watcher can track
+// them without a maintained static list.
+function walkHtmlDir(abs, out = []) {
+  for (const name of readdirSync(abs)) {
+    const p = resolve(abs, name);
+    if (statSync(p).isDirectory()) walkHtmlDir(p, out);
+    else if (p.endsWith('.html')) out.push(p);
+  }
+  return out;
 }
 
 export function htmlSourcePaths() {
-  return [resolve(repoRoot, HTML_SOURCE), resolve(repoRoot, WORKER_SOURCE)];
+  const paths = [resolve(repoRoot, HTML_SOURCE), resolve(repoRoot, WORKER_SOURCE)];
+  const htmlDir = resolve(repoRoot, 'src/html');
+  try {
+    paths.push(...walkHtmlDir(htmlDir));
+  } catch {
+    // src/html/ not present yet — ignore.
+  }
+  return paths;
 }
 
 export function cssSourcePaths() {

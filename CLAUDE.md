@@ -7,17 +7,20 @@ autouploader extension.
 - **Never edit** `sheet.html` or `sheet.css` at the repo root. Edit `src/`.
 - **Never edit** `preview/` to change sheet behavior — it's dev-only scaffolding
   (stubs Roll20's sheet-worker API for local preview).
-- Keep the `<!-- SHEET_WORKER -->` placeholder in `src/sheet.html`. The build
-  replaces it with the contents of `src/sheet-worker.js` wrapped in
-  `<script type="text/worker">…</script>`.
-- Adding a new CSS file under `src/css/` requires also adding it to
-  `CSS_SOURCES` in `scripts/build.mjs` — order matters (cascade).
+- `src/sheet.html` is a thin skeleton. Keep the `<!-- SHEET_WORKER -->`
+  placeholder (replaced with the worker script) and the
+  `<!-- INCLUDE: src/html/… -->` directives (replaced with the partial's
+  contents). One INCLUDE per line, directive-line indentation is discarded.
+- Adding a new HTML partial: drop a file under `src/html/` and add an
+  INCLUDE line in the skeleton. No build-script changes needed.
+- Adding a new CSS file under `src/css/`: also add it to `CSS_SOURCES` in
+  `scripts/build.mjs` — order matters (cascade).
 
 ## Where to edit
 
 | Change                                  | File                                                                        |
 |-----------------------------------------|-----------------------------------------------------------------------------|
-| HTML markup                             | `src/sheet.html`                                                            |
+| HTML markup                             | `src/html/header.html`, `src/html/tabs-nav.html`, `src/html/tabs/<tab>.html`, `src/html/rolltemplates.html` (skeleton in `src/sheet.html`) |
 | Sheet-worker JS (derived values, rolls) | `src/sheet-worker.js`                                                       |
 | Styling                                 | `src/css/base/*.css` (shared) or `src/css/tabs/<tab>.css`                   |
 | Roll-template chat output               | `src/css/rolltemplates.css` and `<rolltemplate>` blocks in `src/sheet.html` |

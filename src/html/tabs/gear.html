@@ -1,0 +1,496 @@
+  <!-- ===================== TAB: WEAPONS & GEAR ===================== -->
+  <section class="atlas-tab-pane" data-tab="gear">
+
+    <!-- Encumbrance-Banner (Quick-Status, gleicher State wie im Combat-Tab) -->
+    <!-- Status-Checkboxes werden hier dupliziert, damit CSS :has() lokal    -->
+    <!-- matched. Roll20 synct Checkboxes mit gleichem name automatisch.     -->
+    <div class="atlas-weight-cell atlas-weight-banner">
+      <span class="atlas-weight-banner-label" title="Encumbrance: Summe Weapons + equipped Armor + Grenades + Inventory x qty + B-1 Drone (3.6 kg) bei Tech Specialist.&#10;Max = STR x 7 kg.&#10;Thresholds: Normal < 1/3 | Encumbered 1/3-2/3 (Speed -10) | Heavy 2/3-max (Speed -20, Disadv STR/DEX/CON) | Overloaded > max (Speed 0).">Encumbrance</span>
+      <input type="text" name="attr_weight_display" value="0 / 0 kg" readonly class="atlas-readonly atlas-weight-display" />
+      <input type="checkbox" name="attr_weight_status_encumbered" value="1" style="display:none" />
+      <input type="checkbox" name="attr_weight_status_heavy" value="1" style="display:none" />
+      <input type="checkbox" name="attr_weight_status_overloaded" value="1" style="display:none" />
+    </div>
+
+    <!-- Weapons -->
+    <div class="atlas-section">
+      <h2>Weapons</h2>
+      <fieldset class="repeating_weapons">
+        <div class="atlas-weapon-row">
+          <div class="atlas-wfield atlas-wfield-name">
+            <label>Waffe <span class="atlas-wstatus">
+              <span class="atlas-wstatus-badge wstatus-ok" title="OK: Waffe einsatzbereit.">●</span>
+              <span class="atlas-wstatus-badge wstatus-jammed" title="JAMMED: Action + DC 10 DEX-Check (Clear Jam Button).">⚠ JAM</span>
+              <span class="atlas-wstatus-badge wstatus-broken-short" title="BROKEN (Short): DC 10 DEX-Check nach Short Rest (Field Repair).">🔧 BRK-S</span>
+              <span class="atlas-wstatus-badge wstatus-broken-long" title="BROKEN (Long): DC 15 DEX-Check nach Long Rest (Bench Repair).">🔨 BRK-L</span>
+              <span class="atlas-wstatus-badge wstatus-needs-repair" title="NEEDS REPAIR: Parts + 1 Tag Arbeit + DC 15 (DM-Zustimmung noetig).">🔩 REP</span>
+              <span class="atlas-wstatus-badge wstatus-destroyed" title="FUBAR: Zerstoert. Vollersatz noetig, Row manuell loeschen.">☠ FUBAR</span>
+            </span></label>
+          <select name="attr_wpreset" class="atlas-weapon-name-select">
+            <option value="" disabled selected>-- Waffe wählen --</option>
+            <option disabled>---------- Pistols ----------</option>
+            <option value="ppk">Walther PPK (.380 ACP)</option>
+            <option value="m1911a1">Colt M1911A1 (.45 ACP)</option>
+            <option value="beretta92">Beretta 92 (9mm)</option>
+            <option value="glock17">Glock 17 (9mm)</option>
+            <option value="glock18">Glock 18 (9mm, Auto)</option>
+            <option value="p226">SiG-Sauer P226 (9mm)</option>
+            <option value="usp45">H&amp;K USP (.45 ACP)</option>
+            <option value="deserteagle">Desert Eagle (.50 AE)</option>
+            <option value="makarov_pb">Makarov PB (9x18, silenced)</option>
+            <option disabled>---------- Submachine Guns ----------</option>
+            <option value="uzi">IMI Uzi (9mm)</option>
+            <option value="mp5a5">H&amp;K MP5A5 (9mm)</option>
+            <option value="mp5sd6">H&amp;K MP5SD6 (9mm, silenced)</option>
+            <option value="mp7a1">H&amp;K MP7A1 (4.6x30)</option>
+            <option value="ump45">H&amp;K UMP (.45 ACP)</option>
+            <option value="p90">FN P90 (5.7x28)</option>
+            <option disabled>---------- Assault Rifles ----------</option>
+            <option value="m4a1">Colt M4A1 (5.56 NATO)</option>
+            <option value="m4sopmod">Colt M4 SOPMOD (5.56 NATO)</option>
+            <option value="m16a4">Colt M16A4 (5.56 NATO)</option>
+            <option value="g36">H&amp;K G36 (5.56 NATO)</option>
+            <option value="aug">Steyr AUG (5.56 NATO)</option>
+            <option value="ak47">AK-47 (7.62x39)</option>
+            <option value="ak74">AK-74 (5.45x39)</option>
+            <option value="aks74u">AKS-74U (5.45x39)</option>
+            <option value="fal">FN FAL (7.62 NATO)</option>
+            <option value="g3a3">H&amp;K G3A3 (7.62 NATO)</option>
+            <option disabled>---------- Semi-Auto / DMR ----------</option>
+            <option value="m21">Springfield M21 (7.62 NATO)</option>
+            <option value="sr25">KAC SR25 (7.62 NATO, suppressed)</option>
+            <option value="svd">Dragunov SVD (7.62x54R)</option>
+            <option value="barrett">Barrett M82A1 (.50 BMG)</option>
+            <option disabled>---------- Bolt-Action Rifles ----------</option>
+            <option value="rem700">Remington 700 (7.62 NATO)</option>
+            <option value="awm">AI AWM (.338 Lapua)</option>
+            <option value="aw50">AI AW-50 (.50 BMG)</option>
+            <option disabled>---------- Shotguns ----------</option>
+            <option value="rem870">Remington 870 (12ga slug)</option>
+            <option value="benelli_m4">Benelli M4 Super 90 (12ga slug)</option>
+            <option value="saiga12">Saiga 12K (12ga slug)</option>
+            <option disabled>---------- SAW / Machine Guns ----------</option>
+            <option value="minimi">FN Minimi / M249 (5.56 NATO)</option>
+            <option value="m240">FN MAG / M240 (7.62 NATO)</option>
+            <option value="pk">RSA PK (7.62x54R)</option>
+            <option disabled>---------- Grenade Launchers ----------</option>
+            <option value="m203">Colt M203 (40mm, under-barrel)</option>
+            <option value="mgl">Milkor MGL Mk. 1 (40mm, 6-shot)</option>
+            <option disabled>---------- Rocket Launchers ----------</option>
+            <option value="law">Talley M72 LAW</option>
+            <option value="at4">Bofors AT4 HE</option>
+            <option value="at4heat">Bofors AT4 HEAT</option>
+          </select>
+          <input type="hidden" name="attr_wname" />
+          </div>
+          <div class="atlas-wfield">
+            <label>Kaliber</label>
+            <input type="text" name="attr_wcaliber" placeholder="5.56 NATO" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Schaden</label>
+            <input type="text" name="attr_wdamage" value="4d4" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>+Atk</label>
+            <input type="number" name="attr_wattack" value="0" />
+          </div>
+          <div class="atlas-wfield">
+            <label>+Dmg</label>
+            <input type="number" name="attr_wdmg_bonus" value="0" />
+          </div>
+          <div class="atlas-wfield">
+            <label>Range</label>
+            <input type="text" name="attr_wrange" value="100 ft" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Recoil</label>
+            <input type="number" name="attr_wrecoil" value="12" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Misf</label>
+            <input type="text" name="attr_wmisfire" value="1-3" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Crit</label>
+            <input type="text" name="attr_wcrit" value="20" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Ammo</label>
+            <div class="atlas-ammo-cell">
+              <input type="number" name="attr_wammo" value="30" />
+              <span>/</span>
+              <input type="number" name="attr_wammo_max" value="30" class="atlas-readonly" readonly />
+            </div>
+          </div>
+          <input type="hidden" name="attr_wstatus" value="ok" />
+          <input type="checkbox" name="attr_wstatus_jammed"       value="1" style="display:none" />
+          <input type="checkbox" name="attr_wstatus_broken_short" value="1" style="display:none" />
+          <input type="checkbox" name="attr_wstatus_broken_long"  value="1" style="display:none" />
+          <input type="checkbox" name="attr_wstatus_needs_repair" value="1" style="display:none" />
+          <input type="checkbox" name="attr_wstatus_destroyed"    value="1" style="display:none" />
+        </div>
+        <div class="atlas-weapon-repair-row">
+          <!-- Duplizierte Status-Checkboxes (Roll20 synct same-named attrs). -->
+          <!-- Noetig damit CSS :has() sich an der Row selbst aufhaengen kann. -->
+          <input type="checkbox" name="attr_wstatus_jammed"       value="1" style="display:none" />
+          <input type="checkbox" name="attr_wstatus_broken_short" value="1" style="display:none" />
+          <input type="checkbox" name="attr_wstatus_broken_long"  value="1" style="display:none" />
+          <input type="checkbox" name="attr_wstatus_needs_repair" value="1" style="display:none" />
+          <span class="atlas-weapon-repair-label">Waffe defekt</span>
+          <button type="action" name="act_wclearjam"     class="wrepair-btn wrepair-jammed"        title="Clear Jam (Action): 1d20 + DEX-Mod vs DC 10.&#10;Pass: Waffe wieder OK.&#10;Fail: bleibt gejammt.">Clear Jam (Action, DC 10)</button>
+          <button type="action" name="act_wfieldrepair"  class="wrepair-btn wrepair-broken-short"  title="Field Repair (manuell nach Short Rest): 1d20 + DEX-Mod vs DC 10.&#10;Pass: Waffe OK.&#10;Fail: bleibt broken.">Field Repair (DC 10)</button>
+          <button type="action" name="act_wbenchrepair"  class="wrepair-btn wrepair-broken-long"   title="Bench Repair (manuell nach Long Rest): 1d20 + DEX-Mod vs DC 15.&#10;Pass: Waffe OK.&#10;Fail: bleibt broken.">Bench Repair (DC 15)</button>
+          <button type="action" name="act_wmarkrepaired" class="wrepair-btn wrepair-needs-repair" title="Mark as Repaired: Parts + 1 Tag Arbeit + DC 15 (DM-Zustimmung noetig).&#10;Kein Wurf am Sheet. Postet Chat-Hinweis + setzt Status auf OK.">Mark as Repaired (DM)</button>
+        </div>
+        <div class="atlas-weapon-actions-row">
+          <!-- type="action" statt type="roll" weil Repeating-type=roll Buttons -->
+          <!-- keine clicked-Events feuern. Roll wird im Sheet-Worker via       -->
+          <!-- startRoll gebaut, parallel dazu wird die Ammo dekrementiert.     -->
+          <!-- Gruppen: Targeting / Fire-Modes / Multi-Target. Jede Gruppe      -->
+          <!-- ist ein eigenes Flex-Item, wrapt als Einheit zur naechsten Zeile. -->
+          <div class="atlas-weapon-targeting">
+            <select name="attr_wtarget" class="atlas-weapon-target">
+              <option value="torso">Ziel: Torso</option>
+              <option value="head">Ziel: Kopf (-10, zählt als Crit)</option>
+              <option value="arms">Ziel: Arme (-6, Con-Save: Item fallt)</option>
+              <option value="hands">Ziel: Hände (-8, Con-Save: Item fallt)</option>
+              <option value="pelvis">Ziel: Becken (-4, Con-Save: Prone)</option>
+              <option value="legs">Ziel: Beine (-5, Con-Save: Slowed)</option>
+              <option value="feet">Ziel: Füße (-7, Con-Save: kein DEX)</option>
+            </select>
+            <select name="attr_wrange_mode" class="atlas-weapon-range-mode" title="Range zum Ziel (fuer CQM / LRM Auto-Apply):&#10;Close = innerhalb 1 Range-Increment&#10;Normal = keine Range-Boni&#10;Long = jenseits 1 Range-Increment">
+              <option value="close">Close</option>
+              <option value="normal" selected>Normal</option>
+              <option value="long">Long</option>
+            </select>
+            <label class="atlas-weapon-sharpshooter" title="Sharpshooter (Marksmanship L3): -5 Atk / +10 Dmg auf diesen Angriff.">
+              <input type="checkbox" name="attr_wsharpshooter" value="1" />
+              Sharpshooter
+            </label>
+          </div>
+          <div class="atlas-weapon-firemodes">
+            <button type="action" name="act_wsingle">Single</button>
+            <button type="action" name="act_wburst">Burst</button>
+            <button type="action" name="act_wauto">Auto</button>
+            <button type="action" name="act_waimed">Aimed</button>
+            <button type="action" name="act_wmelee" class="atlas-melee-btn" title="CQB Melee-Angriff mit dieser Ranged-Waffe.&#10;L1: 2H=1d6, 1H=1d4 Blunt.&#10;L2: Bonus-Action-Angriff moeglich.&#10;L3: 1H=1d6, 2H=1d8.&#10;L4: 2 Bonus-Action-Angriffe.">Melee</button>
+          </div>
+          <div class="atlas-weapon-multi">
+            <span class="atlas-weapon-spray-label">Multi:</span>
+            <input type="number" name="attr_wtargets" value="2" min="1" max="5" title="Max Targets = DEX mod" />
+            <button type="action" name="act_wspray">Spray</button>
+            <button type="action" name="act_wriddle">Riddle</button>
+          </div>
+        </div>
+        <div class="atlas-weapon-row-2">
+          <label>Properties</label>
+          <div class="atlas-prop-pills">
+            <!-- Jede moegliche Property als statische Pill mit nativem title. -->
+            <!-- Sichtbarkeit via Checkbox-Flag + CSS :has(:checked).           -->
+            <!-- Worker setzt pro Token die passende Checkbox auf "1".          -->
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_1h" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Einhaendig: Kann einhaendig gehalten und abgefeuert werden. Zweite Hand bleibt frei (fuer CQC, Zweitwaffe, Utility).">1H</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_2h" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Zweihaendig: Beide Haende noetig fuer stabiles Feuern. Ein-Hand-Feuern gibt Disadvantage auf Angriff.">2H</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_lite" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Light: Kann beim Dual-Wielding als Off-Hand-Waffe verwendet werden.">Lite</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_covert" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Versteckbar: Kann unter Kleidung verborgen getragen werden (Perception-Check zum Erkennen).">Covert</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_cqc" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Close Quarters Combat: Kein Disadvantage bei Nahkampf-Range (&lt;5ft).">CQC</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_reloading" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Muss nachgeladen werden: 1x pro Kampf als freie Aktion (oder Bonus-Action). Sonst volle Action.">Reloading</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_dependable" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Verlaesslich: Misfire-Range effektiv -1 (bereits in Misfire-Wert eingerechnet).">Dependable</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_takedown" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Takedown: Bei Crit muss Ziel Con-Save (DC 10 + Dmg) bestehen oder geht in Stunned/Unconscious.">Takedown</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_builtin_supp" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Eingebauter Schalldaempfer: Schuss silent, &gt;100ft unhoerbar. -1d4 Damage pro Schuss (min 1).">Built-in Suppressor</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_integral_supp" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Integrierter Schalldaempfer: Schuss silent, &gt;100ft unhoerbar. -1d4 Damage pro Schuss (min 1).">Integral Suppressor</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_acc_1" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Praezise +1: +1 auf Angriffswuerfe mit dieser Waffe.">Accurate +1</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_acc_2" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Praezise +2: +2 auf Angriffswuerfe mit dieser Waffe.">Accurate +2</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_acc_3" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Praezise +3: +3 auf Angriffswuerfe mit dieser Waffe.">Accurate +3</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_inacc_5" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Ungenau -5: -5 auf Angriffswuerfe (typisch fuer Launcher).">Inaccurate -5</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_manual_action" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Manuelles Repetieren: Bolt/Lever muss nach jedem Schuss betaetigt werden. Kein Burst, kein Full-Auto.">Manual Action</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_pump" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Pump-Action: Vorderschaft muss nach jedem Schuss gepumpt werden. Kein Burst, kein Full-Auto.">Pump</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_semi_auto" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Halb-Automatisch: Ein Schuss pro Trigger-Pull. Kein Burst, kein Full-Auto.">Semi-Auto</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_belt_fed" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Gurtgefuettert: Sehr grosse Kapazitaet (100-200+), lange Reload-Zeit.">Belt-Fed</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_braced" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Abgestuetzt: Recoil-Penalty halbiert wenn Waffe abgestuetzt (Bipod / Prone / Wand).">Braced</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_imprecise" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Unpraezise: +1 Misfire-Range bei Full-Auto-Feuer.">Imprecise</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_under_barrel" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Unterlauf-Montage: Wird unter einem Hauptgewehr montiert (z.B. M203).">Under-Barrel</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sb" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single und Burst gewechselt werden (Bonus-Action).">Select Fire S/B</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sa" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single und Full-Auto gewechselt werden (Bonus-Action).">Select Fire S/A</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sba" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single, Burst und Full-Auto gewechselt werden (Bonus-Action).">Select Fire S/B/A</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_quirky" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Eigenheit: Siehe Compendium fuer Special-Rules zu dieser Waffe.">Quirky</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_blast_10" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Explosionsradius 10ft: Alle im Radius betroffen. Dex-Save fuer halben Schaden.">Blast 10ft</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_blast_15" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Explosionsradius 15ft: Alle im Radius betroffen. Dex-Save fuer halben Schaden.">Blast 15ft</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_force_pierce" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Schaden kombiniert Force- und Piercing-Typ (Ruestungs-Resistenzen entsprechend pruefen).">Force+Piercing</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_force" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Schaden vom Typ Force (umgeht die meisten Armor-Resistenzen).">Force</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_ammo_dmg" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Schaden haengt vom geladenen Ammo-Typ ab (HE / Buckshot / Flechette etc.).">siehe Ammo-Typ für Damage</span></span>
+          </div>
+          <input type="hidden" name="attr_wproperties" />
+        </div>
+        <input type="hidden" name="attr_wrecoil_pen_single" value="0" />
+        <input type="hidden" name="attr_wrecoil_pen_auto" value="0" />
+        <input type="hidden" name="attr_wgroup" value="" />
+        <input type="hidden" name="attr_wweight" value="0" />
+        <details class="atlas-weapon-mods-collapsible">
+          <summary>Mods</summary>
+        <div class="atlas-weapon-mods-row">
+          <div class="atlas-mod-slot">
+            <label>Muzzle</label>
+            <select name="attr_wmod_muzzle_slot">
+              <option value="none">-</option>
+              <option value="flash_hider"  title="Flash Hider: Perception-Checks um Muzzle-Flash zu sehen haben Disadvantage.">Flash Hider (-Perception Flash)</option>
+              <option value="compensator"  title="Compensator: Burst/Auto-Penalty -1 (stackt mit Auto Stock + Angled Short Grip).">Compensator (-1 Auto-Pen)</option>
+              <option value="muzzle_break" title="Muzzle Break: +2 auf Schadenswürfe.">Muzzle Break (+2 Dmg)</option>
+              <option value="suppressor"   title="Suppressor: -1d4 Damage pro Schuss (min 1). Angriff silent, inaudible &gt; 100 ft.">Suppressor (-1d4 Dmg, silent)</option>
+            </select>
+          </div>
+          <div class="atlas-mod-slot">
+            <label>Stock</label>
+            <select name="attr_wmod_stock_slot">
+              <option value="none">-</option>
+              <option value="collapsible" title="Collapsible Stock: +Concealment, kein Mechanik-Effekt.">Collapsible Stock</option>
+              <option value="buffer"      title="Buffer Group: Effektiver Recoil-Wert -4 (reduziert Recoil-Penalty).">Buffer Group (Recoil -4)</option>
+              <option value="adv"         title="Advanced Stock: +2 auf Schadenswürfe.">Advanced Stock (+2 Dmg)</option>
+              <option value="auto"        title="Auto Stock: Burst/Auto-Penalty -1 (stackt mit Compensator + Angled Short Grip).">Auto Stock (-1 Auto-Pen)</option>
+              <option value="quick"       title="Quick Stock: +2 auf Initiative wenn die Waffe beim Initiative-Roll gehalten wird.">Quick Stock (+2 Init)</option>
+            </select>
+          </div>
+          <div class="atlas-mod-slot">
+            <label>Underbarrel</label>
+            <select name="attr_wmod_underbarrel_slot">
+              <option value="none">-</option>
+              <option value="fore_grip"    title="Fore Grip: +1 auf Single-Shot-Angriffe.">Fore Grip (+1 Single)</option>
+              <option value="pod_grip"     title="Pod Grip: +1 Single-Shot. Prone: Range-Multiple -1 und Waffe gilt als Braced.">Pod Grip (+1 Single, Prone-Bonus)</option>
+              <option value="bipods"       title="Bipods: Wenn Prone/Braced: Range-Multiple -1, Braced-Status, Burst/Auto-Pen -1, Recoil -2.">Bipods (Prone/Braced-Bonus)</option>
+              <option value="angled_fore"  title="Angled Fore Grip: +2 auf Initiative wenn Waffe gehalten.">Angled Fore Grip (+2 Init)</option>
+              <option value="angled_short" title="Angled Short Grip: Burst/Auto-Penalty -1 (stackt mit Compensator + Auto Stock).">Angled Short Grip (-1 Auto-Pen)</option>
+            </select>
+          </div>
+          <div class="atlas-mod-slot">
+            <label>Sight</label>
+            <select name="attr_wmod_sight_slot">
+              <option value="none">-</option>
+              <option value="dot"            title="Dot/Holo Sight: +1 auf Attacks innerhalb 1 Range-Multiple.">Dot/Holo (+1 Atk)</option>
+              <option value="scope_4x"       title="4× Scope / ACOG: Range-Multiple -1 (min 1) - effektive Range massiv größer.">4× Scope/ACOG (Range-M -1)</option>
+              <option value="scope_4x_hyb"   title="4× Hybrid / RCO: Range-Multiple -1 PLUS +1 Attack innerhalb 1 Range-Multiple.">4× Hybrid (Range-M -1 + Dot)</option>
+              <option value="scope_6x"       title="6× Mid-Range: Range-Multiple -1, +2 jenseits 1. Multiple, -2/-4 bei näheren Ranges. Ohne Canted Iron Sights wird Nahbereich stark penalisiert.">6× Mid-Range (R-M -1, +2 fern, -2/-4 nah)</option>
+              <option value="scope_6x_hyb"   title="6× Hybrid: wie 6× + zusätzlich +1 Attack innerhalb 1 Range-Multiple.">6× Hybrid</option>
+              <option value="scope_8x"       title="8× Long-Range: Range-Multiple -2, +4 jenseits 1. Multiple, -4/-8 bei näheren Ranges. Close-Combat quasi unbrauchbar ohne Canted Iron Sights.">8× Long-Range (R-M -2, +4 fern, -4/-8 nah)</option>
+            </select>
+          </div>
+          <div class="atlas-mod-slot">
+            <label>Magazine</label>
+            <select name="attr_wmod_magazine_slot">
+              <option value="standard">Standard Mag</option>
+              <option value="extended" title="Extended Magazine: +10 bis +20 Rounds je nach Waffenklasse. Max manuell im Ammo-Max setzen.">Extended Mag (+10/+20)</option>
+              <option value="drum"     title="Drum Magazine: +30 bis +70 Rounds je nach Waffenklasse. Max manuell im Ammo-Max setzen.">Drum Mag (+30/+70)</option>
+              <option value="quick"    title="Quick Magazine: Reload als Free Action statt Action/Attack.">Quick Mag (Free-Action Reload)</option>
+            </select>
+          </div>
+          <div class="atlas-mod-slot">
+            <label>Receiver</label>
+            <select name="attr_wmod_receiver_slot">
+              <option value="none">-</option>
+              <option value="enhanced" title="Enhanced Receiver: Waffe bekommt Dependable-Property (Misfire-d100 zweimal würfeln, besseres nehmen). Wenn schon Dependable: 1 Misfire pro Long Rest ignorieren.">Enhanced Receiver (Dependable)</option>
+              <option value="custom"   title="Custom Receiver: +2 auf Schadenswürfe.">Custom Receiver (+2 Dmg)</option>
+            </select>
+          </div>
+          <div class="atlas-mod-slot">
+            <label>Barrel</label>
+            <select name="attr_wmod_barrel_slot">
+              <option value="none">-</option>
+              <option value="short"     title="Short Barrel: Range -1/4 (muss manuell in Range-Feld angepasst werden), +1 Attack bei 1× Range-Multiple.">Short Barrel (Range -1/4, +1 nah)</option>
+              <option value="long"      title="Long Barrel: Range +1/4 (manuell anpassen), -1 jenseits 1× Range-Multiple.">Long Barrel (Range +1/4, -1 fern)</option>
+              <option value="precision" title="Precision Barrel: Crit-Range +1 (z.B. aus 20 wird 19-20, aus 19-20 wird 18-20).">Precision Barrel (+1 Crit-Range)</option>
+            </select>
+          </div>
+          <div class="atlas-mod-slot">
+            <label>Trigger</label>
+            <select name="attr_wmod_trigger_slot">
+              <option value="none">-</option>
+              <option value="comfort"     title="Comfort Grip: +2 auf Initiative wenn Waffe gehalten.">Comfort Grip (+2 Init)</option>
+              <option value="no_slip"     title="No Slip Grip: Advantage gegen Disarm und Dropping.">No Slip Grip (Adv vs Disarm)</option>
+              <option value="select_fire" title="Select Fire Single Shot: Ermöglicht Single-Shot-Modus wenn Waffe sonst nur Burst/Auto hat.">Select Fire Single (enables Single)</option>
+            </select>
+          </div>
+          <div class="atlas-mod-slot">
+            <label>Side Rails</label>
+            <select name="attr_wmod_siderails_slot">
+              <option value="none">-</option>
+              <option value="flash_lite" title="Flash Lite: Free-Action Taschenlampe (bright 50 ft, dim 100 ft).">Flash Lite (Flashlight)</option>
+              <option value="laser"      title="Laser Sight: Free-Action Laser, +1 Attack innerhalb Range, IR-Setting verfügbar.">Laser Sight (+1 Atk)</option>
+              <option value="peq16"      title="PEQ 16: Flash Lite + Laser Sight kombiniert.">PEQ 16 (Flashlight + Laser)</option>
+              <option value="canted"     title="Canted Iron Sights: Normale Iron-Sights-Feuerung möglich obwohl Long-Range-Scope (6×/8×) montiert ist. Kompensiert die Nah-Range-Penalty.">Canted Iron Sights</option>
+            </select>
+          </div>
+        </div>
+        </details>
+      </fieldset>
+      <div class="atlas-hint">+Atk ist dein gesamter Angriffsbonus (Ability + Prof + Waffen-Mods). +Dmg addiert auf den Schadensbogen. Ammo ist current/max - runterklicken nach Feuerstoss.</div>
+    </div>
+
+    <!-- Armor -->
+    <div class="atlas-section">
+      <h2>Armor &amp; Protective Gear</h2>
+      <fieldset class="repeating_armor">
+        <div class="atlas-armor-row">
+          <div class="atlas-wfield atlas-wfield-name">
+            <label>Rüstung</label>
+          <select name="attr_apreset" class="atlas-armor-name-select">
+            <option value="" disabled selected>-- Rüstung wählen --</option>
+            <option disabled>---------- Torso Armor ----------</option>
+            <option value="plate_light">Plate Carrier (Light)</option>
+            <option value="flak_light">Flak Jacket (Light)</option>
+            <option value="flak_medium">Medium Flak</option>
+            <option value="flak_shoulders">Medium Flak w/ Shoulders</option>
+            <option value="flak_full">Medium Flak w/ Shoulders &amp; Legs</option>
+            <option value="bomb_suit">Bomb Suit</option>
+            <option disabled>---------- Helmets ----------</option>
+            <option value="helm_tactical">Tactical Helmet</option>
+            <option value="helm_kevlar">Kevlar Helmet</option>
+            <option value="helm_bomb">Bomb Suit Helm</option>
+            <option disabled>---------- Gloves ----------</option>
+            <option value="gloves_leather">Tactical/Leather Gloves</option>
+            <option value="gloves_carbon">Carbon Fiber Gloves</option>
+            <option value="gloves_bomb">Bomb Suit Gloves</option>
+            <option disabled>---------- Boots ----------</option>
+            <option value="boots_leather">Tactical/Leather Boots</option>
+            <option value="boots_carbon">Carbon Fiber / Steel Toe</option>
+            <option value="boots_bomb">Bomb Suit Boots</option>
+          </select>
+          <input type="hidden" name="attr_aname" />
+          </div>
+          <div class="atlas-wfield">
+            <label>AC</label>
+            <input type="text" name="attr_aac" value="15 + Dex (max 2)" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Coverage</label>
+            <input type="text" name="attr_acoverage" placeholder="Chest, Back, Arms, Groin" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Resistances</label>
+            <input type="text" name="attr_aresist" placeholder="Piercing, Slashing" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Stealth</label>
+            <input type="text" name="attr_astealth" placeholder="-" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Weight</label>
+            <input type="text" name="attr_aweight" placeholder="14.5 kg" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield atlas-wfield-checkbox">
+            <label>Ausgerüstet</label>
+            <input type="checkbox" name="attr_aequipped" value="1" />
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- Grenades / Explosives -->
+    <div class="atlas-section">
+      <h2>Grenades &amp; Explosives</h2>
+      <fieldset class="repeating_grenades">
+        <div class="atlas-grenade-row">
+          <div class="atlas-wfield atlas-wfield-name">
+            <label>Granate</label>
+          <select name="attr_gpreset" class="atlas-grenade-name-select">
+            <option value="" disabled selected>-- Granate wählen --</option>
+            <option disabled>---------- Grenades ----------</option>
+            <option value="m67">M67 Fragmentation</option>
+            <option value="anm14">AN-M14 TH3 Incendiary</option>
+            <option value="m84">M84 Flashbang</option>
+            <option disabled>---------- Raw Explosives ----------</option>
+            <option value="c4_quarter">0.1 kg C4</option>
+            <option value="detcord">1 ft Det Cord</option>
+            <option value="sticky">Sticky Grenade</option>
+          </select>
+          <input type="hidden" name="attr_gname" />
+          </div>
+          <div class="atlas-wfield">
+            <label>Schaden</label>
+            <input type="text" name="attr_gdamage" placeholder="2d8 Force + 2d8 Piercing" value="2d8" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>+Dmg</label>
+            <input type="number" name="attr_gdmg_bonus" value="0" />
+          </div>
+          <div class="atlas-wfield">
+            <label>Range</label>
+            <input type="text" name="attr_grange" placeholder="30 ft" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Blast</label>
+            <input type="text" name="attr_gblast" placeholder="10 ft" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>DC</label>
+            <input type="text" name="attr_gdc" placeholder="DC 8 + Prof + Dex" class="atlas-readonly" readonly />
+          </div>
+          <div class="atlas-wfield">
+            <label>Anzahl</label>
+            <input type="number" name="attr_gcount" value="1" />
+          </div>
+          <div class="atlas-wfield atlas-wfield-actions">
+            <label>Action</label>
+            <button type="action" name="act_gthrow">Throw</button>
+          </div>
+          <input type="hidden" name="attr_gweight" value="0" />
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- Inventory -->
+    <div class="atlas-section">
+      <h2>Inventory</h2>
+      <fieldset class="repeating_gear">
+        <div class="atlas-gear-preset">
+          <label>Preset</label>
+          <select name="attr_ipreset">
+            <option value="custom">-- Custom (selbst ausfüllen) --</option>
+            <option disabled>---------- Standard Issue ----------</option>
+            <option value="rucksack">Main Rucksack</option>
+            <option value="daypack">Day Pack</option>
+            <option value="sleepbag_light">Light Sleeping Bag</option>
+            <option value="sleepbag_heavy">Heavy Sleeping Bag</option>
+            <option value="lbs_vest">Load-Bearing Vest</option>
+            <option value="camelbak">CamelBak 2L</option>
+            <option value="isomat">Iso-mat</option>
+            <option value="tarp">Camo Tarpaulin 10x10</option>
+            <option value="paracord">100ft Paracord (550)</option>
+            <option value="canteen">Canteen 1L</option>
+            <option value="canteen_cup">Canteen Cup</option>
+            <option value="messkit">Mess Kit</option>
+            <option value="combat_knife">Combat Knife</option>
+            <option value="bayonet">Bayonet</option>
+            <option disabled>---------- Class Tools ----------</option>
+            <option value="ghillie">Ghillie Suit (Marksman)</option>
+            <option value="spotscope">Spotting Scope (Marksman)</option>
+            <option value="te_tool">T&amp;E Tool (Machine Gunner)</option>
+            <option value="demo_tools">Demolitions Tools (Demo)</option>
+            <option value="handler_tools">Handler's Tools (Dog Handler)</option>
+            <option value="b1ard">B1ARD Kit (Tech)</option>
+            <option value="drone_repair">Drone Repair Kit (Tech)</option>
+            <option value="decon_kit">Decontamination Kit (Medic)</option>
+            <option value="terrain_map">Terrain Map Tools (Unit Leader)</option>
+            <option disabled>---------- Comms ----------</option>
+            <option value="uhf_radio">UHF Radio</option>
+            <option value="sat_radio">Satellite Radio</option>
+            <option value="crypto_key">Crypto Key</option>
+            <option disabled>---------- Medical ----------</option>
+            <option value="morphine">Morphine</option>
+            <option value="quickclot">Quick Clot</option>
+            <option value="narcotics">Narcotics</option>
+            <option value="iv_500">I.V. 500cc</option>
+            <option value="liquid_skin">Liquid Skin Patch</option>
+            <option value="epi">Epinephrine</option>
+            <option value="combat_pills">Combat Pill Pack</option>
+            <option value="diazepam">5 Days Diazepam</option>
+          </select>
+        </div>
+        <div class="atlas-gear-row">
+          <input type="number" name="attr_iqty" value="1" />
+          <input type="text" name="attr_iname" placeholder="Gegenstand" />
+          <input type="text" name="attr_iweight" placeholder="kg" />
+          <input type="text" name="attr_inotes" placeholder="Notiz" />
+        </div>
+      </fieldset>
+    </div>
+
+  </section>

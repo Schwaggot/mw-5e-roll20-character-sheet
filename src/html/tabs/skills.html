@@ -1,0 +1,120 @@
+  <!-- ===================== TAB: SKILLS & SAVES ===================== -->
+  <section class="atlas-tab-pane" data-tab="skills">
+
+    <div class="atlas-two-col">
+
+      <!-- Saving Throws -->
+      <div class="atlas-section">
+        <h2>Saving Throws</h2>
+        <table class="atlas-skill-table">
+          <thead>
+            <tr><th title="Save Training Level 0-4. Auto-appliziert Proficiency (L1), +1/+2 Bonus (L2/L3), Advantage = 2d20kh1 (L4).">Lvl</th><th>Save</th><th>Abil</th><th>Bonus</th><th>Roll</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="number" name="attr_save_str_level" value="0" min="0" max="4" class="atlas-save-level" title="Save Training Level:&#10;0: keine&#10;1: Proficiency (+Prof-Bonus)&#10;2: + weiter +1&#10;3: + weiter +1 (gesamt Prof +2)&#10;4: + Advantage (2d20kh1)" /></td>
+              <td>Strength</td>
+              <td>STR</td>
+              <td><input type="number" name="attr_save_str_extra" value="0" class="atlas-extra" /></td>
+              <td><button type="roll" name="roll_save_str" value="&{template:check} {{title=Strength Save (Lvl @{save_str_level})}} {{who=@{character_name}}} {{result=[[@{save_str_die} + @{strength_mod} + @{save_str_bonus} + @{save_str_extra}]]}}"></button></td>
+            </tr>
+            <tr>
+              <td><input type="number" name="attr_save_dex_level" value="0" min="0" max="4" class="atlas-save-level" title="Save Training Level:&#10;0: keine&#10;1: Proficiency (+Prof-Bonus)&#10;2: + weiter +1&#10;3: + weiter +1 (gesamt Prof +2)&#10;4: + Advantage (2d20kh1)" /></td>
+              <td>Dexterity</td>
+              <td>DEX</td>
+              <td><input type="number" name="attr_save_dex_extra" value="0" class="atlas-extra" /></td>
+              <td><button type="roll" name="roll_save_dex" value="&{template:check} {{title=Dexterity Save (Lvl @{save_dex_level})}} {{who=@{character_name}}} {{result=[[@{save_dex_die} + @{dexterity_mod} + @{save_dex_bonus} + @{save_dex_extra}]]}}"></button></td>
+            </tr>
+            <tr>
+              <td><input type="number" name="attr_save_con_level" value="0" min="0" max="4" class="atlas-save-level" title="Save Training Level:&#10;0: keine&#10;1: Proficiency (+Prof-Bonus)&#10;2: + weiter +1&#10;3: + weiter +1 (gesamt Prof +2)&#10;4: + Advantage (2d20kh1)" /></td>
+              <td>Constitution</td>
+              <td>CON</td>
+              <td><input type="number" name="attr_save_con_extra" value="0" class="atlas-extra" /></td>
+              <td><button type="roll" name="roll_save_con" value="&{template:check} {{title=Constitution Save (Lvl @{save_con_level})}} {{who=@{character_name}}} {{result=[[@{save_con_die} + @{constitution_mod} + @{save_con_bonus} + @{save_con_extra}]]}}"></button></td>
+            </tr>
+            <tr>
+              <td><input type="number" name="attr_save_int_level" value="0" min="0" max="4" class="atlas-save-level" title="Save Training Level:&#10;0: keine&#10;1: Proficiency (+Prof-Bonus)&#10;2: + weiter +1&#10;3: + weiter +1 (gesamt Prof +2)&#10;4: + Advantage (2d20kh1)" /></td>
+              <td>Intelligence</td>
+              <td>INT</td>
+              <td><input type="number" name="attr_save_int_extra" value="0" class="atlas-extra" /></td>
+              <td><button type="roll" name="roll_save_int" value="&{template:check} {{title=Intelligence Save (Lvl @{save_int_level})}} {{who=@{character_name}}} {{result=[[@{save_int_die} + @{intelligence_mod} + @{save_int_bonus} + @{save_int_extra}]]}}"></button></td>
+            </tr>
+            <tr>
+              <td><input type="number" name="attr_save_wis_level" value="0" min="0" max="4" class="atlas-save-level" title="Save Training Level:&#10;0: keine&#10;1: Proficiency (+Prof-Bonus)&#10;2: + weiter +1&#10;3: + weiter +1 (gesamt Prof +2)&#10;4: + Advantage (2d20kh1)" /></td>
+              <td>Wisdom</td>
+              <td>WIS</td>
+              <td><input type="number" name="attr_save_wis_extra" value="0" class="atlas-extra" /></td>
+              <td><button type="roll" name="roll_save_wis" value="&{template:check} {{title=Wisdom Save (Lvl @{save_wis_level})}} {{who=@{character_name}}} {{result=[[@{save_wis_die} + @{wisdom_mod} + @{save_wis_bonus} + @{save_wis_extra}]]}}"></button></td>
+            </tr>
+            <tr>
+              <td><input type="number" name="attr_save_cha_level" value="0" min="0" max="4" class="atlas-save-level" title="Save Training Level:&#10;0: keine&#10;1: Proficiency (+Prof-Bonus)&#10;2: + weiter +1&#10;3: + weiter +1 (gesamt Prof +2)&#10;4: + Advantage (2d20kh1)" /></td>
+              <td>Charisma</td>
+              <td>CHA</td>
+              <td><input type="number" name="attr_save_cha_extra" value="0" class="atlas-extra" /></td>
+              <td><button type="roll" name="roll_save_cha" value="&{template:check} {{title=Charisma Save (Lvl @{save_cha_level})}} {{who=@{character_name}}} {{result=[[@{save_cha_die} + @{charisma_mod} + @{save_cha_bonus} + @{save_cha_extra}]]}}"></button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="atlas-hint">Save Training Level: 0 = keine, 1 = Proficiency, 2 = +1 Bonus, 3 = +1 weiter (gesamt Prof+2), 4 = Advantage (Roll 2d20kh1). Alles auto-appliziert. "Bonus" ist fuer Ausruestungs-/Spezial-Boni.</div>
+      </div>
+
+      <!-- Skills -->
+      <div class="atlas-section atlas-section-wide">
+        <h2>Skills</h2>
+        <table class="atlas-skill-table">
+          <thead>
+            <tr><th title="Skill Training Level 0-4. Auto-appliziert Proficiency (L1), +1/+2 Bonus (L2/L3), Advantage = 2d20kh1 (L4).">Lvl</th><th>Skill</th><th>Abil</th><th>Bonus</th><th>Roll</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><input type="number" name="attr_skill_acrobatics_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level:&#10;0: keine&#10;1: Proficiency&#10;2: +1 Bonus&#10;3: + weiter +1 (gesamt Prof +2)&#10;4: + Advantage (2d20kh1)" /></td><td>Acrobatics / Akrobatik</td><td>DEX</td><td><input type="number" name="attr_skill_acrobatics_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_acrobatics" value="&{template:check} {{title=Acrobatics (Lvl @{skill_acrobatics_level})}} {{who=@{character_name}}} {{result=[[@{skill_acrobatics_die} + @{dexterity_mod} + @{skill_acrobatics_bonus} + @{skill_acrobatics_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_animal_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Animal Handling / Umgang mit Tieren</td><td>WIS</td><td><input type="number" name="attr_skill_animal_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_animal" value="&{template:check} {{title=Animal Handling (Lvl @{skill_animal_level})}} {{who=@{character_name}}} {{result=[[@{skill_animal_die} + @{wisdom_mod} + @{skill_animal_bonus} + @{skill_animal_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_athletics_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Athletics / Athletik</td><td>STR</td><td><input type="number" name="attr_skill_athletics_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_athletics" value="&{template:check} {{title=Athletics (Lvl @{skill_athletics_level})}} {{who=@{character_name}}} {{result=[[@{skill_athletics_die} + @{strength_mod} + @{skill_athletics_bonus} + @{skill_athletics_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_deception_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Deception / Täuschung</td><td>CHA</td><td><input type="number" name="attr_skill_deception_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_deception" value="&{template:check} {{title=Deception (Lvl @{skill_deception_level})}} {{who=@{character_name}}} {{result=[[@{skill_deception_die} + @{charisma_mod} + @{skill_deception_bonus} + @{skill_deception_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_history_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>History / Geschichte</td><td>INT</td><td><input type="number" name="attr_skill_history_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_history" value="&{template:check} {{title=History (Lvl @{skill_history_level})}} {{who=@{character_name}}} {{result=[[@{skill_history_die} + @{intelligence_mod} + @{skill_history_bonus} + @{skill_history_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_insight_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Insight / Menschenkenntnis</td><td>WIS</td><td><input type="number" name="attr_skill_insight_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_insight" value="&{template:check} {{title=Insight (Lvl @{skill_insight_level})}} {{who=@{character_name}}} {{result=[[@{skill_insight_die} + @{wisdom_mod} + @{skill_insight_bonus} + @{skill_insight_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_intimidation_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Intimidation / Einschüchtern</td><td>CHA</td><td><input type="number" name="attr_skill_intimidation_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_intimidation" value="&{template:check} {{title=Intimidation (Lvl @{skill_intimidation_level})}} {{who=@{character_name}}} {{result=[[@{skill_intimidation_die} + @{charisma_mod} + @{skill_intimidation_bonus} + @{skill_intimidation_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_investigation_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Investigation / Nachforschen</td><td>INT</td><td><input type="number" name="attr_skill_investigation_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_investigation" value="&{template:check} {{title=Investigation (Lvl @{skill_investigation_level})}} {{who=@{character_name}}} {{result=[[@{skill_investigation_die} + @{intelligence_mod} + @{skill_investigation_bonus} + @{skill_investigation_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_medicine_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Medicine / Medizin</td><td>WIS</td><td><input type="number" name="attr_skill_medicine_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_medicine" value="&{template:check} {{title=Medicine (Lvl @{skill_medicine_level})}} {{who=@{character_name}}} {{result=[[@{skill_medicine_die} + @{wisdom_mod} + @{skill_medicine_bonus} + @{skill_medicine_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_nature_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Nature / Natur</td><td>INT</td><td><input type="number" name="attr_skill_nature_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_nature" value="&{template:check} {{title=Nature (Lvl @{skill_nature_level})}} {{who=@{character_name}}} {{result=[[@{skill_nature_die} + @{intelligence_mod} + @{skill_nature_bonus} + @{skill_nature_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_perception_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Perception / Wahrnehmung</td><td>WIS</td><td><input type="number" name="attr_skill_perception_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_perception" value="&{template:check} {{title=Perception (Lvl @{skill_perception_level})}} {{who=@{character_name}}} {{result=[[@{skill_perception_die} + @{wisdom_mod} + @{skill_perception_bonus} + @{skill_perception_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_performance_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Performance / Auftreten</td><td>CHA</td><td><input type="number" name="attr_skill_performance_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_performance" value="&{template:check} {{title=Performance (Lvl @{skill_performance_level})}} {{who=@{character_name}}} {{result=[[@{skill_performance_die} + @{charisma_mod} + @{skill_performance_bonus} + @{skill_performance_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_persuasion_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Persuasion / Überreden</td><td>CHA</td><td><input type="number" name="attr_skill_persuasion_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_persuasion" value="&{template:check} {{title=Persuasion (Lvl @{skill_persuasion_level})}} {{who=@{character_name}}} {{result=[[@{skill_persuasion_die} + @{charisma_mod} + @{skill_persuasion_bonus} + @{skill_persuasion_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_science_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Science / Wissenschaft</td><td>INT</td><td><input type="number" name="attr_skill_science_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_science" value="&{template:check} {{title=Science (Lvl @{skill_science_level})}} {{who=@{character_name}}} {{result=[[@{skill_science_die} + @{intelligence_mod} + @{skill_science_bonus} + @{skill_science_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_sleight_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Sleight of Hand / Fingerfertigkeit</td><td>DEX</td><td><input type="number" name="attr_skill_sleight_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_sleight" value="&{template:check} {{title=Sleight of Hand (Lvl @{skill_sleight_level})}} {{who=@{character_name}}} {{result=[[@{skill_sleight_die} + @{dexterity_mod} + @{skill_sleight_bonus} + @{skill_sleight_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_stealth_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Stealth / Heimlichkeit</td><td>DEX</td><td><input type="number" name="attr_skill_stealth_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_stealth" value="&{template:check} {{title=Stealth (Lvl @{skill_stealth_level})}} {{who=@{character_name}}} {{result=[[@{skill_stealth_die} + @{dexterity_mod} + @{skill_stealth_bonus} + @{skill_stealth_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_survival_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Survival / Überleben</td><td>WIS</td><td><input type="number" name="attr_skill_survival_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_survival" value="&{template:check} {{title=Survival (Lvl @{skill_survival_level})}} {{who=@{character_name}}} {{result=[[@{skill_survival_die} + @{wisdom_mod} + @{skill_survival_bonus} + @{skill_survival_extra}]]}}"></button></td></tr>
+            <tr><td><input type="number" name="attr_skill_technology_level" value="0" min="0" max="4" class="atlas-save-level" title="Skill Training Level 0-4." /></td><td>Technology / Technologie</td><td>INT</td><td><input type="number" name="attr_skill_technology_extra" value="0" class="atlas-extra" /></td><td><button type="roll" name="roll_skill_technology" value="&{template:check} {{title=Technology (Lvl @{skill_technology_level})}} {{who=@{character_name}}} {{result=[[@{skill_technology_die} + @{intelligence_mod} + @{skill_technology_bonus} + @{skill_technology_extra}]]}}"></button></td></tr>
+          </tbody>
+        </table>
+        <div class="atlas-hint">Skill Training Level: 0 = keine, 1 = Proficiency, 2 = +1 Bonus, 3 = +1 weiter (gesamt Prof+2), 4 = Advantage (Roll 2d20kh1). Alles auto-appliziert. "Bonus" ist fuer Ausruestungs-/Spezial-Boni.</div>
+      </div>
+
+    </div>
+
+    <!-- Languages -->
+    <div class="atlas-section">
+      <h2>Languages / Sprachen</h2>
+      <div class="atlas-language-header">
+        <span>Sprache</span>
+        <span>Level</span>
+        <span>Notizen</span>
+        <span>Roll</span>
+      </div>
+      <fieldset class="repeating_languages">
+        <div class="atlas-language-row">
+          <input type="text" name="attr_language_name" placeholder="z.B. English / Deutsch / Русский / ..." />
+          <select name="attr_language_level">
+            <option value="1" title="Level 1 - Basic:&#10;- Einfache Konversation möglich&#10;- Speak (CHA) / Write (DEX) / Read (INT) als DC 10 Check&#10;- Starker Akzent, limitiertes Vokabular">1 - Basic (DC 10)</option>
+            <option value="2" title="Level 2 - Moderate:&#10;- Fließende Alltagsgespräche&#10;- Speak / Write / Read als DC 15 Check&#10;- Immer noch erkennbarer Akzent, Fachvokabular unsicher">2 - Moderate (DC 15)</option>
+            <option value="3" title="Level 3 - Expert:&#10;- Komplexe Gespräche inkl. Fachthemen&#10;- Speak / Write / Read funktioniert ohne DC-Test&#10;- Akzent nur noch minimal">3 - Expert</option>
+            <option value="4" title="Level 4 - Master / Fluent:&#10;- Native-Level-Beherrschung&#10;- Kein Check nötig für Speak / Write / Read&#10;- Kein Akzent, kann Dialekte unterscheiden">4 - Master (fluent)</option>
+            <option value="5" title="Level 5 - Lip-read:&#10;- Kann die Sprache von Lippen ablesen (ohne Ton)&#10;- Voraussetzung: Du beherrschst die Sprache bereits (typisch Level 4)&#10;- Ermöglicht Geheim-Intel-Gathering aus sicherer Entfernung">5 - Lip-read</option>
+          </select>
+          <input type="text" name="attr_language_notes" placeholder="z.B. Native, Militär-Slang, Dialekt ..." />
+          <button type="roll" name="roll_lroll" title="Rollt Speak (CHA) / Write (DEX) / Read (INT). DC siehe Level-Tooltip." value="&{template:check} {{title=@{language_name}}} {{who=@{character_name}}} {{result=Speak [[1d20 + @{charisma_mod}]] (CHA) | Write [[1d20 + @{dexterity_mod}]] (DEX) | Read [[1d20 + @{intelligence_mod}]] (INT)}} {{note=Level @{language_level} | @{language_notes}}}"></button>
+        </div>
+      </fieldset>
+      <div class="atlas-hint">Language Training Level 1-4 steigert: <strong>Speak</strong> (CHA-Check) / <strong>Write</strong> (DEX-Check) / <strong>Read</strong> (INT-Check). Level 4 = kein Check mehr nötig. Level 5 erlaubt Lippenlesen einer bekannten Sprache.</div>
+    </div>
+
+  </section>

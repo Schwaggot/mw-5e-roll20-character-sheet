@@ -1,0 +1,330 @@
+  <!-- ===================== TAB: FEATURES ===================== -->
+  <section class="atlas-tab-pane" data-tab="features">
+
+    <div class="atlas-section">
+      <h2>Combat Training Programs</h2>
+      <div class="atlas-hint">Level 0 = nicht trainiert. Kursiv = Auto-Apply in Worker. Die anderen sind Dokumentation; +Atk/+Dmg bei Bedarf manuell in Weapon-Row eintragen.</div>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield"><label title="Automatic Weapons Training (Max Level 5):&#10;L1: Spray/Riddle -4 statt -5 pro Ziel.&#10;L2: Max Targets = DEX-Mod +1.&#10;L3: Nur -3 pro Ziel.&#10;L4: Full Rounds pro Burst, +1 Damage Die.&#10;L5: Nur -2 pro Ziel.&#10;Auto-Apply: ja (Spray/Riddle-Penalty, Max-Targets, Damage-Die).">Automatic Weapons</label><input type="number" name="attr_train_auto_weapons" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Burst Fire Training (Max Level 5):&#10;L1: -4 per Burst statt -5.&#10;L2: -3.&#10;L3: -2.&#10;L4: -1.&#10;L5: Keine Penalty fuer Burst/Controlled Burst.&#10;Auto-Apply: ja (zieht Level direkt vom Burst-Penalty ab).">Burst Fire</label><input type="number" name="attr_train_burst_fire" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Marksmanship Technique Training (Max Level 4):&#10;L1: Bei Long Range: 1x Range-Multiplier weniger (min 1).&#10;L2: Aim als Bonus-Action.&#10;L3: Vor Ranged-Attack: -5 Atk / +10 Dmg (opt-in, 'Sharpshooter').&#10;L4: Gegner zaehlt 1 Cover-Grade weniger.&#10;Auto-Apply: nein (situational / opt-in).">Marksmanship</label><input type="number" name="attr_train_marksmanship" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Close Quarters Marksmanship (Max Level 4):&#10;L1: +1 Atk innerhalb 1 Range-Increment.&#10;L2: +1 Dmg innerhalb 1 Range-Increment.&#10;L3: +2 Atk innerhalb 1 Range-Increment.&#10;L4: +2 Dmg innerhalb 1 Range-Increment.&#10;Auto-Apply: nein (Range zum Ziel kennt der Worker nicht - manuell in +Atk/+Dmg).">CQ Marksmanship</label><input type="number" name="attr_train_close_marksmanship" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Long Range Marksmanship (Max Level 4):&#10;L1: +1 Atk jenseits 1 Range-Increment.&#10;L2: +1 Dmg jenseits 1 Range-Increment.&#10;L3: +2 Atk jenseits 1 Range-Increment.&#10;L4: +2 Dmg jenseits 1 Range-Increment.&#10;Auto-Apply: nein (Range zum Ziel kennt der Worker nicht - manuell in +Atk/+Dmg).">Long Range Marks</label><input type="number" name="attr_train_long_marksmanship" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Close Quarters Battle (CQB) Training (Max Level 4):&#10;L1: Ranged-Weapon als Blunt-Weapon nutzen (2H 1d6 / 1H 1d4). Bayonet = Slashing/Piercing.&#10;L2: Bonus-Action: 1 Melee-Angriff mit gehaltener Ranged-Weapon.&#10;L3: 1H Melee wird 1d6, 2H wird 1d8.&#10;L4: Bonus-Action: 2 Melee-Angriffe.&#10;Auto-Apply: ja (via Melee-Button in Weapon-Row).">CQB</label><input type="number" name="attr_train_cqb" value="0" min="0" max="4" /></div>
+      </div>
+
+      <h3 class="atlas-sub-heading">Ranged Weapon Training (pro Gruppe, Max Level 5)</h3>
+      <div class="atlas-hint">L1: Proficiency. L2/L4: +1/+1 Atk. L3/L5: +1/+1 Dmg. Waffe bekommt ihre Gruppe automatisch vom Preset. Boni werden beim Angriff auto-appliziert.</div>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield"><label title="Ranged Weapon Training: Pistols&#10;L1: Proficient&#10;L2: +1 Atk&#10;L3: +1 Dmg&#10;L4: +1 Atk (gesamt +2)&#10;L5: +1 Dmg (gesamt +2)">Pistols</label><input type="number" name="attr_train_rwt_pistols" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Ranged Weapon Training: Sub Machine Guns&#10;L2/L4 +Atk, L3/L5 +Dmg">SMG</label><input type="number" name="attr_train_rwt_smg" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Ranged Weapon Training: Assault Rifles&#10;L2/L4 +Atk, L3/L5 +Dmg">Assault Rifles</label><input type="number" name="attr_train_rwt_assault_rifles" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Ranged Weapon Training: Semi-Auto / DMR&#10;L2/L4 +Atk, L3/L5 +Dmg">DMR / Semi-Auto</label><input type="number" name="attr_train_rwt_dmr" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Ranged Weapon Training: Bolt-Action Rifles&#10;L2/L4 +Atk, L3/L5 +Dmg">Bolt-Action</label><input type="number" name="attr_train_rwt_bolt_action" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Ranged Weapon Training: Shotguns&#10;L2/L4 +Atk, L3/L5 +Dmg">Shotguns</label><input type="number" name="attr_train_rwt_shotguns" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Ranged Weapon Training: SAW / GPM / Heavy MG&#10;L2/L4 +Atk, L3/L5 +Dmg">SAW / MG</label><input type="number" name="attr_train_rwt_saw_mg" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Ranged Weapon Training: Grenade + Rocket Launchers&#10;L2/L4 +Atk, L3/L5 +Dmg">Launchers</label><input type="number" name="attr_train_rwt_launchers" value="0" min="0" max="5" /></div>
+      </div>
+
+      <h3 class="atlas-sub-heading">Melee / Unarmed Training</h3>
+      <div class="atlas-hint">Melee Weapon Training: wirkt auf CQB-Melee-Angriff (+Atk/+Dmg) zusaetzlich zum CQB-Training. Unarmed Training schaltet den Unarmed-Strike-Button frei + Damage-Die skaliert mit Level.</div>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield"><label title="Melee Weapon Training (Max Level 5):&#10;L1: Proficient&#10;L2/L4: +1/+1 Atk&#10;L3/L5: +1/+1 Dmg&#10;Auto-Apply: stackt auf CQB-Melee-Angriff.">Melee Weapon</label><input type="number" name="attr_train_melee" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Unarmed Training (Max Level 5):&#10;L1: Proficient, 1d4 Dmg (DEX oder STR)&#10;L2: Grapple als Bonus-Action nach Hit&#10;L3: Damage 1d6&#10;L4: Advantage vs grappled, Pin-Aktion&#10;L5: Damage 1d8 (1d10 wenn 2 freie Haende)&#10;Auto-Apply: Unarmed-Strike-Button erscheint ab L1.">Unarmed</label><input type="number" name="attr_train_unarmed" value="0" min="0" max="5" /></div>
+      </div>
+      <!-- Hidden-Flags: vom Worker synchron mit Trainings/Designation        -->
+      <!-- gehalten. CSS :has() blendet die jeweiligen Sektionen ein/aus.      -->
+      <input type="checkbox" name="attr_sharpshooter_available" value="1" style="display:none" />
+      <input type="checkbox" name="attr_cqb_available" value="1" style="display:none" />
+      <input type="checkbox" name="attr_brawler_available" value="1" style="display:none" />
+      <input type="checkbox" name="attr_desig_unit_leader" value="1" style="display:none" />
+      <input type="checkbox" name="attr_desig_medic" value="1" style="display:none" />
+      <input type="checkbox" name="attr_desig_demo" value="1" style="display:none" />
+      <input type="checkbox" name="attr_desig_tech" value="1" style="display:none" />
+      <input type="checkbox" name="attr_desig_dog" value="1" style="display:none" />
+      <input type="checkbox" name="attr_unarmed_available" value="1" style="display:none" />
+      <input type="checkbox" name="attr_drone_pistol_available" value="1" style="display:none" />
+      <input type="checkbox" name="attr_drone_macgyver_available" value="1" style="display:none" />
+      <input type="checkbox" name="attr_tech_package_available" value="1" style="display:none" />
+      <input type="checkbox" name="attr_inspire_available" value="1" style="display:none" />
+    </div>
+
+    <div class="atlas-section">
+      <h2>Weitere Training Programs / Notizen</h2>
+      <div class="atlas-training-header">
+        <span>Programm</span>
+        <span>Level</span>
+        <span>Notizen</span>
+      </div>
+      <fieldset class="repeating_training">
+        <div class="atlas-training-row">
+          <input type="text" name="attr_tpname" placeholder="z.B. Unarmed Training, Language Training, Covert Movement..." />
+          <input type="number" name="attr_tplevel" value="1" min="1" max="5" />
+          <textarea name="attr_tpnotes" rows="1" placeholder="Effekte..."></textarea>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="atlas-section">
+      <h2>Combat Designation Features</h2>
+      <fieldset class="repeating_designation_features">
+        <div class="atlas-feat-row">
+          <input type="text" name="attr_dfname" placeholder="Jack of All (3rd)" />
+          <input type="text" name="attr_dflevel" placeholder="3" />
+          <textarea name="attr_dfdesc" rows="2" placeholder="Reroll single skill check, uses = INT mod + Prof"></textarea>
+          <input type="number" name="attr_dfuses" value="0" />
+          <input type="number" name="attr_dfuses_max" value="0" />
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="atlas-section">
+      <h2>Class Resources</h2>
+
+      <!-- Leadership Dice (Unit Leader) -->
+      <div class="atlas-class-resource atlas-cond atlas-cond-unit-leader">
+        <h3>Leadership Dice <span class="atlas-class-resource-note">(Unit Leader)</span></h3>
+        <div class="atlas-cr-grid">
+          <div class="atlas-cr-cell"><label>Dice Current</label><input type="number" name="attr_ld_current" value="0" min="0" /></div>
+          <div class="atlas-cr-cell"><label>Max</label><input type="number" name="attr_ld_max" value="0" min="0" /></div>
+          <div class="atlas-cr-cell atlas-cr-cell-wide"><label>Size</label><select name="attr_ld_size"><option value="1d4">d4 (Level 3)</option><option value="1d6">d6 (Level 7)</option><option value="1d8">d8 (Level 10)</option><option value="1d10">d10 (Level 15)</option><option value="1d12">d12 (Level 18)</option></select></div>
+          <div class="atlas-cr-cell"><label>&nbsp;</label><button type="roll" name="roll_ld">&nbsp;LD</button></div>
+        </div>
+        <div class="atlas-hint">Roll LD = ein LD ausgeben und würfeln (Generic). Auf Short/Long Rest wird Current automatisch auf Max gesetzt.</div>
+
+        <!-- Unit Leader Orders: jeder Button verbraucht 1 LD + rollt sie + -->
+        <!-- postet Effekt-Karte im Chat.                                    -->
+        <div class="atlas-orders-block">
+          <div class="atlas-orders-label">Orders</div>
+          <div class="atlas-orders-grid">
+            <button type="action" name="act_order_fire_on_target" title="Attack-Action: 1 LD pro Ziel. Verbuendete in 60ft/Sicht duerfen Reaction fuer Angriff auf dasselbe Ziel nutzen. Damage +LD.">Fire on My Target</button>
+            <button type="action" name="act_order_head_down"      title="Reaction wenn Verbuendeter in 5ft Ziel eines Ranged-Angriffs wird: 1 LD; addiere LD zu Zielziel's AC.">Get Your Head Down</button>
+            <button type="action" name="act_order_suppression"    title="Suppression-Action + N LD: N Verbuendete joinen via Reaction. Pro Helfer 1 zusaetzliches Suppression-Ziel moeglich.">Suppression</button>
+            <button type="action" name="act_order_rally"          title="Bonus Action: 1 LD. Verbuendeter in 30ft heilt LD + CHA-Mod HP. Nur bei Triage Yellow/Green.">Rally</button>
+            <button type="action" name="act_order_double_time"    title="On Turn: 1 LD pro Ziel in 60ft. Ziel darf Dash als Bonus Action. Dauer: LD Runden.">Double Time</button>
+            <button type="action" name="act_order_reposition"     title="On Turn: 1 LD pro Ziel in 60ft. Ziel darf Disengage als Bonus Action. Dauer: LD Runden.">Reposition</button>
+            <button type="action" name="act_order_take_cover"     title="On Turn: 1 LD pro Ziel in 60ft. Ziel bekommt +2 auf Cover-Boni. Dauer: LD Runden.">Take Cover</button>
+            <button type="action" name="act_order_go_silent"      title="On Turn: 1 LD pro Ziel in 60ft. Ziel bekommt +10 Stealth. Dauer: LD Minuten.">Go Silent</button>
+            <button type="action" name="act_order_security"       title="On Turn: 1 LD pro Ziel in 60ft. Ziel bekommt Advantage auf Attacks wenn es in der Runde nicht bewegt. Dauer: LD Minuten.">Security</button>
+          </div>
+          <button type="action" name="act_order_inspire" class="atlas-order-inspire" title="Inspiring Leader (7th): 1 LD. Verbuendeter in 30ft darf das LD-Ergebnis zu 1 Ability-Check / Attack / Save innerhalb 10 Minuten addieren.">Inspiring Leader (7th)</button>
+        </div>
+      </div>
+
+      <!-- Unarmed Combat (Unarmed Training Level 1+) -->
+      <div class="atlas-class-resource atlas-cond atlas-cond-unarmed">
+        <h3>Unarmed Combat <span class="atlas-class-resource-note">(Unarmed Training)</span></h3>
+        <div class="atlas-cr-grid">
+          <div class="atlas-cr-cell"><label title="Damage-Die:&#10;L1/2: 1d4&#10;L3/4: 1d6&#10;L5: 1d8 (1d10 mit 2 freien Haenden, manuell anwenden)">Level</label><input type="number" name="attr_train_unarmed_display" value="0" min="0" max="5" class="atlas-readonly" readonly /></div>
+          <div class="atlas-cr-cell atlas-cr-cell-wide"><label>&nbsp;</label><button type="action" name="act_unarmed_strike" title="Unarmed Strike: 1d20 + STR-oder-DEX-Mod + Proficiency. Damage = Level-abhaengiger Die + STR-oder-DEX.">Unarmed Strike</button></div>
+        </div>
+        <div class="atlas-hint">Nutzt die hoehere von STR-Mod / DEX-Mod (deine Wahl im Compendium; Worker waehlt automatisch den hoeheren). Damage-Die skaliert mit Training-Level.</div>
+      </div>
+
+      <!-- Brawler Points (Advanced Unarmed Training) -->
+      <div class="atlas-class-resource atlas-cond atlas-cond-brawler">
+        <h3>Brawler Points <span class="atlas-class-resource-note">(Advanced Unarmed)</span></h3>
+        <div class="atlas-cr-grid">
+          <div class="atlas-cr-cell"><label>Current</label><input type="number" name="attr_brawler_current" value="0" min="0" /></div>
+          <div class="atlas-cr-cell atlas-cr-cell-wide"><label>Max (2 x Unarmed-Levels)</label><input type="number" name="attr_brawler_max" value="0" min="0" /></div>
+        </div>
+        <div class="atlas-hint">Save DC = 8 + Prof + DEX/STR-Mod. Techniques: Double Strike, Sturdy Defense, Stunning Strike, Knock Out, Solid Strike, Disarming Strike, Trip, Accurate Strike... | Auto-Reset auf Short/Long Rest.</div>
+      </div>
+
+      <!-- Trauma Bag (Combat Medic) -->
+      <div class="atlas-class-resource atlas-cond atlas-cond-medic">
+        <h3>Trauma Bag <span class="atlas-class-resource-note">(Combat Medic)</span></h3>
+        <div class="atlas-cr-grid">
+          <div class="atlas-cr-cell"><label>IFAK</label>
+            <div class="atlas-hp-row"><input type="number" name="attr_ifak_uses" value="10" min="0" /><span>/</span><input type="number" name="attr_ifak_max" value="10" min="0" /></div>
+          </div>
+          <div class="atlas-cr-cell"><label>Tourniquets</label>
+            <div class="atlas-hp-row"><input type="number" name="attr_tourniquet_count" value="2" min="0" /><span>/</span><input type="number" name="attr_tourniquet_max" value="2" min="0" /></div>
+          </div>
+          <div class="atlas-cr-cell"><label>Trauma Kit</label>
+            <div class="atlas-hp-row"><input type="number" name="attr_trauma_uses" value="5" min="0" /><span>/</span><input type="number" name="attr_trauma_max" value="5" min="0" /></div>
+          </div>
+          <div class="atlas-cr-cell"><label>Med Supply</label>
+            <div class="atlas-hp-row"><input type="number" name="attr_medsupply_uses" value="10" min="0" /><span>/</span><input type="number" name="attr_medsupply_max" value="10" min="0" /></div>
+          </div>
+        </div>
+        <div class="atlas-cr-grid">
+          <div class="atlas-cr-cell atlas-cr-cell-wide"><label>&nbsp;</label><button type="action" name="act_ifak_use">Use IFAK (heal 1d10+WIS)</button></div>
+          <div class="atlas-cr-cell atlas-cr-cell-wide"><label>&nbsp;</label><button type="action" name="act_trauma_use">Use Trauma Kit (heal 1d10+WIS)</button></div>
+          <div class="atlas-cr-cell atlas-cr-cell-wide"><label>&nbsp;</label><button type="action" name="act_upgrade_corpsman" title="Corpsman's Bag (15th Level): erhoeht IFAK auf 15 Uses / 4 Tourniquets, Trauma Bag auf 10 Uses, Med Supply auf 20 Uses. Setzt Max + Current auf die neuen Werte.">Upgrade zu Corpsman Bag (15th)</button></div>
+        </div>
+        <div class="atlas-hint">IFAK/Trauma = DC 15 Medicine-Check -> 1d10+WIS (2d10 ab Lvl 10, 3d10 ab 20, 4d10 ab 18). Trauma nur auf Yellow/Orange/Red. Tourniquet gegen Bleed. Seasoned Medic (18th): alle Heilungs-Dice verdoppeln sich automatisch.</div>
+      </div>
+
+      <!-- Explosives Bag (Demolitionist) -->
+      <div class="atlas-class-resource atlas-cond atlas-cond-demo">
+        <h3>Explosives Bag <span class="atlas-class-resource-note">(Demolitionist)</span></h3>
+        <div class="atlas-cr-grid">
+          <div class="atlas-cr-cell"><label>Bow Tie</label><input type="number" name="attr_exp_bowtie" value="0" min="0" /></div>
+          <div class="atlas-cr-cell"><label>X Charge</label><input type="number" name="attr_exp_xcharge" value="0" min="0" /></div>
+          <div class="atlas-cr-cell"><label>Blasting Caps</label><input type="number" name="attr_exp_caps" value="0" min="0" /></div>
+          <div class="atlas-cr-cell"><label>Remote</label><input type="number" name="attr_exp_remote" value="0" min="0" /></div>
+          <div class="atlas-cr-cell"><label>C4 (0.1 kg)</label><input type="number" name="attr_exp_c4" value="0" min="0" /></div>
+          <div class="atlas-cr-cell"><label>Det Cord (ft)</label><input type="number" name="attr_exp_detcord" value="0" min="0" /></div>
+          <div class="atlas-cr-cell"><label>Sticky</label><input type="number" name="attr_exp_sticky" value="0" min="0" /></div>
+          <div class="atlas-cr-cell"><label>Slots frei</label><input type="text" name="attr_exp_slots" value="5 / 5" /></div>
+        </div>
+        <div class="atlas-hint">Explosive Bag: 5 Items (10 ab Lvl 10). Bow Tie: +20 STR-Check gegen Schloss. X Charge: +20 gegen Tür. C4: 2d10 Force pro 0.1 kg, Blast 10ft + 5ft pro 0.1 kg.</div>
+      </div>
+
+    </div>
+
+    <!-- ===== B-1 Recon Drone (Tech Specialist) ===== -->
+    <div class="atlas-section atlas-cond atlas-cond-tech">
+      <h2>B-1 Recon Drone <span class="atlas-class-resource-note">(Tech Specialist)</span></h2>
+      <div class="atlas-combat-grid">
+        <div class="atlas-combat-cell">
+          <label title="AC = 15 Basis, wird 18 wenn Armor Kit aktiv ist.">AC</label>
+          <input type="number" name="attr_drone_ac" value="15" readonly class="atlas-readonly" />
+        </div>
+        <div class="atlas-combat-cell">
+          <label title="HP-Max = 10 Basis, + Operator-Level wenn Structural Support aktiv.">HP</label>
+          <div class="atlas-hp-row">
+            <input type="number" name="attr_drone_hp" value="10" min="0" />
+            <span>/</span>
+            <input type="number" name="attr_drone_hp_max" value="10" min="0" readonly class="atlas-readonly" />
+          </div>
+        </div>
+        <div class="atlas-combat-cell">
+          <label>Battery (min)</label>
+          <input type="number" name="attr_drone_battery" value="60" min="0" />
+        </div>
+        <div class="atlas-combat-cell">
+          <label>Actions</label>
+          <div class="atlas-drone-buttons">
+            <button type="action" name="act_drone_move" title="Move 60 ft: DC 15 Dex-Check (Operator).&#10;Tech Master (L18): kein Test noetig, Auto-Success.">Move DC15</button>
+            <button type="action" name="act_drone_dash" title="Dash 120 ft: DC 20 Dex-Check (Operator).&#10;Tech Master (L18): kein Test noetig, Auto-Success.">Dash DC20</button>
+            <button type="action" name="act_drone_mark" title="Mark Target (3rd Level): 1 Ziel innerhalb 120 ft von der Drohne markieren. Alle Ranged-Attacks gegen markiertes Ziel haben Advantage.&#10;Enhanced B1-RD (10th): markiere bis zu INT-Mod Ziele.">Mark Target</button>
+            <button type="action" name="act_drone_pistol" class="atlas-drone-pistol-btn" title="Pistol Mount: 1 Ranged Attack mit Operator-DEX + Prof (nur wenn Drohne diesen Zug max. 60 ft bewegt hat).&#10;Tech Master (L18): doppelter Prof-Bonus.">Pistol</button>
+            <button type="action" name="act_drone_macgyver" class="atlas-drone-macgyver-btn" title="MacGyver (15th Level): Mit einem Drone Repair Kit baue oder warte einfache Tech-Devices (Audio-Bug, Comms, Radio-Fix, etc.).&#10;GM-Approval und Technology-Check (DC vom GM). Dein E B1-RD bekommt 1 permanenten Upgrade.">MacGyver</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced-B1-RD Upgrade-Slot-Counter (10th Level: 2 Upgrades aktiv) -->
+      <div class="atlas-drone-slot-info">
+        <span class="atlas-drone-slot-label" title="B1-RD: 1 Upgrade aktiv.&#10;Enhanced B1-RD (10th Level): 2 Upgrades gleichzeitig aktiv.&#10;MacGyver (15th): E B1-RD bekommt 1 permanenten Upgrade (zaehlt nicht zum Slot-Limit).">Upgrade Slots</span>
+        <input type="text" name="attr_drone_slot_display" value="0 / 1" readonly class="atlas-readonly" />
+        <input type="checkbox" name="attr_drone_slot_overloaded" value="1" style="display:none" />
+      </div>
+      <h3 class="atlas-sub-heading">Upgrades</h3>
+      <div class="atlas-upgrade-grid">
+        <label title="Armor Kit: Drohne-AC wird auf 18 erhoeht (statt 15). Robuster gegen Treffer."><input type="checkbox" name="attr_drone_armor" value="1" /> Armor Kit (AC 18)</label>
+        <label title="Focused Microphone: Hoerst durch die Drohne ueber Kopfhoerer oder Lautsprecher.&#10;Reichweite wie normales Hoeren am Drohnen-Standort."><input type="checkbox" name="attr_drone_mic" value="1" /> Focused Mic</label>
+        <label title="Night Vision: Darkvision 120 ft, Low-Light 240 ft.&#10;Drohne sieht im Dunkeln wie am Tag in diesem Radius."><input type="checkbox" name="attr_drone_nightvision" value="1" /> Night Vision</label>
+        <label title="Pistol Mount: Montiert eine Pistole an der Drohne.&#10;Wenn Drohne diesen Zug max. 60 ft gefahren ist: 1 Ranged Attack mit Operator-DEX + Proficiency.&#10;Damage nach mounted Pistol."><input type="checkbox" name="attr_drone_pistolmount" value="1" /> Pistol Mount</label>
+        <label title="Stealth Kit: Advantage auf alle Stealth-Rolls waehrend du die Drohne pilotierst."><input type="checkbox" name="attr_drone_stealth" value="1" /> Stealth Kit</label>
+        <label title="Structural Support: +HP gleich deinem Operator-Level.&#10;Z.B. Level 5 = +5 max HP fuer die Drohne."><input type="checkbox" name="attr_drone_structure" value="1" /> Structural (+HP)</label>
+        <label title="Thermal Imaging: Advantage beim Spotten lebender Kreaturen.&#10;Disadvantage auf alle anderen Sicht-basierten Perception-Rolls (kalte Objekte, Texturen etc.)."><input type="checkbox" name="attr_drone_thermal" value="1" /> Thermal</label>
+      </div>
+      <div class="atlas-hint">Operator gibt seine Aktion auf solange er pilotiert (+5 Perception durch Drohne). Dex-Checks nutzen Operator-DEX + Proficiency. Pistol-Mount: nur wenn Drohne diesen Zug &lt;= 60ft gefahren ist.</div>
+
+      <div class="atlas-cond atlas-cond-tech-package">
+        <h3 class="atlas-sub-heading">Tech Package <span class="atlas-class-resource-note">(7th Level)</span></h3>
+        <div class="atlas-cr-grid">
+          <div class="atlas-cr-cell">
+            <label title="Motion Sensors: 2-inch, 4 mm thick discs, pingen alle 6 Sek bei Bewegung in 20 ft. Bonus-Action zum Aktivieren. Halten 24h.">Motion Sensors</label>
+            <div class="atlas-hp-row"><input type="number" name="attr_tech_sensors" value="3" min="0" /><span>/</span><input type="number" name="attr_tech_sensors_max" value="3" min="0" /></div>
+          </div>
+          <div class="atlas-cr-cell"><label>&nbsp;</label><button type="action" name="act_tech_sensor_deploy">Deploy Sensor</button></div>
+          <div class="atlas-cr-cell">
+            <label title="Seeker Grenades: Sticky Grenade, kein Attack-Roll noetig solange sie rollen kann. Bewegt 40 ft und detoniert nach 10 Runden selbst.">Seeker Grenades</label>
+            <div class="atlas-hp-row"><input type="number" name="attr_tech_seekers" value="2" min="0" /><span>/</span><input type="number" name="attr_tech_seekers_max" value="2" min="0" /></div>
+          </div>
+          <div class="atlas-cr-cell"><label>&nbsp;</label><button type="action" name="act_tech_seeker_deploy">Deploy Seeker</button></div>
+          <div class="atlas-cr-cell">
+            <label title="Audio Bugs: 1cm Mikrofone, hoerst innerhalb 20 ft. Bonus-Action zum Platzieren. Halten 8h.">Audio Bugs</label>
+            <div class="atlas-hp-row"><input type="number" name="attr_tech_bugs" value="5" min="0" /><span>/</span><input type="number" name="attr_tech_bugs_max" value="5" min="0" /></div>
+          </div>
+          <div class="atlas-cr-cell"><label>&nbsp;</label><button type="action" name="act_tech_bug_deploy">Deploy Bug</button></div>
+        </div>
+        <div class="atlas-hint">Deploy-Buttons: dekrementieren Count + posten Regel-Karte im Chat. Auf Long Rest automatisch wieder voll.</div>
+      </div>
+    </div>
+
+    <!-- ===== War Dog (Dog Handler) ===== -->
+    <div class="atlas-section atlas-cond atlas-cond-dog">
+      <h2>War Dog <span class="atlas-class-resource-note">(Dog Handler)</span></h2>
+      <div class="atlas-header-row">
+        <div class="atlas-field atlas-field-wide">
+          <label>Name</label>
+          <input type="text" name="attr_dog_name" placeholder="Rex" />
+        </div>
+        <div class="atlas-field atlas-field-wide">
+          <label>Typ</label>
+          <select name="attr_dog_type">
+            <option value="tracking">Tracking Dog (Labrador)</option>
+            <option value="attack">Attack Dog (Malinois/Shepherd)</option>
+          </select>
+        </div>
+      </div>
+      <div class="atlas-combat-grid">
+        <div class="atlas-combat-cell">
+          <label>AC</label>
+          <input type="number" name="attr_dog_ac" value="12" />
+        </div>
+        <div class="atlas-combat-cell">
+          <label>HP</label>
+          <div class="atlas-hp-row">
+            <input type="number" name="attr_dog_hp" value="20" min="0" />
+            <span>/</span>
+            <input type="number" name="attr_dog_hp_max" value="20" min="0" />
+          </div>
+        </div>
+        <div class="atlas-combat-cell">
+          <label>Speed</label>
+          <input type="text" name="attr_dog_speed" value="40 ft" />
+        </div>
+        <div class="atlas-combat-cell">
+          <label>Tracking Focus</label>
+          <select name="attr_dog_focus">
+            <option value="">-</option>
+            <option value="Drugs">Drugs</option>
+            <option value="Explosives">Explosives</option>
+            <option value="Personnel">Personnel</option>
+          </select>
+        </div>
+      </div>
+      <h3 class="atlas-sub-heading">Attribute</h3>
+      <div class="atlas-attrs">
+        <div class="atlas-attr"><label>STR</label><input type="number" name="attr_dog_str" value="11" /></div>
+        <div class="atlas-attr"><label>DEX</label><input type="number" name="attr_dog_dex" value="14" /></div>
+        <div class="atlas-attr"><label>CON</label><input type="number" name="attr_dog_con" value="10" /></div>
+        <div class="atlas-attr"><label>INT</label><input type="number" name="attr_dog_int" value="3" /></div>
+        <div class="atlas-attr"><label>WIS</label><input type="number" name="attr_dog_wis" value="16" /></div>
+        <div class="atlas-attr"><label>CHA</label><input type="number" name="attr_dog_cha" value="8" /></div>
+      </div>
+      <h3 class="atlas-sub-heading">Actions</h3>
+      <div class="atlas-dog-buttons">
+        <button type="action" name="act_dog_bite">Bite Attack</button>
+        <button type="action" name="act_dog_perception">Perception (+5)</button>
+        <button type="action" name="act_dog_grapple">Lock Jaw Grapple</button>
+      </div>
+
+      <h3 class="atlas-sub-heading">Handler Technique <span class="atlas-class-resource-note">(10th Level)</span></h3>
+      <div class="atlas-dog-buttons">
+        <button type="action" name="act_dog_leap_attack"       title="Leap Attack (Bonus Action, 10th Lvl): Hund bewegt sich bis zur halben Speed, dann 1 Melee-Angriff (Bite). Rolled automatisch mit Typ-abhaengigem Damage.">Leap Attack</button>
+        <button type="action" name="act_dog_takedown"          title="Take Down (Bonus Action, 10th Lvl): Grapple-Check. Bei Erfolg ist das Ziel Prone + Grappled. Attack Dog nutzt Lock Jaw (+10 Athletics).">Take Down</button>
+        <button type="action" name="act_dog_defend_master"     title="Defend Your Master (Bonus Action, 10th Lvl): Hund bewegt sich bis zur halben Speed und endet innerhalb 5ft von dir. Alle gegnerischen Angriffe auf DICH diese Runde haben Disadvantage.">Defend Your Master</button>
+      </div>
+      <h3 class="atlas-sub-heading">War Dog Training Traits <span class="atlas-class-resource-note">(Anzahl: <input type="number" name="attr_dog_traits" value="0" min="0" max="6" style="width: 40px;" />)</span></h3>
+      <textarea name="attr_dog_trait_notes" rows="3" placeholder="+2 AC, +1 HP per Op-Level, Multi-Attack (2), Resistance Piercing, ..."></textarea>
+      <div class="atlas-hint">Tracking Dog: 1d4+1 Bite. Attack Dog: 1d6+3 Bite, +10 Grapple (Lock Jaw). Keen Hearing/Smell = Adv. auf Perception durch Hören/Riechen.</div>
+    </div>
+
+    <div class="atlas-section">
+      <h2>Other Features / Feats</h2>
+      <fieldset class="repeating_features">
+        <div class="atlas-feat-row">
+          <input type="text" name="attr_fname" placeholder="Feature" />
+          <textarea name="attr_fdesc" rows="2" placeholder="Beschreibung"></textarea>
+        </div>
+      </fieldset>
+    </div>
+
+  </section>

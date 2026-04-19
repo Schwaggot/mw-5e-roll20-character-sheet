@@ -23,8 +23,12 @@ your autouploader at the repo root.
 ## Layout
 
 ```
-src/sheet.html                  HTML fragment (header, tabs, rolltemplates); <!-- SHEET_WORKER --> placeholder marks where the worker is injected
-src/sheet-worker.js             sheet-worker JavaScript, edited as plain JS
+src/sheet.html                  skeleton (~30 lines) with <!-- INCLUDE: … --> directives and <!-- SHEET_WORKER -->
+src/sheet-worker.js             sheet-worker JavaScript
+src/html/header.html            character header fields (codename, level, prof, …)
+src/html/tabs-nav.html          radio toggles + <nav> labels that switch tabs
+src/html/tabs/<tab>.html        per-tab panes: overview, skills, gear, features, notes
+src/html/rolltemplates.html     chat rolltemplate definitions
 src/css/base/*.css              shared styles (root, header, tab nav, checkboxes, buttons, …)
 src/css/tabs/<tab>.css          per-tab styles: overview, skills, gear, features
 src/css/rolltemplates.css       chat rolltemplate styles
@@ -41,10 +45,18 @@ The repo root intentionally contains no HTML other than `sheet.html`, so
 autouploader extensions pointed at the root can't confuse the dev entry for
 the Roll20 sheet.
 
-`sheet.html` at the root is `src/sheet.html` with the `<!-- SHEET_WORKER -->`
-placeholder replaced by `<script type="text/worker">…</script>` wrapping
-`src/sheet-worker.js` verbatim. The resulting file is byte-identical to what
-you'd get by pasting the worker back inline.
+`sheet.html` at the root is produced by `buildHtml()` in two passes:
+
+1. Inline every `<!-- INCLUDE: src/html/… -->` line in the skeleton with the
+   contents of the referenced file. One directive per line; indentation on
+   the directive itself is discarded (the included file carries its own).
+   Partials are discovered by walking `src/html/**/*.html`, so adding a new
+   partial just means creating the file and adding an INCLUDE line.
+2. Replace `<!-- SHEET_WORKER -->` with `<script type="text/worker">…</script>`
+   wrapping `src/sheet-worker.js` verbatim.
+
+The resulting file is byte-identical to what you'd get by pasting everything
+back inline.
 
 `sheet.css` at the root is the concatenation of every file in `src/css/`, in
 the order defined by `CSS_SOURCES` in `scripts/build.mjs` — base files first

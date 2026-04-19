@@ -1,0 +1,594 @@
+/* ---------- WEAPON STATUS (FUBAR / Jammed / Broken) ---------- */
+/* Worker setzt attr_wstatus (source of truth) und aktiviert EINE der      */
+/* Hidden-Status-Checkboxes. CSS :has(:checked) matched das stabil ueber  */
+/* Roll20's DOM-Sync. (option:checked auf programmatisch gesetzten selects */
+/* ist in Roll20 nicht zuverlaessig.)                                       */
+.charsheet .atlas-wstatus {
+  margin-left: 6px;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.charsheet .atlas-wstatus-badge {
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 700;
+  cursor: help;
+  font-size: 9px;
+}
+
+/* Farben pro Status */
+.charsheet .wstatus-ok           { color: #8ab85e; background: transparent; display: inline-block; }
+.charsheet .wstatus-jammed       { color: #d4b458; background: #3a2f1a; border: 1px solid #8a7030; display: none; }
+.charsheet .wstatus-broken-short { color: #e09050; background: #3a241a; border: 1px solid #a66030; display: none; }
+.charsheet .wstatus-broken-long  { color: #e07050; background: #3a1e1a; border: 1px solid #a63a30; display: none; }
+.charsheet .wstatus-needs-repair { color: #e06060; background: #3a1c1c; border: 1px solid #a63a3a; display: none; }
+.charsheet .wstatus-destroyed    { color: #999;    background: #1a1a1a; border: 1px solid #444;    display: none; }
+
+/* Badges und Status-Checkboxes liegen gemeinsam in .atlas-weapon-row.    */
+/* Roll20's .repitem als Container ist nicht immer verlaesslich; deshalb */
+/* scoped Selektor auf der Weapon-Row selbst, in der die Inputs liegen. */
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_jammed"]:checked) .wstatus-ok,
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_broken_short"]:checked) .wstatus-ok,
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_broken_long"]:checked) .wstatus-ok,
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_needs_repair"]:checked) .wstatus-ok,
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_destroyed"]:checked) .wstatus-ok {
+  display: none;
+}
+
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_jammed"]:checked) .wstatus-jammed,
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_broken_short"]:checked) .wstatus-broken-short,
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_broken_long"]:checked) .wstatus-broken-long,
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_needs_repair"]:checked) .wstatus-needs-repair,
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_destroyed"]:checked) .wstatus-destroyed {
+  display: inline-block;
+}
+
+/* Repair-Row default hidden, sichtbar wenn Status != ok (und != destroyed). */
+/* Hat duplizierte Status-Checkboxes intern damit :has() auf sich selbst matched. */
+.charsheet .atlas-weapon-repair-row {
+  display: none;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 6px 10px;
+  background: #2f241a;
+  border: 1px solid #8a6030;
+  border-top: 1px dashed #8a6030;
+  border-bottom: 0;
+}
+.charsheet .atlas-weapon-repair-row:has(input[name="attr_wstatus_jammed"]:checked),
+.charsheet .atlas-weapon-repair-row:has(input[name="attr_wstatus_broken_short"]:checked),
+.charsheet .atlas-weapon-repair-row:has(input[name="attr_wstatus_broken_long"]:checked),
+.charsheet .atlas-weapon-repair-row:has(input[name="attr_wstatus_needs_repair"]:checked) {
+  display: flex;
+}
+
+.charsheet .atlas-weapon-repair-label {
+  color: #d4b458;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex: 0 0 auto;
+}
+
+/* Repair-Buttons default hidden, nur der passende wird pro Status sichtbar */
+.charsheet .wrepair-btn {
+  display: none !important;
+  padding: 4px 10px;
+  font-size: 11px;
+}
+.charsheet .atlas-weapon-repair-row:has(input[name="attr_wstatus_jammed"]:checked) .wrepair-jammed,
+.charsheet .atlas-weapon-repair-row:has(input[name="attr_wstatus_broken_short"]:checked) .wrepair-broken-short,
+.charsheet .atlas-weapon-repair-row:has(input[name="attr_wstatus_broken_long"]:checked) .wrepair-broken-long,
+.charsheet .atlas-weapon-repair-row:has(input[name="attr_wstatus_needs_repair"]:checked) .wrepair-needs-repair {
+  display: inline-block !important;
+}
+
+/* Destroyed: Waffen-Zeilen ausgrauen. Greyout per Row (Attack-Block kommt */
+/* sowieso vom Worker). Badge bleibt voll sichtbar.                         */
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_destroyed"]:checked) {
+  opacity: 0.4;
+  filter: grayscale(80%);
+}
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_destroyed"]:checked) .atlas-wstatus,
+.charsheet .atlas-weapon-row:has(input[name="attr_wstatus_destroyed"]:checked) .wstatus-destroyed {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* ---------- WEAPONS ---------- */
+.charsheet .atlas-weapon-row {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr 0.8fr 55px 55px 0.8fr 90px 60px 60px 150px;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  border-bottom: 0;
+  padding: 6px;
+  align-items: end;
+}
+
+/* Actions-Reihe: Outer-Flex mit 3 Sub-Gruppen (Targeting / Fire-Modes /  */
+/* Multi-Target). Jede Gruppe ist intern inline, wrapt aber als Einheit   */
+/* zur naechsten Zeile wenn die Breite nicht reicht.                       */
+.charsheet .atlas-weapon-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  border-top: 1px dashed #3a3f44;
+  border-bottom: 0;
+  padding: 6px;
+}
+
+.charsheet .atlas-weapon-targeting,
+.charsheet .atlas-weapon-firemodes,
+.charsheet .atlas-weapon-multi {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.charsheet .atlas-weapon-targeting {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.charsheet .atlas-weapon-firemodes {
+  flex: 0 1 auto;
+}
+
+.charsheet .atlas-weapon-multi {
+  flex: 0 1 auto;
+}
+
+.charsheet .atlas-weapon-targeting > select.atlas-weapon-target {
+  flex: 0 0 auto;
+  min-width: 140px;
+  font-size: 11px;
+  margin: 0 !important;
+}
+
+.charsheet .atlas-weapon-targeting > select.atlas-weapon-range-mode {
+  flex: 0 0 90px;
+  font-size: 11px;
+  margin: 0 !important;
+}
+
+/* ---------- Conditional Visibility ---------- */
+/* Sektionen/Controls mit .atlas-cond werden per Default versteckt und  */
+/* per :has()-Check auf einer Hidden-Flag-Checkbox sichtbar geschaltet.  */
+/* Worker synchronisieren die Flags mit train_* / designation / etc.     */
+
+/* Sharpshooter-Label (Marksmanship Level >= 3) */
+.charsheet label.atlas-weapon-sharpshooter {
+  display: none !important;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  color: #8ab85e;
+  letter-spacing: 0.5px;
+  margin: 0 !important;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.charsheet:has(input[name="attr_sharpshooter_available"]:checked) label.atlas-weapon-sharpshooter {
+  display: inline-flex !important;
+}
+
+.charsheet label.atlas-weapon-sharpshooter input[type="checkbox"] {
+  margin: 0 !important;
+}
+
+/* Melee-Button (CQB Training Level >= 1) */
+.charsheet button.atlas-melee-btn {
+  display: none !important;
+}
+
+.charsheet:has(input[name="attr_cqb_available"]:checked) button.atlas-melee-btn {
+  display: inline-block !important;
+}
+
+/* Drone-Pistol-Button (Pistol Mount Upgrade) */
+.charsheet button.atlas-drone-pistol-btn {
+  display: none !important;
+}
+
+.charsheet:has(input[name="attr_drone_pistol_available"]:checked) button.atlas-drone-pistol-btn {
+  display: inline-block !important;
+}
+
+/* Drone-MacGyver-Button (L15+ Tech Specialist) */
+.charsheet button.atlas-drone-macgyver-btn {
+  display: none !important;
+}
+
+.charsheet:has(input[name="attr_drone_macgyver_available"]:checked) button.atlas-drone-macgyver-btn {
+  display: inline-block !important;
+}
+
+/* Drone Upgrade-Slot-Info: kompakte Zeile mit aktiv/max + Overload-Indicator */
+.charsheet .atlas-drone-slot-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0 10px 0;
+  padding: 4px 8px;
+  background: #1f2226;
+  border: 1px solid #3a3f44;
+  border-radius: 3px;
+}
+
+.charsheet .atlas-drone-slot-info .atlas-drone-slot-label {
+  color: #8ab85e;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: help;
+}
+
+.charsheet .atlas-drone-slot-info input[name="attr_drone_slot_display"] {
+  flex: 0 0 auto;
+  width: 80px !important;
+  text-align: center;
+  font-size: 12px !important;
+  font-weight: 700;
+}
+
+/* Rot faerben wenn mehr Upgrades aktiv sind als erlaubt (Slot-Overload) */
+.charsheet .atlas-drone-slot-info:has(input[name="attr_drone_slot_overloaded"]:checked) {
+  background: #2f1c1c;
+  border-color: #a63a3a;
+}
+.charsheet .atlas-drone-slot-info:has(input[name="attr_drone_slot_overloaded"]:checked) input[name="attr_drone_slot_display"] {
+  color: #e06060 !important;
+}
+
+/* Class-Resource / Companion-Sektionen: versteckt solange das passende  */
+/* Flag nicht gesetzt ist. Per Designation (Worker schaltet) oder Training. */
+.charsheet .atlas-cond {
+  display: none;
+}
+
+.charsheet:has(input[name="attr_desig_unit_leader"]:checked) .atlas-cond-unit-leader,
+.charsheet:has(input[name="attr_desig_medic"]:checked)       .atlas-cond-medic,
+.charsheet:has(input[name="attr_desig_demo"]:checked)        .atlas-cond-demo,
+.charsheet:has(input[name="attr_desig_tech"]:checked)        .atlas-cond-tech,
+.charsheet:has(input[name="attr_desig_dog"]:checked)         .atlas-cond-dog,
+.charsheet:has(input[name="attr_brawler_available"]:checked) .atlas-cond-brawler,
+.charsheet:has(input[name="attr_unarmed_available"]:checked) .atlas-cond-unarmed,
+.charsheet:has(input[name="attr_tech_package_available"]:checked) .atlas-cond-tech-package {
+  display: block;
+}
+
+.charsheet .atlas-weapon-firemodes > button[type="action"],
+.charsheet .atlas-weapon-multi > button[type="action"] {
+  flex: 0 0 auto;
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+.charsheet .atlas-weapon-multi > .atlas-weapon-spray-label {
+  font-size: 9px;
+  color: #7a8087;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.charsheet .atlas-weapon-multi > input[type="number"] {
+  width: 42px !important;
+  text-align: center;
+  font-size: 11px;
+}
+
+.charsheet .atlas-weapon-row .atlas-weapon-name-select,
+.charsheet .atlas-armor-row .atlas-armor-name-select,
+.charsheet .atlas-grenade-row .atlas-grenade-name-select {
+  font-weight: 700;
+  color: #e4e7ea;
+}
+
+.charsheet .atlas-weapon-row input,
+.charsheet .atlas-weapon-row select {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Pro-Feld-Label ueber jedem Input statt Tabellen-Header. Gleiches */
+/* gruenes Titel-Styling wie in der Combat-Grid auf dem Overview-Tab.*/
+.charsheet .atlas-wfield {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.charsheet .atlas-wfield > label {
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #8ab85e;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 1;
+  display: block !important;
+}
+
+.charsheet .atlas-ammo-cell {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.charsheet .atlas-ammo-cell input {
+  width: 34px;
+  text-align: center;
+}
+
+/* Properties-Reihe: eigene Zeile unterhalb der Actions-Reihe. Schliesst */
+/* die Waffen-Karte visuell ab (border-bottom). Uebersteht Stack-Reihen   */
+/* row/actions-row/row-2 als visuell zusammenhaengender Block.            */
+.charsheet .atlas-weapon-row-2 {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px;
+  align-items: center;
+  padding: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  border-top: 1px dashed #3a3f44;
+}
+
+.charsheet .atlas-weapon-row-2 label {
+  margin: 0;
+  color: #8ab85e;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Properties-Pills: jede moegliche Property als statische Pill mit         */
+/* nativem title-Attribut. Sichtbarkeit wird per versteckter Checkbox       */
+/* gesteuert; :has(:checked) zeigt nur die aktiven Pills.                    */
+.charsheet .atlas-prop-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+  min-height: 22px;
+}
+
+.charsheet .atlas-prop-pill-item {
+  display: none;
+}
+
+.charsheet .atlas-prop-pill-item:has(> .atlas-prop-flag:checked) {
+  display: inline-flex;
+}
+
+.charsheet input.atlas-prop-flag {
+  display: none !important;
+}
+
+.charsheet span.atlas-prop-pill {
+  display: inline-block;
+  background: #2d3e24;
+  color: #b3d9a3;
+  border: 1px solid #4a7a3a;
+  border-radius: 12px;
+  padding: 1px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 18px;
+  height: 20px;
+  cursor: help;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* Preset-Dropdown ueber einer Repeating-Zeile (nur Inventory/Gear) */
+.charsheet .atlas-gear-preset {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background: #1f2226;
+  border: 1px solid #3a3f44;
+  border-bottom: 0;
+}
+
+.charsheet .atlas-gear-preset label {
+  margin: 0 !important;
+  color: #8ab85e;
+  font-size: 10px;
+  white-space: nowrap;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: inline-flex !important;
+}
+
+.charsheet .atlas-gear-preset select {
+  flex: 1;
+  font-size: 11px;
+  max-width: 420px;
+}
+
+/* Ausklappbare Mods-Section: <details>/<summary>-Pattern mit         */
+/* Custom-Styling passend zum ATLAS-Theme. Zugeklappt spart jede       */
+/* Waffe ~100px vertikal.                                               */
+.charsheet .atlas-weapon-mods-collapsible {
+  margin-top: -1px;
+  margin-bottom: 14px;
+  background: #1f2226;
+  border: 1px solid #3a3f44;
+  border-top: 1px dashed #3a3f44;
+}
+
+.charsheet .atlas-weapon-mods-collapsible summary {
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #8ab85e;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Custom Dreieck-Marker (statt Browser-Default) */
+.charsheet .atlas-weapon-mods-collapsible summary::before {
+  content: "▶";
+  font-size: 9px;
+  color: #5c7a3a;
+  transition: transform 0.15s;
+}
+
+.charsheet .atlas-weapon-mods-collapsible[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.charsheet .atlas-weapon-mods-collapsible summary:hover {
+  color: #cfe5a8;
+}
+
+/* Chrome/Safari Default-Marker ausblenden */
+.charsheet .atlas-weapon-mods-collapsible summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Mods-Slot-Grid: 9 Kategorien (Muzzle/Stock/Underbarrel/Sight/      */
+/* Magazine/Receiver/Barrel/Trigger/Side Rails) als Dropdowns in       */
+/* responsivem Grid-Layout.                                             */
+.charsheet .atlas-weapon-mods-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 6px 10px;
+  padding: 8px 10px;
+  border-top: 1px dashed #3a3f44;
+}
+
+.charsheet .atlas-mod-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.charsheet .atlas-sheet .atlas-mod-slot label {
+  margin: 0 !important;
+  color: #8ab85e;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.charsheet .atlas-sheet .atlas-mod-slot select {
+  width: 100%;
+  font-size: 11px;
+  height: 26px !important;
+  padding: 0 4px !important;
+  box-sizing: border-box !important;
+  line-height: 24px !important;
+}
+
+/* ---------- ARMOR ---------- */
+.charsheet .atlas-armor-row {
+  display: grid;
+  grid-template-columns: 2.5fr 1.5fr 1.5fr 1.5fr 0.8fr 0.8fr 0.8fr;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 6px;
+  align-items: end;
+  margin-bottom: 4px;
+}
+
+.charsheet .atlas-armor-row input,
+.charsheet .atlas-armor-row select {
+  width: 100%;
+  min-width: 0;
+}
+
+/* ---------- GRENADES ---------- */
+.charsheet .atlas-grenade-row {
+  display: grid;
+  grid-template-columns: 2fr 1.3fr 50px 70px 70px 1.3fr 50px 80px;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 6px;
+  align-items: end;
+  margin-bottom: 4px;
+}
+
+.charsheet .atlas-grenade-row input {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Checkbox-Zelle (Ausgeruestet): Checkbox zentriert unter dem Label.   */
+.charsheet .atlas-wfield-checkbox {
+  align-items: center;
+}
+.charsheet .atlas-wfield-checkbox > input[type="checkbox"] {
+  margin: 4px auto 0 auto !important;
+}
+
+/* Action-Button-Zelle (Grenades Throw-Button): Button fuellt die Zelle. */
+.charsheet .atlas-grenade-row .atlas-wfield-actions > button {
+  width: 100%;
+}
+
+.charsheet .atlas-grenade-row button[type="roll"] {
+  font-size: 11px;
+  padding: 4px;
+}
+
+/* ---------- GEAR / INVENTORY ---------- */
+.charsheet .atlas-gear-row {
+  display: grid;
+  grid-template-columns: 50px 2fr 90px 3fr;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 6px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.charsheet .atlas-gear-row input,
+.charsheet .atlas-gear-row textarea {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Quantity-Input: volle Spaltenbreite, Zahl zentriert,             */
+/* Spinner-Arrows entfernen. !important gegen evtl. Browser-Defaults. */
+.charsheet .atlas-gear-row input[type="number"] {
+  width: 100% !important;
+  text-align: center !important;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.charsheet .atlas-gear-row input[type="number"]::-webkit-outer-spin-button,
+.charsheet .atlas-gear-row input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+

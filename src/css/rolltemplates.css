@@ -1,0 +1,255 @@
+/* ---------- ROLL TEMPLATES ---------- */
+/* Rolltemplates leben nicht im .charsheet-Scope - sie rendern im  */
+/* Chat. Klassen INNERHALB der <rolltemplate>-Tags werden von       */
+/* Roll20 NICHT auto-präfixiert, daher schreiben wir sie dort      */
+/* explizit mit "sheet-" Prefix und matchen sie hier genauso.       */
+
+.sheet-rolltemplate-check .sheet-atlas-rt,
+.sheet-rolltemplate-attack .sheet-atlas-rt,
+.sheet-rolltemplate-spray .sheet-atlas-rt,
+.sheet-rolltemplate-order  .sheet-atlas-rt {
+  background: #1a1d20 !important;
+  border: 1px solid #5c7a3a !important;
+  border-radius: 3px;
+  color: #e6e6e6 !important;
+  padding: 0;
+  font-family: "Consolas", "Menlo", monospace;
+  font-size: 12px;
+  margin: 2px 0;
+  overflow: hidden;
+}
+
+.sheet-rolltemplate-check .sheet-atlas-rt-head,
+.sheet-rolltemplate-attack .sheet-atlas-rt-head,
+.sheet-rolltemplate-spray .sheet-atlas-rt-head,
+.sheet-rolltemplate-order  .sheet-atlas-rt-head {
+  background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
+  color: #cfe5a8 !important;
+  padding: 6px 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 12px;
+  border-bottom: 1px solid #5c7a3a;
+}
+
+.sheet-rolltemplate-check .sheet-atlas-rt-who,
+.sheet-rolltemplate-attack .sheet-atlas-rt-who,
+.sheet-rolltemplate-spray .sheet-atlas-rt-who,
+.sheet-rolltemplate-order  .sheet-atlas-rt-who {
+  background: #262a2f !important;
+  color: #b8bcc0 !important;
+  padding: 2px 10px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #3a3f44;
+}
+
+.sheet-rolltemplate-check .sheet-atlas-rt-body,
+.sheet-rolltemplate-attack .sheet-atlas-rt-body,
+.sheet-rolltemplate-spray .sheet-atlas-rt-body,
+.sheet-rolltemplate-order  .sheet-atlas-rt-body {
+  padding: 6px 10px;
+}
+
+.sheet-rolltemplate-check .sheet-atlas-rt-row,
+.sheet-rolltemplate-attack .sheet-atlas-rt-row,
+.sheet-rolltemplate-spray .sheet-atlas-rt-row,
+.sheet-rolltemplate-order  .sheet-atlas-rt-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline;
+  padding: 3px 0;
+  border-bottom: 1px dotted #3a3f44;
+  gap: 12px;
+}
+
+.sheet-rolltemplate-order .sheet-atlas-rt-ld-tracker {
+  opacity: 0.75;
+  font-size: 10px;
+}
+
+.sheet-rolltemplate-check .sheet-atlas-rt-row:last-child,
+.sheet-rolltemplate-attack .sheet-atlas-rt-row:last-child,
+.sheet-rolltemplate-spray .sheet-atlas-rt-row:last-child,
+.sheet-rolltemplate-order  .sheet-atlas-rt-row:last-child {
+  border-bottom: none;
+}
+
+.sheet-rolltemplate-check .sheet-atlas-rt-label,
+.sheet-rolltemplate-attack .sheet-atlas-rt-label,
+.sheet-rolltemplate-spray .sheet-atlas-rt-label,
+.sheet-rolltemplate-order  .sheet-atlas-rt-label {
+  color: #c5c9cd !important;
+  font-size: 11px !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+
+.sheet-rolltemplate-check .sheet-atlas-rt-val,
+.sheet-rolltemplate-attack .sheet-atlas-rt-val,
+.sheet-rolltemplate-spray .sheet-atlas-rt-val,
+.sheet-rolltemplate-order  .sheet-atlas-rt-val {
+  color: #cfe5a8 !important;
+  font-weight: 700;
+  font-size: 14px !important;
+  text-align: right;
+}
+
+.sheet-rolltemplate-attack .sheet-atlas-rt-note,
+.sheet-rolltemplate-spray .sheet-atlas-rt-note,
+.sheet-rolltemplate-order  .sheet-atlas-rt-note {
+  color: #b0b0b0 !important;
+  font-size: 10px !important;
+  font-style: italic;
+  margin-top: 4px;
+  display: block;
+  border-bottom: none;
+}
+
+/* Misfire-d100-Zeile hebt sich leicht ab - Spieler weiss dass    */
+/* das Ergebnis nur relevant ist wenn d20-Roll im Misfire-Range.  */
+.sheet-rolltemplate-attack .sheet-atlas-rt-misfire {
+  background: #2a1d1d !important;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0 -10px;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-misfire .sheet-atlas-rt-label {
+  color: #c07070 !important;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-misfire .sheet-atlas-rt-val {
+  color: #e0a0a0 !important;
+}
+
+/* Misfire/Crit Ja-Nein-Indikator. Rot bei Misfire (schlecht),    */
+/* grün bei Crit (gut). Nein-Zeilen bleiben dezent.               */
+.sheet-rolltemplate-attack .sheet-atlas-rt-misfire-yes {
+  background: #2a1d1d !important;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0 -10px;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-misfire-yes .sheet-atlas-rt-label {
+  color: #ff8080 !important;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-misfire-yes .sheet-atlas-rt-val {
+  color: #ff6060 !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-misfire-no .sheet-atlas-rt-val {
+  color: #8a9b7a !important;
+}
+
+/* Mittelstufe: d20 triggerte Misfire, aber d100 61-100 = Waffe    */
+/* ist OK. Nur der Angriff ging daneben. Gelblich/neutral, nicht   */
+/* so alarmierend wie "JA".                                         */
+.sheet-rolltemplate-attack .sheet-atlas-rt-misfire-miss .sheet-atlas-rt-label {
+  color: #c0a040 !important;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-misfire-miss .sheet-atlas-rt-val {
+  color: #d8b860 !important;
+  font-weight: 700 !important;
+}
+
+.sheet-rolltemplate-attack .sheet-atlas-rt-crit-yes {
+  background: #1d2a1d !important;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0 -10px;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-crit-yes .sheet-atlas-rt-label {
+  color: #80ff80 !important;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-crit-yes .sheet-atlas-rt-val {
+  color: #60ff60 !important;
+  font-weight: 900 !important;
+  text-transform: uppercase;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-crit-no .sheet-atlas-rt-val {
+  color: #8a9b7a !important;
+}
+
+/* Recoil-Pen-Zeile in orange - zeigt sofort wenn die Waffe zu    */
+/* schwer für den Charakter ist.                                  */
+.sheet-rolltemplate-attack .sheet-atlas-rt-recoil .sheet-atlas-rt-label {
+  color: #c08040 !important;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-recoil .sheet-atlas-rt-val {
+  color: #e0a060 !important;
+}
+
+/* Zielzone (Body-Part-Targeting) in gelb/gold mit darunter      */
+/* liegender Effekt-Beschreibung als kleiner Hinweistext.        */
+.sheet-rolltemplate-attack .sheet-atlas-rt-zone .sheet-atlas-rt-label {
+  color: #d0b040 !important;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-zone .sheet-atlas-rt-val {
+  color: #e8c868 !important;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-zone-effect {
+  display: block !important;
+  color: #b0a580 !important;
+  font-size: 10px !important;
+  font-style: italic;
+  padding: 2px 0;
+  border-bottom: 1px dotted #3a3f44;
+}
+
+/* ---------- Inline-Roll-Ergebnisse ---------- */
+/* Roll20 packt jede Inline-Roll (1d20, Schaden, Misfire-d100) in   */
+/* ein .inlinerollresult-Span mit gelbem Default-Hintergrund. Das   */
+/* bricht unser dunkles Theme. Wir überschreiben mit dunkelgrün.  */
+/* Fullcrit (max Würfelwert) und fullfail (min) behalten ihre      */
+/* farbigen Borders als Signal-Indikator.                            */
+.sheet-rolltemplate-check .inlinerollresult,
+.sheet-rolltemplate-attack .inlinerollresult,
+.sheet-rolltemplate-spray .inlinerollresult,
+.sheet-rolltemplate-order  .inlinerollresult {
+  background: #2a3a19 !important;
+  background-color: #2a3a19 !important;
+  color: #e8f5cc !important;
+  border: 1px solid #5c7a3a !important;
+  padding: 0 5px !important;
+  border-radius: 2px !important;
+  font-weight: 700;
+}
+
+/* Max-Roll (alle Dice auf Max) - grüner Glow */
+.sheet-rolltemplate-check .inlinerollresult.fullcrit,
+.sheet-rolltemplate-attack .inlinerollresult.fullcrit,
+.sheet-rolltemplate-spray .inlinerollresult.fullcrit,
+.sheet-rolltemplate-order  .inlinerollresult.fullcrit {
+  background: #1f3a1f !important;
+  background-color: #1f3a1f !important;
+  color: #b8ffb8 !important;
+  border: 2px solid #5cff5c !important;
+}
+
+/* Min-Roll (alle Dice auf 1) - roter Glow */
+.sheet-rolltemplate-check .inlinerollresult.fullfail,
+.sheet-rolltemplate-attack .inlinerollresult.fullfail,
+.sheet-rolltemplate-spray .inlinerollresult.fullfail,
+.sheet-rolltemplate-order  .inlinerollresult.fullfail {
+  background: #3a1f1f !important;
+  background-color: #3a1f1f !important;
+  color: #ffb8b8 !important;
+  border: 2px solid #ff5c5c !important;
+}
+
+/* Hover-Tooltip (die Roll-Breakdown) lassen wir Roll20 default,    */
+/* aber importantroll-Hervorhebung killen wir da sie nochmal extra  */
+/* gelb waere.                                                       */
+.sheet-rolltemplate-check .inlinerollresult.importantroll,
+.sheet-rolltemplate-attack .inlinerollresult.importantroll,
+.sheet-rolltemplate-spray .inlinerollresult.importantroll,
+.sheet-rolltemplate-order  .inlinerollresult.importantroll {
+  background: #2a3a19 !important;
+  background-color: #2a3a19 !important;
+  color: #e8f5cc !important;
+  border: 1px solid #8ab85e !important;
+}
+

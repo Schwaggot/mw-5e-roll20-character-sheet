@@ -11,11 +11,10 @@ npm run dev       # http://localhost:5173
 npm run build     # one-shot sync of src/ → root (CI / sanity check)
 ```
 
-Edit `src/sheet.html` and `src/sheet.css`. While `npm run dev` is running, the
-root `sheet.html` + `sheet.css` are copied from `src/` on every save (and
-again on server start), so the autouploader always sees a fresh artifact.
-`npm run build` is just the same sync as a one-shot, useful for CI or to
-re-sync after editing `src/` with the dev server off.
+Edit files under `src/`. While `npm run dev` is running, the root `sheet.html`
+and `sheet.css` are rebuilt from `src/` on every save (and on server start),
+so the autouploader always sees a fresh artifact. `npm run build` does the
+same sync as a one-shot for CI or offline edits.
 
 Upload the root `sheet.html` + `sheet.css` to Roll20
 (Settings → Game Settings → Character Sheet Template → Custom), or point
@@ -24,7 +23,11 @@ your autouploader at the repo root.
 ## Layout
 
 ```
-src/sheet.html, src/sheet.css   source of truth — edit these
+src/sheet.html                  sheet fragment — edit here
+src/css/base/*.css              shared styles (root, header, tab nav, checkboxes, buttons, …)
+src/css/tabs/<tab>.css          per-tab styles: overview, skills, gear, features
+src/css/rolltemplates.css       chat rolltemplate styles
+
 sheet.html, sheet.css           build output at root, the only Roll20 artifacts
 preview/index.html              dev-only entry (full HTML doc wrapper)
 preview/main.js                 boots the stub, hydrates repeating sections, evals the worker
@@ -35,7 +38,12 @@ scripts/build.mjs               src/ → root sync (imported by Vite + CLI for `
 
 The repo root intentionally contains no HTML other than `sheet.html`, so
 autouploader extensions pointed at the root can't confuse the dev entry for
-the Roll20 sheet.
+the Roll20 sheet. `sheet.css` at the root is the concatenation of every file
+in `src/css/`, in the order defined by `CSS_SOURCES` in
+`scripts/build.mjs` — base files first (so per-tab rules can override them
+via the cascade), then `tabs/*`, then `rolltemplates.css`. Each concatenated
+block is preceded by a `/* === src/css/… === */` banner to make the
+generated file traceable back to its source.
 
 ## How the preview works
 
@@ -47,7 +55,8 @@ The preview reproduces it locally:
 
 1. **Wrap.** `preview/index.html` is a full document with a
    `<div class="charsheet"><div id="sheet-root"></div></div>` and a link to
-   `/__sheet-css` (served by the Vite plugin, reads `src/sheet.css`).
+   `/__sheet-css` (served by the Vite plugin — concatenates `src/css/**/*.css`
+   on every request, same order as the Roll20 artifact).
 2. **Fetch + clean.** On boot, `preview/main.js` fetches `/__sheet-fragment`.
    The Vite plugin returns `src/sheet.html` with `<rolltemplate>` blocks
    stripped and `<script type="text/worker">` rewritten to

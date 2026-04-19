@@ -1,0 +1,45 @@
+/* ---------- FEATURE TRACKERS ---------- */
+.charsheet .atlas-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.charsheet .atlas-feature {
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.charsheet .atlas-feature > label {
+  color: #8ab85e;
+  font-weight: 700;
+}
+
+.charsheet .atlas-feature input[type="number"] {
+  width: 50px;
+  display: inline-block;
+}
+
+/* Inline-Label mit Checkbox + Text in einer Zeile (Second Wind).    */
+/* flex (nicht inline-flex) damit es full-width wird und der         */
+/* Heal-Button darunter korrekt darunter ausgerichtet ist.            */
+.charsheet .atlas-feature .atlas-feature-inline {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  color: #b8bcc0;
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: normal;
+  margin: 0 !important;
+}
+
+.charsheet .atlas-feature .atlas-feature-inline input[type="checkbox"] {
+  margin: 0;
+}
+

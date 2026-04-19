@@ -1,0 +1,23 @@
+/* ---------- SECTIONS ---------- */
+.charsheet .atlas-section {
+  background: #0f1215;
+  border: 1px solid #3a3f44;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+
+.charsheet .atlas-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 10px;
+}
+
+.charsheet .atlas-hint {
+  font-size: 10px;
+  color: #7a8087;
+  font-style: italic;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+

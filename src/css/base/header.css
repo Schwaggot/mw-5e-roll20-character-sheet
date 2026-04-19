@@ -1,0 +1,35 @@
+/* ---------- HEADER ---------- */
+.charsheet .atlas-header {
+  background: #0f1215;
+  border: 1px solid #3a3f44;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.charsheet .atlas-header-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.charsheet .atlas-header-row:last-child {
+  margin-bottom: 0;
+}
+
+.charsheet .atlas-field {
+  flex: 1;
+}
+
+.charsheet .atlas-field input,
+.charsheet .atlas-field select {
+  width: 100%;
+}
+
+.charsheet .atlas-field-narrow {
+  flex: 0 0 80px;
+}
+
+.charsheet .atlas-field-wide {
+  flex: 2;
+}
+

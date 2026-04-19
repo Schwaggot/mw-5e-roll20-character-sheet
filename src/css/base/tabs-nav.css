@@ -1,0 +1,57 @@
+/* ---------- TABS ---------- */
+.charsheet .atlas-sheet .atlas-tab-toggle {
+  display: none !important;
+}
+
+.charsheet .atlas-tab-nav {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #3a3f44;
+}
+
+.charsheet .atlas-tab-nav label {
+  background: #0f1215;
+  color: #7a8087;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 1px solid #3a3f44;
+  border-bottom: none;
+  margin: 0;
+  transition: background 0.1s, color 0.1s;
+  display: block;
+}
+
+.charsheet .atlas-tab-nav label:hover {
+  color: #e6e6e6;
+  background: #262a2f;
+}
+
+.charsheet .atlas-tab-pane {
+  display: none;
+}
+
+/* Aktiver Tab-Indikator (Label-Styling) */
+.charsheet .atlas-tab-toggle[value="overview"]:checked ~ .atlas-tab-nav label[for="atlas-tab-overview"],
+.charsheet .atlas-tab-toggle[value="skills"]:checked ~ .atlas-tab-nav label[for="atlas-tab-skills"],
+.charsheet .atlas-tab-toggle[value="gear"]:checked ~ .atlas-tab-nav label[for="atlas-tab-gear"],
+.charsheet .atlas-tab-toggle[value="features"]:checked ~ .atlas-tab-nav label[for="atlas-tab-features"],
+.charsheet .atlas-tab-toggle[value="notes"]:checked ~ .atlas-tab-nav label[for="atlas-tab-notes"] {
+  color: #8ab85e;
+  background: #262a2f;
+  border-color: #8ab85e;
+}
+
+/* Aktiver Tab-Inhalt (Pane-Anzeige) */
+.charsheet .atlas-tab-toggle[value="overview"]:checked ~ .atlas-tab-pane[data-tab="overview"],
+.charsheet .atlas-tab-toggle[value="skills"]:checked ~ .atlas-tab-pane[data-tab="skills"],
+.charsheet .atlas-tab-toggle[value="gear"]:checked ~ .atlas-tab-pane[data-tab="gear"],
+.charsheet .atlas-tab-toggle[value="features"]:checked ~ .atlas-tab-pane[data-tab="features"],
+.charsheet .atlas-tab-toggle[value="notes"]:checked ~ .atlas-tab-pane[data-tab="notes"] {
+  display: block;
+}
+

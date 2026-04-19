@@ -1,0 +1,271 @@
+/* ---------- TRAINING / FEATS ---------- */
+.charsheet .atlas-training-header {
+  display: grid;
+  grid-template-columns: 2fr 60px 3fr;
+  gap: 6px;
+  font-size: 10px;
+  color: #7a8087;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0 6px 4px;
+}
+
+.charsheet .atlas-training-row {
+  display: grid;
+  grid-template-columns: 2fr 60px 3fr;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 6px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.charsheet .atlas-training-row input,
+.charsheet .atlas-training-row textarea {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Combat Training Grid: Level-Inputs mit Tooltip-Labels in 3 Spalten.  */
+.charsheet .atlas-training-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.charsheet .atlas-training-grid .atlas-wfield label {
+  cursor: help;
+}
+
+.charsheet .atlas-training-grid input[type="number"] {
+  width: 100%;
+  text-align: center;
+}
+
+.charsheet .atlas-feat-row {
+  display: grid;
+  grid-template-columns: 2fr 60px 3fr 60px 60px;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 6px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.charsheet .atlas-feat-row input,
+.charsheet .atlas-feat-row textarea {
+  width: 100%;
+  min-width: 0;
+}
+
+/* ---------- CLASS RESOURCES (Features Tab) ---------- */
+.charsheet .atlas-class-resource {
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+}
+
+.charsheet .atlas-class-resource h3 {
+  margin: 0 0 6px 0;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #a0c974;
+  font-weight: 700;
+  border-bottom: 1px solid #3a3f44;
+  padding-bottom: 3px;
+}
+
+.charsheet .atlas-class-resource-note {
+  color: #7a8087;
+  font-weight: normal;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  font-style: italic;
+  margin-left: 4px;
+}
+
+/* Cell-Grid-Pattern: jedes Label+Input wird in einem Cell gewrappt,   */
+/* Label oben, Input drunter. Cells liegen in flex-wrap-Container.      */
+/* Das umgeht das Problem dass globales "label { display:block }" das   */
+/* Flex-Layout bei inline-Labels zerstört.                              */
+.charsheet .atlas-cr-grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+  align-items: flex-end;
+}
+
+.charsheet .atlas-cr-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 70px;
+}
+
+.charsheet .atlas-cr-cell-wide {
+  min-width: 140px;
+  flex: 1 1 140px;
+}
+
+.charsheet .atlas-cr-cell label {
+  color: #8ab85e;
+  font-size: 10px;
+  margin: 0;
+}
+
+.charsheet .atlas-cr-cell input[type="number"] {
+  width: 100%;
+  text-align: center;
+}
+
+.charsheet .atlas-cr-cell input[type="text"] {
+  width: 100%;
+}
+
+.charsheet .atlas-cr-cell select {
+  width: 100%;
+  font-size: 11px;
+}
+
+/* Unit-Leader Orders: 3x3 Grid aus Buttons unter den LD-Controls.    */
+/* Jeder Button hat nativen title-Tooltip mit Order-Beschreibung.     */
+.charsheet .atlas-orders-block {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed #3a3f44;
+}
+
+.charsheet .atlas-orders-label {
+  color: #8ab85e;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.charsheet .atlas-orders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.charsheet .atlas-orders-grid button[type="action"] {
+  padding: 5px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  width: 100%;
+  cursor: help;
+}
+
+.charsheet .atlas-order-inspire {
+  width: 100%;
+  padding: 5px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  background: #2d3e24 !important;
+  color: #b3d9a3 !important;
+  border: 1px solid #4a7a3a !important;
+  cursor: help;
+  display: none !important;
+}
+
+.charsheet:has(input[name="attr_inspire_available"]:checked) .atlas-order-inspire {
+  display: block !important;
+}
+
+.charsheet .atlas-cr-cell button[type="action"] {
+  background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
+  color: #e8f5cc !important;
+  border: 1px solid #5c7a3a !important;
+  border-radius: 2px;
+  padding: 4px 12px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.charsheet .atlas-cr-cell button[type="action"]:hover {
+  background: linear-gradient(180deg, #4d6830 0%, #3a4d23 100%) !important;
+  border-color: #8ab85e !important;
+}
+
+.charsheet .atlas-cr-cell .atlas-hp-row input[type="number"] {
+  width: 50%;
+}
+
+/* Drohnen-Action-Buttons im Combat-Grid-Cell nebeneinander */
+.charsheet .atlas-drone-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+
+.charsheet .atlas-drone-buttons button[type="action"] {
+  font-size: 10px;
+  padding: 3px 2px;
+  width: 100%;
+}
+
+/* Drohnen-Upgrades als responsives Grid. auto-fit + minmax sorgt dass */
+/* die Spaltenanzahl sich der Fensterbreite anpasst: bei breitem Sheet */
+/* viele Spalten, bei schmalem Fenster stacken sich die Labels.        */
+.charsheet .atlas-upgrade-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 8px 14px;
+  margin-bottom: 8px;
+}
+
+.charsheet .atlas-upgrade-grid label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 4px;
+  margin: 0 !important;
+  color: #e6e6e6;
+  font-size: 11px;
+  white-space: nowrap;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: normal;
+}
+
+.charsheet .atlas-upgrade-grid input[type="checkbox"] {
+  margin: 0;
+}
+
+/* War-Dog-Action-Buttons */
+.charsheet .atlas-dog-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+/* Sub-Heading innerhalb einer Class-Resource- oder Drohne/Dog-Section */
+.charsheet .atlas-sub-heading {
+  margin: 10px 0 6px 0;
+  font-size: 10px;
+  color: #8ab85e;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-bottom: 1px dashed #3a3f44;
+  padding-bottom: 2px;
+}
+

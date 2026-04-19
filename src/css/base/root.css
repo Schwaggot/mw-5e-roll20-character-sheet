@@ -1,0 +1,106 @@
+/* ============================================================ */
+/* ATLAS Operator Sheet - Styling (Phase 1)                      */
+/* Tactical/mil-inspired, dark-theme friendly                    */
+/* ============================================================ */
+
+/* Pattern: Alle Selektoren sind unter .charsheet gescopt - das   */
+/* ist der Wrapper den Roll20 im echten Spiel um jeden Character  */
+/* Sheet legt. Dokumentierte Best Practice (Stargate, 5E OGL,     */
+/* Pathfinder 2e Sheets machen es genauso). Schützt gegen        */
+/* Style-Leaks in Roll20's Haupt-UI.                              */
+/*                                                                 */
+/* Nebeneffekt: Die Preview-Pane im Sheet-Editor hat keinen       */
+/* .charsheet-Wrapper, daher sieht der Preview kaputt aus - das   */
+/* ist erwartetes Verhalten und NICHT ein Bug. Echter Test        */
+/* immer im Spiel mit einem Character.                             */
+
+/* ---------- ROOT ---------- */
+/* Ziel-Breite so wählen dass der Sheet ins Roll20-Default-Fenster  */
+/* passt (~900px). Wenn der User das Fenster größer zieht, füllt  */
+/* der Sheet automatisch den Platz. Roll20 merkt sich die Größe    */
+/* pro Benutzer.                                                       */
+.charsheet {
+  min-width: 900px;
+  /* Roll20 injiziert um unseren .atlas-sheet-Container einen .charsheet-   */
+  /* Wrapper mit hellem Default-Hintergrund und ~8px Padding. Wir setzen   */
+  /* hier den ATLAS-Dark-Theme-Hintergrund und resetten Padding/Margin,    */
+  /* damit der Sheet edge-to-edge dunkel wirkt ohne weissen Rand aussen.   */
+  background: #1a1d20 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.charsheet .atlas-sheet {
+  font-family: "Consolas", "Menlo", "DejaVu Sans Mono", monospace;
+  color: #e6e6e6;
+  background: #1a1d20;
+  padding: 12px;
+  min-width: 880px;
+  font-size: 13px;
+}
+
+.charsheet .atlas-sheet * {
+  box-sizing: border-box;
+}
+
+.charsheet .atlas-sheet h2 {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8ab85e;
+  border-bottom: 1px solid #3a3f44;
+  padding-bottom: 4px;
+  margin: 0 0 10px 0;
+  font-weight: 700;
+}
+
+.charsheet .atlas-sheet input[type="text"],
+.charsheet .atlas-sheet input[type="number"],
+.charsheet .atlas-sheet select,
+.charsheet .atlas-sheet textarea {
+  background: #262a2f;
+  color: #e6e6e6;
+  border: 1px solid #3a3f44;
+  border-radius: 2px;
+  padding: 4px 6px;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.charsheet .atlas-sheet input:disabled {
+  background: #1f2226;
+  color: #a0c974;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Personality-Trait-Effekte Feld - linksbündig, normale Schrift,   */
+/* damit der längere Effekt-Text vollständig lesbar bleibt.          */
+/* readonly statt disabled, damit setAttrs den Wert zuverlässig      */
+/* anzeigt (Roll20-Quirk mit disabled-Inputs).                        */
+.charsheet input[name="attr_personality_trait_effects"],
+.charsheet input[name="attr_personality_trait_effects"]:read-only {
+  text-align: left !important;
+  font-weight: normal !important;
+  color: #b8bcc0 !important;
+  width: 100%;
+  background: #1f2226;
+  cursor: default;
+}
+
+.charsheet .atlas-sheet label {
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #7a8087;
+  font-weight: normal;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.charsheet .atlas-sheet textarea {
+  resize: vertical;
+  width: 100%;
+  min-height: 40px;
+}
+

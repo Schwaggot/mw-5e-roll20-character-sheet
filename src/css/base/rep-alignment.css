@@ -1,0 +1,58 @@
+/* ---------- VERTIKALES ALIGNMENT für alle Repeating-Zeilen ---------- */
+/* Class-basierte Selektoren gegen Browser-Defaults und globale Padding- */
+/* Regeln. 28px Höhe konsistent fuer Selects, Text- und Number-Inputs.   */
+.charsheet .atlas-sheet .atlas-gear-preset select,
+.charsheet .atlas-sheet .atlas-weapon-row select,
+.charsheet .atlas-sheet .atlas-weapon-row input[type="text"],
+.charsheet .atlas-sheet .atlas-weapon-row input[type="number"],
+.charsheet .atlas-sheet .atlas-weapon-actions-row select,
+.charsheet .atlas-sheet .atlas-weapon-actions-row input[type="number"],
+.charsheet .atlas-sheet .atlas-armor-row select,
+.charsheet .atlas-sheet .atlas-armor-row input[type="text"],
+.charsheet .atlas-sheet .atlas-armor-row input[type="number"],
+.charsheet .atlas-sheet .atlas-grenade-row select,
+.charsheet .atlas-sheet .atlas-grenade-row input[type="text"],
+.charsheet .atlas-sheet .atlas-grenade-row input[type="number"],
+.charsheet .atlas-sheet .atlas-gear-row select,
+.charsheet .atlas-sheet .atlas-gear-row input[type="text"],
+.charsheet .atlas-sheet .atlas-gear-row input[type="number"],
+.charsheet .atlas-sheet .atlas-cr-cell select,
+.charsheet .atlas-sheet .atlas-cr-cell input[type="text"],
+.charsheet .atlas-sheet .atlas-cr-cell input[type="number"] {
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  padding: 0 6px !important;
+  box-sizing: border-box !important;
+  line-height: 26px !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+}
+
+/* Preset-gefuellte Felder optisch gesperrt - readonly (nicht disabled),  */
+/* damit setAttrs-Updates vom Preset-Worker weiter angezeigt werden.      */
+.charsheet input.atlas-readonly {
+  background: #1f2226 !important;
+  color: #b8bec4 !important;
+  border-color: #2d3136 !important;
+  cursor: default !important;
+  box-shadow: none !important;
+}
+
+.charsheet input.atlas-readonly:focus {
+  outline: none !important;
+  border-color: #2d3136 !important;
+}
+
+/* Number-Input-Spinner bei readonly ausblenden (waere sonst irrefuehrend) */
+.charsheet input.atlas-readonly[type="number"]::-webkit-inner-spin-button,
+.charsheet input.atlas-readonly[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.charsheet input.atlas-readonly[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  text-align: center;
+}
+

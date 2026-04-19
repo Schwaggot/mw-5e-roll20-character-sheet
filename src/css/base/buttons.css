@@ -1,0 +1,41 @@
+/* ---------- BUTTONS ---------- */
+/* !important auf shadow-props nötig weil Roll20's Default-Button-  */
+/* Style einen text-shadow + box-shadow anlegt, der durch höhere    */
+/* Specificity nicht ohne weiteres überschrieben wird.              */
+/* Gilt für BEIDE Button-Typen (roll und action) die wir verwenden. */
+/* Default-Style für ALLE Roll- und Action-Buttons im Sheet.           */
+/* Wir matchen hier breit (type=action im gesamten atlas-sheet) damit   */
+/* neue Buttons nicht jedes Mal einen eigenen Selektor brauchen.         */
+.charsheet .atlas-sheet button[type="roll"],
+.charsheet .atlas-sheet button[type="action"] {
+  background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
+  color: #e8f5cc !important;
+  border: 1px solid #5c7a3a !important;
+  border-radius: 2px;
+  padding: 4px 10px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.charsheet .atlas-sheet button[type="roll"]:hover,
+.charsheet .atlas-sheet button[type="action"]:hover {
+  background: linear-gradient(180deg, #4d6830 0%, #3a4d23 100%) !important;
+  border-color: #8ab85e !important;
+}
+
+.charsheet .atlas-sheet button[type="roll"]:focus,
+.charsheet .atlas-sheet button[type="roll"]:active,
+.charsheet .atlas-sheet button[type="action"]:focus,
+.charsheet .atlas-sheet button[type="action"]:active {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  outline: 1px solid #8ab85e;
+}
+
+

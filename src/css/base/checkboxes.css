@@ -1,0 +1,47 @@
+/* ---------- CUSTOM CHECKBOXES ---------- */
+/* Native Checkboxen ersetzen durch dunkles Theme mit gruenem        */
+/* Akzent. Funktioniert in allen modernen Browsern via appearance:   */
+/* none + Pseudo-Element fuer den Haken.                              */
+.charsheet .atlas-sheet input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  border: 1px solid #5c7a3a;
+  border-radius: 2px;
+  background: #1a1d20;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.charsheet .atlas-sheet input[type="checkbox"]:hover {
+  border-color: #8ab85e;
+  background: #262a2f;
+}
+
+.charsheet .atlas-sheet input[type="checkbox"]:checked {
+  background: #3a4d23;
+  border-color: #8ab85e;
+}
+
+.charsheet .atlas-sheet input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 5px;
+  height: 9px;
+  border: solid #cfe5a8;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.charsheet .atlas-small {
+  font-size: 10px;
+  color: #7a8087;
+}
+

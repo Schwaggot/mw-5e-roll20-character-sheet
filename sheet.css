@@ -1,3 +1,4 @@
+/* === src/css/base/root.css === */
 /* ============================================================ */
 /* ATLAS Operator Sheet - Styling (Phase 1)                      */
 /* Tactical/mil-inspired, dark-theme friendly                    */
@@ -104,6 +105,7 @@
   min-height: 40px;
 }
 
+/* === src/css/base/header.css === */
 /* ---------- HEADER ---------- */
 .charsheet .atlas-header {
   background: #0f1215;
@@ -139,6 +141,7 @@
   flex: 2;
 }
 
+/* === src/css/base/tabs-nav.css === */
 /* ---------- TABS ---------- */
 .charsheet .atlas-sheet .atlas-tab-toggle {
   display: none !important;
@@ -196,6 +199,7 @@
   display: block;
 }
 
+/* === src/css/base/sections.css === */
 /* ---------- SECTIONS ---------- */
 .charsheet .atlas-section {
   background: #0f1215;
@@ -219,6 +223,201 @@
   line-height: 1.4;
 }
 
+/* === src/css/base/feature-trackers.css === */
+/* ---------- FEATURE TRACKERS ---------- */
+.charsheet .atlas-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.charsheet .atlas-feature {
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.charsheet .atlas-feature > label {
+  color: #8ab85e;
+  font-weight: 700;
+}
+
+.charsheet .atlas-feature input[type="number"] {
+  width: 50px;
+  display: inline-block;
+}
+
+/* Inline-Label mit Checkbox + Text in einer Zeile (Second Wind).    */
+/* flex (nicht inline-flex) damit es full-width wird und der         */
+/* Heal-Button darunter korrekt darunter ausgerichtet ist.            */
+.charsheet .atlas-feature .atlas-feature-inline {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  color: #b8bcc0;
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: normal;
+  margin: 0 !important;
+}
+
+.charsheet .atlas-feature .atlas-feature-inline input[type="checkbox"] {
+  margin: 0;
+}
+
+/* === src/css/base/checkboxes.css === */
+/* ---------- CUSTOM CHECKBOXES ---------- */
+/* Native Checkboxen ersetzen durch dunkles Theme mit gruenem        */
+/* Akzent. Funktioniert in allen modernen Browsern via appearance:   */
+/* none + Pseudo-Element fuer den Haken.                              */
+.charsheet .atlas-sheet input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  border: 1px solid #5c7a3a;
+  border-radius: 2px;
+  background: #1a1d20;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+.charsheet .atlas-sheet input[type="checkbox"]:hover {
+  border-color: #8ab85e;
+  background: #262a2f;
+}
+
+.charsheet .atlas-sheet input[type="checkbox"]:checked {
+  background: #3a4d23;
+  border-color: #8ab85e;
+}
+
+.charsheet .atlas-sheet input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 5px;
+  height: 9px;
+  border: solid #cfe5a8;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.charsheet .atlas-small {
+  font-size: 10px;
+  color: #7a8087;
+}
+
+/* === src/css/base/rep-alignment.css === */
+/* ---------- VERTIKALES ALIGNMENT für alle Repeating-Zeilen ---------- */
+/* Class-basierte Selektoren gegen Browser-Defaults und globale Padding- */
+/* Regeln. 28px Höhe konsistent fuer Selects, Text- und Number-Inputs.   */
+.charsheet .atlas-sheet .atlas-gear-preset select,
+.charsheet .atlas-sheet .atlas-weapon-row select,
+.charsheet .atlas-sheet .atlas-weapon-row input[type="text"],
+.charsheet .atlas-sheet .atlas-weapon-row input[type="number"],
+.charsheet .atlas-sheet .atlas-weapon-actions-row select,
+.charsheet .atlas-sheet .atlas-weapon-actions-row input[type="number"],
+.charsheet .atlas-sheet .atlas-armor-row select,
+.charsheet .atlas-sheet .atlas-armor-row input[type="text"],
+.charsheet .atlas-sheet .atlas-armor-row input[type="number"],
+.charsheet .atlas-sheet .atlas-grenade-row select,
+.charsheet .atlas-sheet .atlas-grenade-row input[type="text"],
+.charsheet .atlas-sheet .atlas-grenade-row input[type="number"],
+.charsheet .atlas-sheet .atlas-gear-row select,
+.charsheet .atlas-sheet .atlas-gear-row input[type="text"],
+.charsheet .atlas-sheet .atlas-gear-row input[type="number"],
+.charsheet .atlas-sheet .atlas-cr-cell select,
+.charsheet .atlas-sheet .atlas-cr-cell input[type="text"],
+.charsheet .atlas-sheet .atlas-cr-cell input[type="number"] {
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  padding: 0 6px !important;
+  box-sizing: border-box !important;
+  line-height: 26px !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+}
+
+/* Preset-gefuellte Felder optisch gesperrt - readonly (nicht disabled),  */
+/* damit setAttrs-Updates vom Preset-Worker weiter angezeigt werden.      */
+.charsheet input.atlas-readonly {
+  background: #1f2226 !important;
+  color: #b8bec4 !important;
+  border-color: #2d3136 !important;
+  cursor: default !important;
+  box-shadow: none !important;
+}
+
+.charsheet input.atlas-readonly:focus {
+  outline: none !important;
+  border-color: #2d3136 !important;
+}
+
+/* Number-Input-Spinner bei readonly ausblenden (waere sonst irrefuehrend) */
+.charsheet input.atlas-readonly[type="number"]::-webkit-inner-spin-button,
+.charsheet input.atlas-readonly[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.charsheet input.atlas-readonly[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  text-align: center;
+}
+
+/* === src/css/base/buttons.css === */
+/* ---------- BUTTONS ---------- */
+/* !important auf shadow-props nötig weil Roll20's Default-Button-  */
+/* Style einen text-shadow + box-shadow anlegt, der durch höhere    */
+/* Specificity nicht ohne weiteres überschrieben wird.              */
+/* Gilt für BEIDE Button-Typen (roll und action) die wir verwenden. */
+/* Default-Style für ALLE Roll- und Action-Buttons im Sheet.           */
+/* Wir matchen hier breit (type=action im gesamten atlas-sheet) damit   */
+/* neue Buttons nicht jedes Mal einen eigenen Selektor brauchen.         */
+.charsheet .atlas-sheet button[type="roll"],
+.charsheet .atlas-sheet button[type="action"] {
+  background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
+  color: #e8f5cc !important;
+  border: 1px solid #5c7a3a !important;
+  border-radius: 2px;
+  padding: 4px 10px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.charsheet .atlas-sheet button[type="roll"]:hover,
+.charsheet .atlas-sheet button[type="action"]:hover {
+  background: linear-gradient(180deg, #4d6830 0%, #3a4d23 100%) !important;
+  border-color: #8ab85e !important;
+}
+
+.charsheet .atlas-sheet button[type="roll"]:focus,
+.charsheet .atlas-sheet button[type="roll"]:active,
+.charsheet .atlas-sheet button[type="action"]:focus,
+.charsheet .atlas-sheet button[type="action"]:active {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  outline: 1px solid #8ab85e;
+}
+
+/* === src/css/tabs/overview.css === */
 /* ---------- ATTRIBUTES ---------- */
 .charsheet .atlas-attrs {
   display: grid;
@@ -481,98 +680,6 @@
   margin-right: 4px;
 }
 
-/* ---------- FEATURE TRACKERS ---------- */
-.charsheet .atlas-features-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.charsheet .atlas-feature {
-  background: #262a2f;
-  border: 1px solid #3a3f44;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.charsheet .atlas-feature > label {
-  color: #8ab85e;
-  font-weight: 700;
-}
-
-.charsheet .atlas-feature input[type="number"] {
-  width: 50px;
-  display: inline-block;
-}
-
-/* Inline-Label mit Checkbox + Text in einer Zeile (Second Wind).    */
-/* flex (nicht inline-flex) damit es full-width wird und der         */
-/* Heal-Button darunter korrekt darunter ausgerichtet ist.            */
-.charsheet .atlas-feature .atlas-feature-inline {
-  display: flex !important;
-  align-items: center;
-  gap: 6px;
-  color: #b8bcc0;
-  font-size: 11px;
-  text-transform: none;
-  letter-spacing: 0;
-  font-weight: normal;
-  margin: 0 !important;
-}
-
-.charsheet .atlas-feature .atlas-feature-inline input[type="checkbox"] {
-  margin: 0;
-}
-
-/* ---------- CUSTOM CHECKBOXES ---------- */
-/* Native Checkboxen ersetzen durch dunkles Theme mit gruenem        */
-/* Akzent. Funktioniert in allen modernen Browsern via appearance:   */
-/* none + Pseudo-Element fuer den Haken.                              */
-.charsheet .atlas-sheet input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 14px;
-  height: 14px;
-  min-width: 14px;
-  border: 1px solid #5c7a3a;
-  border-radius: 2px;
-  background: #1a1d20;
-  cursor: pointer;
-  position: relative;
-  vertical-align: middle;
-  flex-shrink: 0;
-}
-
-.charsheet .atlas-sheet input[type="checkbox"]:hover {
-  border-color: #8ab85e;
-  background: #262a2f;
-}
-
-.charsheet .atlas-sheet input[type="checkbox"]:checked {
-  background: #3a4d23;
-  border-color: #8ab85e;
-}
-
-.charsheet .atlas-sheet input[type="checkbox"]:checked::after {
-  content: "";
-  position: absolute;
-  left: 3px;
-  top: 0px;
-  width: 5px;
-  height: 9px;
-  border: solid #cfe5a8;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.charsheet .atlas-small {
-  font-size: 10px;
-  color: #7a8087;
-}
-
 /* ---------- SHAKEN / STRESS ---------- */
 /* Stress-Grid: nutzt atlas-combat-grid + atlas-combat-cell Pattern. */
 .charsheet .atlas-stress-grid {
@@ -698,6 +805,7 @@
   margin-top: 4px;
 }
 
+/* === src/css/tabs/skills.css === */
 /* ---------- SKILL/SAVE TABLES ---------- */
 .charsheet .atlas-skill-table {
   width: 100%;
@@ -752,6 +860,57 @@
   font-size: 11px;
 }
 
+/* ---------- LANGUAGES ---------- */
+.charsheet .atlas-language-header {
+  display: grid;
+  grid-template-columns: 2fr 160px 3fr 70px;
+  gap: 6px;
+  font-size: 10px;
+  color: #7a8087;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0 6px 4px;
+}
+
+.charsheet .atlas-language-row {
+  display: grid;
+  grid-template-columns: 2fr 160px 3fr 70px;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 6px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.charsheet .atlas-language-row input,
+.charsheet .atlas-language-row select,
+.charsheet .atlas-language-row button {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Einheitliche Höhe für Input/Select/Button damit alle Felder      */
+/* vertikal auf einer Linie sitzen. !important + hoch spezifischer  */
+/* Selektor gegen Browser- und Roll20-Defaults.                      */
+.charsheet .atlas-sheet .atlas-language-row input[type="text"],
+.charsheet .atlas-sheet .atlas-language-row select,
+.charsheet .atlas-sheet .atlas-language-row button[type="action"] {
+  height: 28px !important;
+  padding: 0 6px !important;
+  box-sizing: border-box !important;
+  line-height: 26px !important;
+  margin: 0 !important;
+  vertical-align: middle !important;
+}
+
+/* Roll-Button (type=roll) - Roll20 fügt Auto-Icon ein. */
+.charsheet .atlas-sheet .atlas-language-row button[type="roll"] {
+  padding: 0 !important;
+}
+
+/* === src/css/tabs/gear.css === */
 /* ---------- WEAPON STATUS (FUBAR / Jammed / Broken) ---------- */
 /* Worker setzt attr_wstatus (source of truth) und aktiviert EINE der      */
 /* Hidden-Status-Checkboxes. CSS :has(:checked) matched das stabil ueber  */
@@ -1346,114 +1505,7 @@
   margin: 0;
 }
 
-/* ---------- LANGUAGES ---------- */
-.charsheet .atlas-language-header {
-  display: grid;
-  grid-template-columns: 2fr 160px 3fr 70px;
-  gap: 6px;
-  font-size: 10px;
-  color: #7a8087;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-weight: 700;
-  padding: 0 6px 4px;
-}
-
-.charsheet .atlas-language-row {
-  display: grid;
-  grid-template-columns: 2fr 160px 3fr 70px;
-  gap: 6px;
-  background: #262a2f;
-  border: 1px solid #3a3f44;
-  padding: 6px;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.charsheet .atlas-language-row input,
-.charsheet .atlas-language-row select,
-.charsheet .atlas-language-row button {
-  width: 100%;
-  min-width: 0;
-}
-
-/* Einheitliche Höhe für Input/Select/Button damit alle Felder      */
-/* vertikal auf einer Linie sitzen. !important + hoch spezifischer  */
-/* Selektor gegen Browser- und Roll20-Defaults.                      */
-.charsheet .atlas-sheet .atlas-language-row input[type="text"],
-.charsheet .atlas-sheet .atlas-language-row select,
-.charsheet .atlas-sheet .atlas-language-row button[type="action"] {
-  height: 28px !important;
-  padding: 0 6px !important;
-  box-sizing: border-box !important;
-  line-height: 26px !important;
-  margin: 0 !important;
-  vertical-align: middle !important;
-}
-
-/* Roll-Button (type=roll) - Roll20 fügt Auto-Icon ein. */
-.charsheet .atlas-sheet .atlas-language-row button[type="roll"] {
-  padding: 0 !important;
-}
-
-/* ---------- VERTIKALES ALIGNMENT für alle Repeating-Zeilen ---------- */
-/* Class-basierte Selektoren gegen Browser-Defaults und globale Padding- */
-/* Regeln. 28px Höhe konsistent fuer Selects, Text- und Number-Inputs.   */
-.charsheet .atlas-sheet .atlas-gear-preset select,
-.charsheet .atlas-sheet .atlas-weapon-row select,
-.charsheet .atlas-sheet .atlas-weapon-row input[type="text"],
-.charsheet .atlas-sheet .atlas-weapon-row input[type="number"],
-.charsheet .atlas-sheet .atlas-weapon-actions-row select,
-.charsheet .atlas-sheet .atlas-weapon-actions-row input[type="number"],
-.charsheet .atlas-sheet .atlas-armor-row select,
-.charsheet .atlas-sheet .atlas-armor-row input[type="text"],
-.charsheet .atlas-sheet .atlas-armor-row input[type="number"],
-.charsheet .atlas-sheet .atlas-grenade-row select,
-.charsheet .atlas-sheet .atlas-grenade-row input[type="text"],
-.charsheet .atlas-sheet .atlas-grenade-row input[type="number"],
-.charsheet .atlas-sheet .atlas-gear-row select,
-.charsheet .atlas-sheet .atlas-gear-row input[type="text"],
-.charsheet .atlas-sheet .atlas-gear-row input[type="number"],
-.charsheet .atlas-sheet .atlas-cr-cell select,
-.charsheet .atlas-sheet .atlas-cr-cell input[type="text"],
-.charsheet .atlas-sheet .atlas-cr-cell input[type="number"] {
-  height: 28px !important;
-  min-height: 28px !important;
-  max-height: 28px !important;
-  padding: 0 6px !important;
-  box-sizing: border-box !important;
-  line-height: 26px !important;
-  vertical-align: middle !important;
-  margin: 0 !important;
-}
-
-/* Preset-gefuellte Felder optisch gesperrt - readonly (nicht disabled),  */
-/* damit setAttrs-Updates vom Preset-Worker weiter angezeigt werden.      */
-.charsheet input.atlas-readonly {
-  background: #1f2226 !important;
-  color: #b8bec4 !important;
-  border-color: #2d3136 !important;
-  cursor: default !important;
-  box-shadow: none !important;
-}
-
-.charsheet input.atlas-readonly:focus {
-  outline: none !important;
-  border-color: #2d3136 !important;
-}
-
-/* Number-Input-Spinner bei readonly ausblenden (waere sonst irrefuehrend) */
-.charsheet input.atlas-readonly[type="number"]::-webkit-inner-spin-button,
-.charsheet input.atlas-readonly[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.charsheet input.atlas-readonly[type="number"] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-  text-align: center;
-}
-
+/* === src/css/tabs/features.css === */
 /* ---------- TRAINING / FEATS ---------- */
 .charsheet .atlas-training-header {
   display: grid;
@@ -1725,47 +1777,7 @@
   padding-bottom: 2px;
 }
 
-/* ---------- BUTTONS ---------- */
-/* !important auf shadow-props nötig weil Roll20's Default-Button-  */
-/* Style einen text-shadow + box-shadow anlegt, der durch höhere    */
-/* Specificity nicht ohne weiteres überschrieben wird.              */
-/* Gilt für BEIDE Button-Typen (roll und action) die wir verwenden. */
-/* Default-Style für ALLE Roll- und Action-Buttons im Sheet.           */
-/* Wir matchen hier breit (type=action im gesamten atlas-sheet) damit   */
-/* neue Buttons nicht jedes Mal einen eigenen Selektor brauchen.         */
-.charsheet .atlas-sheet button[type="roll"],
-.charsheet .atlas-sheet button[type="action"] {
-  background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
-  color: #e8f5cc !important;
-  border: 1px solid #5c7a3a !important;
-  border-radius: 2px;
-  padding: 4px 10px;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: background 0.1s, border-color 0.1s;
-  text-shadow: none !important;
-  box-shadow: none !important;
-}
-
-.charsheet .atlas-sheet button[type="roll"]:hover,
-.charsheet .atlas-sheet button[type="action"]:hover {
-  background: linear-gradient(180deg, #4d6830 0%, #3a4d23 100%) !important;
-  border-color: #8ab85e !important;
-}
-
-.charsheet .atlas-sheet button[type="roll"]:focus,
-.charsheet .atlas-sheet button[type="roll"]:active,
-.charsheet .atlas-sheet button[type="action"]:focus,
-.charsheet .atlas-sheet button[type="action"]:active {
-  text-shadow: none !important;
-  box-shadow: none !important;
-  outline: 1px solid #8ab85e;
-}
-
-
+/* === src/css/rolltemplates.css === */
 /* ---------- ROLL TEMPLATES ---------- */
 /* Rolltemplates leben nicht im .charsheet-Scope - sie rendern im  */
 /* Chat. Klassen INNERHALB der <rolltemplate>-Tags werden von       */

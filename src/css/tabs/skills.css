@@ -1,0 +1,104 @@
+/* ---------- SKILL/SAVE TABLES ---------- */
+.charsheet .atlas-skill-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.charsheet .atlas-skill-table th {
+  text-align: left;
+  color: #7a8087;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 4px 6px;
+  border-bottom: 1px solid #3a3f44;
+}
+
+.charsheet .atlas-skill-table td {
+  padding: 2px 6px;
+  border-bottom: 1px solid #262a2f;
+}
+
+.charsheet .atlas-skill-table tr:hover {
+  background: #1f2226;
+}
+
+.charsheet .atlas-skill-table input.atlas-extra {
+  width: 44px;
+  text-align: center;
+}
+
+.charsheet .atlas-skill-table input.atlas-save-level {
+  width: 36px;
+  text-align: center;
+  font-size: 11px;
+  padding: 0 2px;
+}
+
+.charsheet .atlas-skill-table input[type="checkbox"] {
+  margin: 0;
+}
+
+.charsheet .atlas-skill-table select {
+  padding: 2px;
+  font-size: 11px;
+  width: 44px;
+}
+
+.charsheet .atlas-skill-table button[type="roll"] {
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+/* ---------- LANGUAGES ---------- */
+.charsheet .atlas-language-header {
+  display: grid;
+  grid-template-columns: 2fr 160px 3fr 70px;
+  gap: 6px;
+  font-size: 10px;
+  color: #7a8087;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0 6px 4px;
+}
+
+.charsheet .atlas-language-row {
+  display: grid;
+  grid-template-columns: 2fr 160px 3fr 70px;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 6px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.charsheet .atlas-language-row input,
+.charsheet .atlas-language-row select,
+.charsheet .atlas-language-row button {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Einheitliche Höhe für Input/Select/Button damit alle Felder      */
+/* vertikal auf einer Linie sitzen. !important + hoch spezifischer  */
+/* Selektor gegen Browser- und Roll20-Defaults.                      */
+.charsheet .atlas-sheet .atlas-language-row input[type="text"],
+.charsheet .atlas-sheet .atlas-language-row select,
+.charsheet .atlas-sheet .atlas-language-row button[type="action"] {
+  height: 28px !important;
+  padding: 0 6px !important;
+  box-sizing: border-box !important;
+  line-height: 26px !important;
+  margin: 0 !important;
+  vertical-align: middle !important;
+}
+
+/* Roll-Button (type=roll) - Roll20 fügt Auto-Icon ein. */
+.charsheet .atlas-sheet .atlas-language-row button[type="roll"] {
+  padding: 0 !important;
+}
+

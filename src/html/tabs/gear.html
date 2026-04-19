@@ -643,6 +643,10 @@
             </label>
           </div>
           <div class="atlas-weapon-firemodes">
+            <input type="checkbox" name="attr_wmode_s" value="1" checked style="display:none" />
+            <input type="checkbox" name="attr_wmode_b" value="1" style="display:none" />
+            <input type="checkbox" name="attr_wmode_a" value="1" style="display:none" />
+
             <button type="action" name="act_wsingle">Single</button>
             <button type="action" name="act_wburst">Burst</button>
             <button type="action" name="act_wauto">Auto</button>
@@ -650,6 +654,7 @@
             <button type="action" name="act_wmelee" class="atlas-melee-btn" title="CQB Melee-Angriff mit dieser Ranged-Waffe.&#10;L1: 2H=1d6, 1H=1d4 Blunt.&#10;L2: Bonus-Action-Angriff moeglich.&#10;L3: 1H=1d6, 2H=1d8.&#10;L4: 2 Bonus-Action-Angriffe.">Melee</button>
           </div>
           <div class="atlas-weapon-multi">
+            <input type="checkbox" name="attr_wmode_a" value="1" style="display:none" />
             <span class="atlas-weapon-spray-label">Multi:</span>
             <input type="number" name="attr_wtargets" value="2" min="1" max="5" title="Max Targets = DEX mod" />
             <button type="action" name="act_wspray">Spray</button>
@@ -689,10 +694,10 @@
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_unreliable" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Unzuverlaessig: +1 Misfire-Range generell.">Unreliable</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_imprecise" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Unpraezise: +1 Misfire-Range bei Full-Auto-Feuer.">Imprecise</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_under_barrel" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Unterlauf-Montage: Wird unter einem Hauptgewehr montiert (z.B. M203).">Under-Barrel</span></span>
-            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sb" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single und Burst gewechselt werden (Bonus-Action).">Select Fire S/B</span></span>
-            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sa" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single und Full-Auto gewechselt werden (Bonus-Action).">Select Fire S/A</span></span>
-            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sba" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single, Burst und Full-Auto gewechselt werden (Bonus-Action).">Select Fire S/B/A</span></span>
-            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_ba" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Burst und Full-Auto gewechselt werden (kein Single).">Select Fire B/A</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sb" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single und Burst gewechselt werden.">Select Fire S/B</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sa" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single und Full-Auto gewechselt werden.">Select Fire S/A</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sba" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single, Burst und Full-Auto gewechselt werden.">Select Fire S/B/A</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_ba" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Burst und Full-Auto gewechselt werden.">Select Fire B/A</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_quirky" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Eigenheit: Siehe Compendium fuer Special-Rules zu dieser Waffe.">Quirky</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_blast_10" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Explosionsradius 10ft: Alle im Radius betroffen. Dex-Save fuer halben Schaden.">Blast 10ft</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_blast_15" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Explosionsradius 15ft: Alle im Radius betroffen. Dex-Save fuer halben Schaden.">Blast 15ft</span></span>

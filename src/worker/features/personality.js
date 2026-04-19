@@ -140,6 +140,13 @@
       upd[`${rowPrefix}_wgroup`]      = WEAPON_GROUP_MAP[key] || "";
       upd[`${rowPrefix}_wweight`]     = WEAPON_GROUP_WEIGHT[WEAPON_GROUP_MAP[key]] || 0;
       upd[`${rowPrefix}_wproperties`] = p.properties || "";
+
+      // Fire Modes: S/B/A Sichtbarkeit steuern (jetzt immer explizit im Preset)
+      const modes = (p.modes || "s").toLowerCase();
+      upd[`${rowPrefix}_wmode_s`] = modes.includes("s") ? "1" : "0";
+      upd[`${rowPrefix}_wmode_b`] = modes.includes("b") ? "1" : "0";
+      upd[`${rowPrefix}_wmode_a`] = modes.includes("a") ? "1" : "0";
+
       Object.assign(upd, buildPropPillUpdates(rowPrefix, p.properties));
       setAttrs(upd);
     });

@@ -612,3 +612,17 @@
   text-align: center !important;
 }
 
+/* ---------- WEAPON FIREMODE VISIBILITY ---------- */
+/* Checkboxes steuern Sichtbarkeit der nachfolgenden Geschwister-Buttons. */
+/* Sibling-Selector (~) ist in Roll20 extrem stabil. */
+.charsheet input[name="attr_wmode_s"]:not(:checked) ~ button[name="act_wsingle"],
+.charsheet input[name="attr_wmode_s"]:not(:checked) ~ button[name="act_waimed"],
+.charsheet input[name="attr_wmode_b"]:not(:checked) ~ button[name="act_wburst"],
+.charsheet input[name="attr_wmode_a"]:not(:checked) ~ button[name="act_wauto"],
+.charsheet input[name="attr_wmode_a"]:not(:checked) ~ span,
+.charsheet input[name="attr_wmode_a"]:not(:checked) ~ input,
+.charsheet input[name="attr_wmode_a"]:not(:checked) ~ button[name="act_wspray"],
+.charsheet input[name="attr_wmode_a"]:not(:checked) ~ button[name="act_wriddle"] {
+  display: none !important;
+}
+

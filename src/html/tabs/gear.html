@@ -573,10 +573,9 @@
             <input type="number" name="attr_wdmg_bonus" value="0" />
           </div>
           <div class="atlas-wfield">
-            <label>Range</label>
-            <input type="text" name="attr_wrange" value="100 ft" class="atlas-readonly" readonly />
-          </div>
-          <div class="atlas-wfield">
+           <label>Range (ft)</label>
+           <input type="number" name="attr_wrange" value="100" />
+          </div>          <div class="atlas-wfield">
             <label>Recoil</label>
             <input type="number" name="attr_wrecoil" value="12" class="atlas-readonly" readonly />
           </div>
@@ -587,14 +586,6 @@
           <div class="atlas-wfield">
             <label>Crit</label>
             <input type="text" name="attr_wcrit" value="20" class="atlas-readonly" readonly />
-          </div>
-          <div class="atlas-wfield">
-            <label>Ammo</label>
-            <div class="atlas-ammo-cell">
-              <input type="number" name="attr_wammo" value="30" />
-              <span>/</span>
-              <input type="number" name="attr_wammo_max" value="30" class="atlas-readonly" readonly />
-            </div>
           </div>
           <input type="hidden" name="attr_wstatus" value="ok" />
           <input type="checkbox" name="attr_wstatus_jammed"       value="1" style="display:none" />
@@ -617,11 +608,6 @@
           <button type="action" name="act_wmarkrepaired" class="wrepair-btn wrepair-needs-repair" title="Mark as Repaired: Parts + 1 Tag Arbeit + DC 15 (DM-Zustimmung noetig).&#10;Kein Wurf am Sheet. Postet Chat-Hinweis + setzt Status auf OK.">Mark as Repaired (DM)</button>
         </div>
         <div class="atlas-weapon-actions-row">
-          <!-- type="action" statt type="roll" weil Repeating-type=roll Buttons -->
-          <!-- keine clicked-Events feuern. Roll wird im Sheet-Worker via       -->
-          <!-- startRoll gebaut, parallel dazu wird die Ammo dekrementiert.     -->
-          <!-- Gruppen: Targeting / Fire-Modes / Multi-Target. Jede Gruppe      -->
-          <!-- ist ein eigenes Flex-Item, wrapt als Einheit zur naechsten Zeile. -->
           <div class="atlas-weapon-targeting">
             <select name="attr_wtarget" class="atlas-weapon-target">
               <option value="torso">Ziel: Torso</option>
@@ -659,6 +645,14 @@
             <input type="number" name="attr_wtargets" value="2" min="1" max="5" title="Max Targets = DEX mod" />
             <button type="action" name="act_wspray">Spray</button>
             <button type="action" name="act_wriddle">Riddle</button>
+          </div>
+          <div class="atlas-weapon-ammo">
+            <span class="atlas-weapon-ammo-label">Ammo:</span>
+            <div class="atlas-ammo-cell">
+              <input type="number" name="attr_wammo" value="30" />
+              <span>/</span>
+              <input type="number" name="attr_wammo_max" value="30" class="atlas-readonly" readonly />
+            </div>
           </div>
         </div>
         <div class="atlas-weapon-row-2">

@@ -1015,7 +1015,7 @@
 /* ---------- WEAPONS ---------- */
 .charsheet .atlas-weapon-row {
   display: grid;
-  grid-template-columns: 2.5fr 1fr 0.8fr 55px 55px 0.8fr 90px 60px 60px 150px;
+  grid-template-columns: 1fr max-content max-content 40px 40px 60px 45px 50px 45px;
   gap: 6px;
   background: #262a2f;
   border: 1px solid #3a3f44;
@@ -1041,7 +1041,8 @@
 
 .charsheet .atlas-weapon-targeting,
 .charsheet .atlas-weapon-firemodes,
-.charsheet .atlas-weapon-multi {
+.charsheet .atlas-weapon-multi,
+.charsheet .atlas-weapon-ammo {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -1059,6 +1060,18 @@
 
 .charsheet .atlas-weapon-multi {
   flex: 0 1 auto;
+}
+
+.charsheet .atlas-weapon-ammo {
+  flex: 0 1 auto;
+}
+
+.charsheet .atlas-weapon-ammo-label {
+  color: #8ab85e;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 .charsheet .atlas-weapon-targeting > select.atlas-weapon-target {
@@ -1211,8 +1224,9 @@
 
 .charsheet .atlas-weapon-row input,
 .charsheet .atlas-weapon-row select {
-  width: 100%;
+  width: 100% !important;
   min-width: 0;
+  text-align: left;
 }
 
 /* Pro-Feld-Label ueber jedem Input statt Tabellen-Header. Gleiches */
@@ -1222,6 +1236,7 @@
   flex-direction: column;
   gap: 3px;
   min-width: 0;
+  width: 100%;
 }
 
 .charsheet .atlas-wfield > label {
@@ -1234,6 +1249,7 @@
   font-weight: 700;
   line-height: 1;
   display: block !important;
+  white-space: nowrap;
 }
 
 .charsheet .atlas-ammo-cell {
@@ -1243,8 +1259,10 @@
 }
 
 .charsheet .atlas-ammo-cell input {
-  width: 34px;
+  width: 50px !important;
   text-align: center;
+  flex: 0 0 auto;
+  padding: 0 !important;
 }
 
 /* Properties-Reihe: eigene Zeile unterhalb der Actions-Reihe. Schliesst */

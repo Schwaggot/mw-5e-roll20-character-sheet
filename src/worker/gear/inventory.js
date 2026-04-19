@@ -343,10 +343,19 @@
     const rowPrefix = match[1];
     getAttrs([src], (v) => {
       const key = v[src];
-      if (!key || key === "custom") return;
+      if (!key || key === "custom") {
+        setAttrs({
+          [`${rowPrefix}_icustom`]: "1",
+          [`${rowPrefix}_iname`]:   "",
+          [`${rowPrefix}_iweight`]: "",
+          [`${rowPrefix}_inotes`]:  "",
+        });
+        return;
+      }
       const p = GEAR_PRESETS[key];
       if (!p) return;
       setAttrs({
+        [`${rowPrefix}_icustom`]: "0",
         [`${rowPrefix}_iname`]:   p.name,
         [`${rowPrefix}_iqty`]:    p.qty,
         [`${rowPrefix}_iweight`]: p.weight,

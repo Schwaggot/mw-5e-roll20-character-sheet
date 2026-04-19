@@ -1197,9 +1197,11 @@
     <div class="atlas-section">
       <h2>Inventory</h2>
       <fieldset class="repeating_gear">
-        <div class="atlas-gear-preset">
-          <label>Preset</label>
-          <select name="attr_ipreset">
+        <div class="atlas-gear-row">
+          <input type="number" name="attr_iqty" value="1" />
+          <div class="atlas-gear-name-cell">
+            <input type="checkbox" name="attr_icustom" value="1" class="atlas-gear-custom-flag" checked="checked" />
+            <select name="attr_ipreset" class="atlas-gear-name-select">
             <option value="custom">-- Custom (selbst ausfüllen) --</option>
             <option disabled>---------- Standard Issue ----------</option>
             <option value="rucksack">Main Rucksack</option>
@@ -1525,11 +1527,9 @@
             <option value="cn_kerosene">Kerosene 0.5 L</option>
             <option value="cn_propane">Propane Canister</option>
             <option value="cn_firestarter">Fire-Starter Cubes</option>
-          </select>
-        </div>
-        <div class="atlas-gear-row">
-          <input type="number" name="attr_iqty" value="1" />
-          <input type="text" name="attr_iname" placeholder="Gegenstand" />
+            </select>
+            <input type="text" name="attr_iname" placeholder="Custom Name" class="atlas-gear-name-custom" />
+          </div>
           <input type="text" name="attr_iweight" placeholder="kg" />
           <input type="text" name="attr_inotes" placeholder="Notiz" />
         </div>

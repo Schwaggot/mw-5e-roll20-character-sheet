@@ -1309,32 +1309,39 @@
   white-space: nowrap;
 }
 
-/* Preset-Dropdown ueber einer Repeating-Zeile (nur Inventory/Gear) */
-.charsheet .atlas-gear-preset {
+/* Inventory-Row: Preset-Select doubles as item name. Custom-Flag         */
+/* checkbox toggles a free-form name input for user-defined items.        */
+.charsheet .atlas-gear-name-cell {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 8px;
-  padding: 4px 10px;
-  background: #1f2226;
-  border: 1px solid #3a3f44;
-  border-bottom: 0;
+  gap: 6px;
+  min-width: 0;
 }
 
-.charsheet .atlas-gear-preset label {
-  margin: 0 !important;
-  color: #8ab85e;
-  font-size: 10px;
-  white-space: nowrap;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-weight: 700;
-  display: inline-flex !important;
-}
-
-.charsheet .atlas-gear-preset select {
+.charsheet .atlas-gear-name-cell .atlas-gear-name-select {
   flex: 1;
+  min-width: 0;
   font-size: 11px;
-  max-width: 420px;
+  font-weight: 700;
+  color: #e4e7ea;
+}
+
+.charsheet .atlas-gear-name-cell .atlas-gear-name-custom {
+  flex: 1;
+  min-width: 0;
+}
+
+.charsheet input.atlas-gear-custom-flag {
+  display: none !important;
+}
+
+.charsheet .atlas-gear-name-cell .atlas-gear-name-custom {
+  display: none;
+}
+
+.charsheet .atlas-gear-name-cell .atlas-gear-custom-flag:checked ~ .atlas-gear-name-custom {
+  display: block;
 }
 
 /* Ausklappbare Mods-Section: <details>/<summary>-Pattern mit         */
@@ -1513,19 +1520,9 @@
   min-width: 0;
 }
 
-/* Quantity-Input: volle Spaltenbreite, Zahl zentriert,             */
-/* Spinner-Arrows entfernen. !important gegen evtl. Browser-Defaults. */
 .charsheet .atlas-gear-row input[type="number"] {
   width: 100% !important;
   text-align: center !important;
-  appearance: textfield;
-  -moz-appearance: textfield;
-}
-
-.charsheet .atlas-gear-row input[type="number"]::-webkit-outer-spin-button,
-.charsheet .atlas-gear-row input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }
 
 /* === src/css/tabs/features.css === */

@@ -48,6 +48,7 @@ export const WORKER_SOURCES = [
   'src/worker/features/personality.js',
   'src/worker/gear/armor.js',
   'src/worker/gear/grenades.js',
+  'src/worker/gear/clothing.js',
   'src/worker/gear/inventory.js',
   'src/worker/features/leadership.js',
   'src/worker/features/medic.js',

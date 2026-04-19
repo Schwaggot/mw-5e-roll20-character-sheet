@@ -19,6 +19,7 @@
       getSectionIDs("repeating_armor", (armorIds) => {
         getSectionIDs("repeating_gear", (gearIds) => {
           getSectionIDs("repeating_grenades", (grenadeIds) => {
+            getSectionIDs("repeating_clothing", (clothingIds) => {
             const attrs = ["strength", "desig_tech"];
             for (const id of weaponIds) {
               attrs.push(`repeating_weapons_${id}_wweight`);
@@ -34,6 +35,10 @@
             for (const id of grenadeIds) {
               attrs.push(`repeating_grenades_${id}_gweight`);
               attrs.push(`repeating_grenades_${id}_gcount`);
+            }
+            for (const id of clothingIds) {
+              attrs.push(`repeating_clothing_${id}_cweight`);
+              attrs.push(`repeating_clothing_${id}_ccount`);
             }
             getAttrs(attrs, (v) => {
               let total = 0;
@@ -54,6 +59,11 @@
                 const w = parseFloat(v[`repeating_grenades_${id}_gweight`]) || 0;
                 total += w * count;
               }
+              for (const id of clothingIds) {
+                const count = parseInt(v[`repeating_clothing_${id}_ccount`]) || 0;
+                const w = parseFloat(v[`repeating_clothing_${id}_cweight`]) || 0;
+                total += w * count;
+              }
               // Tech Specialist traegt die B-1 Recon Drone (~3.6 kg inkl. Console)
               if (parseInt(v.desig_tech) === 1) total += DRONE_WEIGHT;
               const str = Math.max(1, parseInt(v.strength) || 10);
@@ -70,6 +80,7 @@
                 weight_status_overloaded: isOver ? "1" : "0",
               });
             });
+            });
           });
         });
       });
@@ -85,6 +96,8 @@
     "change:repeating_gear remove:repeating_gear " +
     "change:repeating_grenades:gweight change:repeating_grenades:gcount " +
     "change:repeating_grenades remove:repeating_grenades " +
+    "change:repeating_clothing:cweight change:repeating_clothing:ccount " +
+    "change:repeating_clothing remove:repeating_clothing " +
     "sheet:opened",
     () => recalcEncumbrance()
   );

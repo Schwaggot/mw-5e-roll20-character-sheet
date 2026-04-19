@@ -1472,6 +1472,29 @@
   padding: 4px;
 }
 
+/* ---------- CLOTHING ---------- */
+.charsheet .atlas-clothing-row {
+  display: grid;
+  grid-template-columns: 2fr 0.8fr 0.8fr 3fr 60px;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 6px;
+  align-items: start;
+  margin-bottom: 4px;
+}
+
+.charsheet .atlas-clothing-row input,
+.charsheet .atlas-clothing-row select {
+  width: 100%;
+  min-width: 0;
+}
+
+.charsheet .atlas-clothing-row .atlas-clothing-name-select {
+  font-weight: 700;
+  color: #e4e7ea;
+}
+
 /* ---------- GEAR / INVENTORY ---------- */
 .charsheet .atlas-gear-row {
   display: grid;

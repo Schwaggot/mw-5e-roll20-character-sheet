@@ -4,7 +4,7 @@
 
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -143,7 +143,7 @@ export function syncArtifacts({ log = false } = {}) {
 }
 
 // CLI entry.
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   syncArtifacts({ log: true });
   console.log('build: Roll20 upload artifacts synced.');
 }

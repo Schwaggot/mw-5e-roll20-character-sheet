@@ -29,57 +29,530 @@
           <select name="attr_wpreset" class="atlas-weapon-name-select">
             <option value="" disabled selected>-- Waffe wählen --</option>
             <option disabled>---------- Pistols ----------</option>
-            <option value="ppk">Walther PPK (.380 ACP)</option>
-            <option value="m1911a1">Colt M1911A1 (.45 ACP)</option>
-            <option value="beretta92">Beretta 92 (9mm)</option>
-            <option value="glock17">Glock 17 (9mm)</option>
-            <option value="glock18">Glock 18 (9mm, Auto)</option>
-            <option value="p226">SiG-Sauer P226 (9mm)</option>
-            <option value="usp45">H&amp;K USP (.45 ACP)</option>
-            <option value="deserteagle">Desert Eagle (.50 AE)</option>
-            <option value="makarov_pb">Makarov PB (9x18, silenced)</option>
+            <option value="beretta_950_jetfire_22_lr">Beretta 950 Jetfire (.22 LR)</option>
+            <option value="beretta_950_jetfire_25_acp">Beretta 950 Jetfire (.25 ACP)</option>
+            <option value="colt_model_1908_vest_pocket_25_acp">Colt Model 1908 Vest Pocket (.25 ACP)</option>
+            <option value="cop_inc_cop_357_magnum">COP, Inc. COP (.357 Magnum)</option>
+            <option value="general_motors_liberato_45_acp">General Motors Liberato (.45 ACP)</option>
+            <option value="kel_tec_p3at_380_acp">Kel-Tec P3AT (.380 ACP)</option>
+            <option value="ots_21_9x18_makarov">Ots-21 (9×18 Makarov)</option>
+            <option value="ruger_lcp_380_acp">Ruger LCP (.380 ACP)</option>
+            <option value="sharps_model_1a_22_lr">Sharps Model 1A (.22 LR)</option>
+            <option value="glock_19_9mm_p">Glock 19 (9mm P)</option>
+            <option value="glock_26_9mm_p">Glock 26 (9mm P)</option>
+            <option value="glock_27_40_sw">Glock 27 (.40 S&amp;W)</option>
+            <option value="glock_28_380_acp">Glock 28 (.380 ACP)</option>
+            <option value="glock_29_10mm_acp">Glock 29 (10mm ACP)</option>
+            <option value="glock_30_45_acp">Glock 30 (.45 ACP)</option>
+            <option value="glock_33_357_sig">Glock 33 (.357 SiG)</option>
+            <option value="glock_43_9mm_p">Glock 43 (9mm P)</option>
+            <option value="hk_p7_9mm_p">H&amp;K P7 (9mm P)</option>
+            <option value="hk_p7_40_sw">H&amp;K P7 (.40 S&amp;W)</option>
+            <option value="kimber_ultra_carry_40_sw">Kimber Ultra Carry (.40 S&amp;W)</option>
+            <option value="kimber_ultra_carry_45_acp">Kimber Ultra Carry (.45 ACP)</option>
+            <option value="makarov_pb_9x18_makarov">Makarov PB (9×18 Makarov)</option>
+            <option value="makarov_pm_9x18_makarov">Makarov PM (9×18 Makarov)</option>
+            <option value="sw_mp_shield_9mm_p">S&amp;W M&amp;P Shield (9mm P)</option>
+            <option value="sw_mp_shield_40_sw">S&amp;W M&amp;P Shield (.40 S&amp;W)</option>
+            <option value="sig_sauer_p239_9mm_p">SiG-Sauer P239 (9mm P)</option>
+            <option value="sig_sauer_p239_357_sig">SiG-Sauer P239 (.357 SiG)</option>
+            <option value="sig_sauer_p239_40_sw">SiG-Sauer P239 (.40 S&amp;W)</option>
+            <option value="sig_sauer_p365_9mm_p">SiG-Sauer P365 (9mm P)</option>
+            <option value="walther_pp_22_lr">Walther PP (.22 LR)</option>
+            <option value="walther_pp_25_acp">Walther PP (.25 ACP)</option>
+            <option value="walther_pp_32_acp">Walther PP (.32 ACP)</option>
+            <option value="walther_pp_380_acp">Walther PP (.380 ACP)</option>
+            <option value="walther_ppk_22_lr">Walther PPK (.22 LR)</option>
+            <option value="walther_ppk_25_acp">Walther PPK (.25 ACP)</option>
+            <option value="walther_ppk_32_acp">Walther PPK (.32 ACP)</option>
+            <option value="walther_ppk_380_acp">Walther PPK (.380 ACP)</option>
+            <option value="walther_pps_9mm_p">Walther PPS (9mm P)</option>
+            <option value="walther_pps_40_sw">Walther PPS (.40 S&amp;W)</option>
+            <option value="beretta_92_9mm_p">Beretta 92 (9mm P)</option>
+            <option value="beretta_93r_9mm_p">Beretta 93R (9mm P)</option>
+            <option value="beretta_px4_storm_9mm_p">Beretta PX4 Storm (9mm P)</option>
+            <option value="beretta_px4_storm_40_sw">Beretta PX4 Storm (.40 S&amp;W)</option>
+            <option value="beretta_px4_storm_45_acp">Beretta PX4 Storm (.45 ACP)</option>
+            <option value="colt_m1911a1_45_acp">Colt M1911A1 (.45 ACP)</option>
+            <option value="cz_75_9mm_p">CZ 75 (9mm P)</option>
+            <option value="cz_75_40_sw">CZ 75 (.40 S&amp;W)</option>
+            <option value="desert_eagle_357_magnum">Desert Eagle (.357 Magnum)</option>
+            <option value="desert_eagle_41_magnum">Desert Eagle (.41 Magnum)</option>
+            <option value="desert_eagle_44_magnum">Desert Eagle (.44 Magnum)</option>
+            <option value="desert_eagle_50_ae">Desert Eagle (.50 AE)</option>
+            <option value="fn_509_9mm_p">FN 509 (9mm P)</option>
+            <option value="fn_browning_high_power_9mm_p">FN Browning High-Power (9mm P)</option>
+            <option value="fn_browning_high_power_40_sw">FN Browning High-Power (.40 S&amp;W)</option>
+            <option value="fn_five_seven_57x28mm">FN Five-seveN (5.7×28mm)</option>
+            <option value="glock_17_9mm_p">Glock 17 (9mm P)</option>
+            <option value="glock_17l_9mm_p">Glock 17L (9mm P)</option>
+            <option value="glock_18_9mm_p">Glock 18 (9mm P)</option>
+            <option value="glock_20_10mm_acp">Glock 20 (10mm ACP)</option>
+            <option value="glock_21_45_acp">Glock 21 (.45 ACP)</option>
+            <option value="glock_22_40_sw">Glock 22 (.40 S&amp;W)</option>
+            <option value="glock_24_40_sw">Glock 24 (.40 S&amp;W)</option>
+            <option value="glock_31_357_sig">Glock 31 (.357 SiG)</option>
+            <option value="hk_mk_23_45_acp">H&amp;K Mk. 23 (.45 ACP)</option>
+            <option value="hk_p30_9mm_p">H&amp;K P30 (9mm P)</option>
+            <option value="hk_p30_40_sw">H&amp;K P30 (.40 S&amp;W)</option>
+            <option value="hk_usp_9mm_p">H&amp;K USP (9mm P)</option>
+            <option value="hk_usp_40_sw">H&amp;K USP (.40 S&amp;W)</option>
+            <option value="hk_usp_45_acp">H&amp;K USP (.45 ACP)</option>
+            <option value="hk_vp9_9mm_p">H&amp;K VP9 (9mm P)</option>
+            <option value="luger_p08_9mm_p">Luger P08 (9mm P)</option>
+            <option value="ruger_mark_iii_22_lr">Ruger Mark III (.22 LR)</option>
+            <option value="sw_mp_9mm_p">S&amp;W M&amp;P (9mm P)</option>
+            <option value="sw_mp_40_sw">S&amp;W M&amp;P (.40 S&amp;W)</option>
+            <option value="sw_mp_45_acp">S&amp;W M&amp;P (.45 ACP)</option>
+            <option value="sig_p210_9mm_p">SiG P210 (9mm P)</option>
+            <option value="sig_sauer_m17_9mm_p">SiG-Sauer M17 (9mm P)</option>
+            <option value="sig_sauer_m17_40_sw">SiG-Sauer M17 (.40 S&amp;W)</option>
+            <option value="sig_sauer_m17_45_acp">SiG-Sauer M17 (.45 ACP)</option>
+            <option value="sig_sauer_p220_32_acp">SiG-Sauer P220 (.32 ACP)</option>
+            <option value="sig_sauer_p220_9mm_p">SiG-Sauer P220 (9mm P)</option>
+            <option value="sig_sauer_p220_38_super">SiG-Sauer P220 (.38 Super)</option>
+            <option value="sig_sauer_p220_45_acp">SiG-Sauer P220 (.45 ACP)</option>
+            <option value="sig_sauer_p226_9mm_p">SiG-Sauer P226 (9mm P)</option>
+            <option value="sig_sauer_p226_357_sig">SiG-Sauer P226 (.357 SiG)</option>
+            <option value="sig_sauer_p226_40_sw">SiG-Sauer P226 (.40 S&amp;W)</option>
+            <option value="sig_sauer_p229_357_sig">SiG-Sauer P229 (.357 SiG)</option>
+            <option value="sig_sauer_p229_40_sw">SiG-Sauer P229 (.40 S&amp;W)</option>
+            <option value="sig_sauer_p229_9mm_p">SiG-Sauer P229 (9mm P)</option>
+            <option value="springfield_xdm_9mm_p">Springfield XDM (9mm P)</option>
+            <option value="springfield_xdm_40_sw">Springfield XDM (.40 S&amp;W)</option>
+            <option value="springfield_xdm_45_acp">Springfield XDM (.45 ACP)</option>
+            <option value="walther_p99_sw_sw99_9mm_p">Walther P99 / S&amp;W SW99 (9mm P)</option>
+            <option value="walther_p99_sw_sw99_40_sw">Walther P99 / S&amp;W SW99 (.40 S&amp;W)</option>
+            <option value="walther_ppq_9mm_p">Walther PPQ (9mm P)</option>
+            <option value="walther_ppq_40_sw">Walther PPQ (.40 S&amp;W)</option>
+            <option value="colt_detective_special_38_special">Colt Detective Special (.38 Special)</option>
+            <option value="naa_mini_revolver_17_hmr">NAA Mini-Revolver (.17 HMR)</option>
+            <option value="naa_mini_revolver_22_lr">NAA Mini-Revolver (.22 LR)</option>
+            <option value="naa_mini_revolver_22_magnum">NAA Mini-Revolver (.22 Magnum)</option>
+            <option value="sw_bodyguard_38_special">S&amp;W Bodyguard (.38 Special)</option>
+            <option value="sw_bodyguard_357_magnum">S&amp;W Bodyguard (.357 Magnum)</option>
+            <option value="sw_chief_s_special_38_special">S&amp;W Chief's Special (.38 Special)</option>
+            <option value="sw_ladysmith_22_lr">S&amp;W Ladysmith (.22 LR)</option>
+            <option value="sw_ladysmith_38_special">S&amp;W Ladysmith (.38 Special)</option>
+            <option value="sw_ladysmith_357_magnum">S&amp;W Ladysmith (.357 Magnum)</option>
+            <option value="colt_police_positive_22_lr">Colt Police Positive (.22 LR)</option>
+            <option value="colt_police_positive_32_sw">Colt Police Positive (.32 S&amp;W)</option>
+            <option value="colt_police_positive_38_special">Colt Police Positive (.38 Special)</option>
+            <option value="colt_python_357_magnum">Colt Python (.357 Magnum)</option>
+            <option value="colt_saa_357_magnum">Colt SAA (.357 Magnum)</option>
+            <option value="colt_saa_44_40">Colt SAA (.44-40)</option>
+            <option value="colt_saa_45_long_colt">Colt SAA (.45 Long Colt)</option>
+            <option value="colt_single_action_army_22_lr">Colt Single Action Army (.22 LR)</option>
+            <option value="manurhin_mr_73_357_magnum">Manurhin MR-73 (.357 Magnum)</option>
+            <option value="manurhin_mr_73_9mm_p">Manurhin MR-73 (9mm P)</option>
+            <option value="taurus_model_608_357_magnum">Taurus Model 608 (.357 Magnum)</option>
+            <option value="webley_mk_6_455_british">Webley Mk. 6 (.455 British)</option>
+            <option value="ruger_super_redhawk_44_magnum">Ruger Super Redhawk (.44 Magnum)</option>
+            <option value="ruger_super_redhawk_454_casull">Ruger Super Redhawk (.454 Casull)</option>
+            <option value="sw_model_500_500_magnum">S&amp;W Model 500 (.500 Magnum)</option>
+            <option value="sw_model_629_44_magnum">S&amp;W Model 629 (.44 Magnum)</option>
             <option disabled>---------- Submachine Guns ----------</option>
-            <option value="uzi">IMI Uzi (9mm)</option>
-            <option value="mp5a5">H&amp;K MP5A5 (9mm)</option>
-            <option value="mp5sd6">H&amp;K MP5SD6 (9mm, silenced)</option>
-            <option value="mp7a1">H&amp;K MP7A1 (4.6x30)</option>
-            <option value="ump45">H&amp;K UMP (.45 ACP)</option>
-            <option value="p90">FN P90 (5.7x28)</option>
+            <option value="bt_mp9_9mm_p">B&amp;T MP9 (9mm P)</option>
+            <option value="cz_scorpion_evo_3_s1_micro_9mm_p">CZ Scorpion EVO 3 S1 Micro (9mm P)</option>
+            <option value="cz_skorpion_32_acp">CZ Skorpion (.32 ACP)</option>
+            <option value="cz_skorpion_380_acp">CZ Skorpion (.380 ACP)</option>
+            <option value="cz_skorpion_9x18_makarov">CZ Skorpion (9×18 Makarov)</option>
+            <option value="hk_mp5k_9mm_p">H&amp;K MP5K (9mm P)</option>
+            <option value="hk_mp5k_briefcase_9mm_p">H&amp;K MP5K briefcase (9mm P)</option>
+            <option value="hk_mp7a1_46x30mm">H&amp;K MP7A1 (4.6×30mm)</option>
+            <option value="hk_mp7a2_46x30mm">H&amp;K MP7A2 (4.6×30mm)</option>
+            <option value="imi_micro_uzi_9mm_p">IMI Micro-Uzi (9mm P)</option>
+            <option value="mac_m10_9mm_p">MAC M10 (9mm P)</option>
+            <option value="mac_m10_45_acp">MAC M10 (.45 ACP)</option>
+            <option value="mac_m11_380_acp">MAC M11 (.380 ACP)</option>
+            <option value="sig_mpx_k_9mm_p">SIG MPX-K (9mm P)</option>
+            <option value="steyr_tmp_9mm_p">Steyr TMP (9mm P)</option>
+            <option value="bt_apc45_45_acp">B&amp;T APC45 (.45 ACP)</option>
+            <option value="bt_apc9_9mm_p">B&amp;T APC9 (9mm P)</option>
+            <option value="bizon_2_9x18_improved">Bizon-2 (9×18 Improved)</option>
+            <option value="cz_scorpion_evo_3_a1_9mm_p">CZ Scorpion EVO 3 A1 (9mm P)</option>
+            <option value="fn_p90_57x28mm">FN P90 (5.7×28mm)</option>
+            <option value="hk_mp5_10_10mm_acp">H&amp;K MP5/10 (10mm ACP)</option>
+            <option value="hk_mp5_40_40_sw">H&amp;K MP5/40 (.40 S&amp;W)</option>
+            <option value="hk_mp5a4_9mm_p">H&amp;K MP5A4 (9mm P)</option>
+            <option value="hk_mp5a5_9mm_p">H&amp;K MP5A5 (9mm P)</option>
+            <option value="hk_mp5n_9mm_p">H&amp;K MP5N (9mm P)</option>
+            <option value="hk_mp5sd5_9mm_p">H&amp;K MP5SD5 (9mm P)</option>
+            <option value="hk_mp5sd6_9mm_p">H&amp;K MP5SD6 (9mm P)</option>
+            <option value="hk_ump_9mm_p">H&amp;K UMP (9mm P)</option>
+            <option value="hk_ump_40_sw">H&amp;K UMP (.40 S&amp;W)</option>
+            <option value="hk_ump_45_acp">H&amp;K UMP (.45 ACP)</option>
+            <option value="imi_mini_uzi_9mm_p">IMI Mini-Uzi (9mm P)</option>
+            <option value="imi_uzi_9mm_p">IMI Uzi (9mm P)</option>
+            <option value="kriss_vector_45_acp">KRISS Vector (.45 ACP)</option>
+            <option value="kriss_vector_9mm_p">KRISS Vector (9mm P)</option>
+            <option value="kriss_vector_10mm_auto">KRISS Vector (10mm Auto)</option>
+            <option value="mp_40_9mm_p">MP-40 (9mm P)</option>
+            <option value="pp_19_01_vityaz_9x19mm">PP-19-01 Vityaz (9×19mm)</option>
+            <option value="sig_mpx_9mm_p">SIG MPX (9mm P)</option>
+            <option value="sig_mpx_40_sw">SIG MPX (.40 S&amp;W)</option>
+            <option value="sten_mk_ii_9mm_p">Sten Mk. II (9mm P)</option>
+            <option value="sten_mk_iis_9mm_p">Sten Mk. II(S) (9mm P)</option>
+            <option value="thompson_m1928_45_acp">Thompson M1928 (.45 ACP)</option>
             <option disabled>---------- Assault Rifles ----------</option>
-            <option value="m4a1">Colt M4A1 (5.56 NATO)</option>
-            <option value="m4sopmod">Colt M4 SOPMOD (5.56 NATO)</option>
-            <option value="m16a4">Colt M16A4 (5.56 NATO)</option>
-            <option value="g36">H&amp;K G36 (5.56 NATO)</option>
-            <option value="aug">Steyr AUG (5.56 NATO)</option>
-            <option value="ak47">AK-47 (7.62x39)</option>
-            <option value="ak74">AK-74 (5.45x39)</option>
-            <option value="aks74u">AKS-74U (5.45x39)</option>
-            <option value="fal">FN FAL (7.62 NATO)</option>
-            <option value="g3a3">H&amp;K G3A3 (7.62 NATO)</option>
+            <option value="beretta_ar70_90_556_nato">Beretta AR70/90 (5.56 NATO)</option>
+            <option value="beretta_arx_160_556_nato">Beretta ARX-160 (5.56 NATO)</option>
+            <option value="beryl_wz96_556_nato">Beryl wz.96 (5.56 NATO)</option>
+            <option value="cetme_model_l_556_nato">CETME Model L (5.56 NATO)</option>
+            <option value="colt_canada_c7_556_nato">Colt Canada C7 (5.56 NATO)</option>
+            <option value="colt_canada_c7a2_556_nato">Colt Canada C7A2 (5.56 NATO)</option>
+            <option value="colt_canada_c8_556_nato">Colt Canada C8 (5.56 NATO)</option>
+            <option value="colt_commando_556_nato">Colt Commando (5.56 NATO)</option>
+            <option value="colt_m16_556_nato">Colt M16 (5.56 NATO)</option>
+            <option value="colt_m16a1_556_nato">Colt M16A1 (5.56 NATO)</option>
+            <option value="colt_m16a2_a4_556_nato">Colt M16A2/A4 (5.56 NATO)</option>
+            <option value="colt_m16a3_556_nato">Colt M16A3 (5.56 NATO)</option>
+            <option value="colt_m4_556_nato">Colt M4 (5.56 NATO)</option>
+            <option value="colt_m4_sopmod_556_nato">Colt M4 SOPMOD (5.56 NATO)</option>
+            <option value="colt_m4a1_556_nato">Colt M4A1 (5.56 NATO)</option>
+            <option value="cz_bren_2_556_nato">CZ BREN 2 (5.56 NATO)</option>
+            <option value="daewoo_k2_556_nato">Daewoo K2 (5.56 NATO)</option>
+            <option value="enfield_l85a1_556_nato">Enfield L85A1 (5.56 NATO)</option>
+            <option value="enfield_l85a2_556_nato">Enfield L85A2 (5.56 NATO)</option>
+            <option value="f88_austeyr_556_nato">F88 Austeyr (5.56 NATO)</option>
+            <option value="fn_f2000_556_nato">FN F2000 (5.56 NATO)</option>
+            <option value="fn_fal_762_nato">FN FAL (7.62 NATO)</option>
+            <option value="fn_fal_para_762_nato">FN FAL Para (7.62 NATO)</option>
+            <option value="fn_fnc_556_nato">FN FNC (5.56 NATO)</option>
+            <option value="fn_scar_h_762_nato">FN SCAR-H (7.62 NATO)</option>
+            <option value="fn_scar_l_556_nato">FN SCAR-L (5.56 NATO)</option>
+            <option value="giat_famas_f1_556_nato">GIAT FAMAS F1 (5.56 NATO)</option>
+            <option value="giat_famas_g2_556_nato">GIAT FAMAS G2 (5.56 NATO)</option>
+            <option value="hk_g3_sg_1_762_nato">H&amp;K G3 SG/1 (7.62 NATO)</option>
+            <option value="hk_g36_556_nato">H&amp;K G36 (5.56 NATO)</option>
+            <option value="hk_g36c_556_nato">H&amp;K G36C (5.56 NATO)</option>
+            <option value="hk_g36k_556_nato">H&amp;K G36K (5.56 NATO)</option>
+            <option value="hk_g3a3_a4_762_nato">H&amp;K G3A3/A4 (7.62 NATO)</option>
+            <option value="hk_g41_556_nato">H&amp;K G41 (5.56 NATO)</option>
+            <option value="hk_hk33a2_a3_556_nato">H&amp;K HK33A2/A3 (5.56 NATO)</option>
+            <option value="hk_hk33sg1_556_nato">H&amp;K HK33SG1 (5.56 NATO)</option>
+            <option value="hk_hk416_556_nato">H&amp;K HK416 (5.56 NATO)</option>
+            <option value="hk_hk416c_556_nato">H&amp;K HK416C (5.56 NATO)</option>
+            <option value="hk_hk417_762_nato">H&amp;K HK417 (7.62 NATO)</option>
+            <option value="hk_hk53a2_a3_556_nato">H&amp;K HK53A2/A3 (5.56 NATO)</option>
+            <option value="howa_type_89_556_nato">Howa Type 89 (5.56 NATO)</option>
+            <option value="iwi_tavor_tar_21_556_nato">IWI Tavor TAR-21 (5.56 NATO)</option>
+            <option value="iwi_x95_556_nato">IWI X95 (5.56 NATO)</option>
+            <option value="kalashnikov_ak_101_556_nato">Kalashnikov AK-101 (5.56 NATO)</option>
+            <option value="kalashnikov_ak_103_762x39mm">Kalashnikov AK-103 (7.62×39mm)</option>
+            <option value="kalashnikov_ak_12_545x39mm">Kalashnikov AK-12 (5.45×39mm)</option>
+            <option value="kalashnikov_ak_47_762x39mm">Kalashnikov AK-47 (7.62×39mm)</option>
+            <option value="kalashnikov_ak_74_545x39mm">Kalashnikov AK-74 (5.45×39mm)</option>
+            <option value="kalashnikov_ak_74m_545x39mm">Kalashnikov AK-74M (5.45×39mm)</option>
+            <option value="kalashnikov_aks_762x39mm">Kalashnikov AKS (7.62×39mm)</option>
+            <option value="kalashnikov_aks_74_545x39mm">Kalashnikov AKS-74 (5.45×39mm)</option>
+            <option value="kalashnikov_aks_74u_545x39mm">Kalashnikov AKS-74U (5.45×39mm)</option>
+            <option value="kalashnikov_aks_74u_ubn_545x39mm">Kalashnikov AKS-74U-UBN (5.45×39mm)</option>
+            <option value="msbs_grot_556_nato">MSBS Grot (5.56 NATO)</option>
+            <option value="norinco_qbz_95_58x42mm">NORINCO QBZ-95 (5.8×42mm)</option>
+            <option value="norinco_qbz_97_556_nato">NORINCO QBZ-97 (5.56 NATO)</option>
+            <option value="sar_21_556_nato">SAR 21 (5.56 NATO)</option>
+            <option value="sig_mcx_556_nato">SIG MCX (5.56 NATO)</option>
+            <option value="sig_sg_550_556_nato">SIG SG 550 (5.56 NATO)</option>
+            <option value="sig_sg_551_556_nato">SIG SG 551 (5.56 NATO)</option>
+            <option value="springfield_m14_762_nato">Springfield M14 (7.62 NATO)</option>
+            <option value="steyr_aug_556_nato">Steyr AUG (5.56 NATO)</option>
+            <option value="steyr_aug_carbine_556_nato">Steyr AUG Carbine (5.56 NATO)</option>
+            <option value="steyr_aug_para_9mm_p">Steyr AUG Para (9mm P)</option>
+            <option value="zastava_m70_762x39mm">Zastava M70 (7.62×39mm)</option>
             <option disabled>---------- Semi-Auto / DMR ----------</option>
-            <option value="m21">Springfield M21 (7.62 NATO)</option>
-            <option value="sr25">KAC SR25 (7.62 NATO, suppressed)</option>
-            <option value="svd">Dragunov SVD (7.62x54R)</option>
-            <option value="barrett">Barrett M82A1 (.50 BMG)</option>
+            <option value="armalite_ar_10_762x51mm_nato">Armalite AR-10 (7.62×51mm NATO)</option>
+            <option value="barrett_m107_50_bmg">Barrett M107 (.50 BMG)</option>
+            <option value="barrett_m107a1_50_bmg">Barrett M107A1 (.50 BMG)</option>
+            <option value="barrett_m82a1_50_bmg">Barrett M82A1 (.50 BMG)</option>
+            <option value="dragunov_svd_762x54r">Dragunov SVD (7.62×54R)</option>
+            <option value="fn_fal_762x51mm_nato">FN FAL (7.62×51mm NATO)</option>
+            <option value="fn_fal_para_762x51mm_nato">FN FAL Para (7.62×51mm NATO)</option>
+            <option value="fn_scar_h_pr_762x51mm_nato">FN SCAR-H PR (7.62×51mm NATO)</option>
+            <option value="hk_g28_762x51mm_nato">H&amp;K G28 (7.62×51mm NATO)</option>
+            <option value="hk_g3_762x51mm_nato">H&amp;K G3 (7.62×51mm NATO)</option>
+            <option value="hk_g3sg_1_762x51mm_nato">H&amp;K G3SG/1 (7.62×51mm NATO)</option>
+            <option value="hk_msg_90_762x51mm_nato">H&amp;K MSG-90 (7.62×51mm NATO)</option>
+            <option value="hk_psg_1_762x51mm_nato">H&amp;K PSG-1 (7.62×51mm NATO)</option>
+            <option value="hk417_assaulter_16_762x51mm_nato">HK417 Assaulter 16" (7.62×51mm NATO)</option>
+            <option value="hk417_recce_12_762x51mm_nato">HK417 Recce 12" (7.62×51mm NATO)</option>
+            <option value="hk417_sniper_20_762x51mm_nato">HK417 Sniper 20" (7.62×51mm NATO)</option>
+            <option value="iwi_galatz_galil_sniper_762x51mm_nato">IWI Galatz / Galil Sniper (7.62×51mm NATO)</option>
+            <option value="kac_m110_sass_762x51mm_nato">KAC M110 SASS (7.62×51mm NATO)</option>
+            <option value="kac_sr25_762x51mm_nato">KAC SR25 (7.62×51mm NATO)</option>
+            <option value="lmt_mws_l129a1_762x51mm_nato">LMT MWS / L129A1 (7.62×51mm NATO)</option>
+            <option value="m1_garand_30_06">M1 Garand (.30-06)</option>
+            <option value="m14_762x51mm_nato">M14 (7.62×51mm NATO)</option>
+            <option value="mk_14_ebr_762x51mm_nato">MK 14 EBR (7.62×51mm NATO)</option>
+            <option value="norinco_kbu_88_58x42mm">NORINCO KBU-88 (5.8×42mm)</option>
+            <option value="remington_rsass_m110k1_762x51mm_nato">Remington RSASS / M110K1 (7.62×51mm NATO)</option>
+            <option value="ruger_10_22_22_lr">Ruger 10/22 (.22 LR)</option>
+            <option value="ruger_mini_14_556x45mm_nato">Ruger Mini-14 (5.56×45mm NATO)</option>
+            <option value="ruger_mini_30_762x39mm">Ruger Mini-30 (7.62×39mm)</option>
+            <option value="ruger_sr_762_762x51mm_nato">Ruger SR-762 (7.62×51mm NATO)</option>
+            <option value="sig_sauer_716_762x51mm_nato">SIG Sauer 716 (7.62×51mm NATO)</option>
+            <option value="simonov_sks_762x39mm">Simonov SKS (7.62×39mm)</option>
+            <option value="springfield_m1a_762x51mm_nato">Springfield M1A (7.62×51mm NATO)</option>
+            <option value="springfield_m21_762x51mm_nato">Springfield M21 (7.62×51mm NATO)</option>
+            <option value="svu_a_762x54r">SVU-A (7.62×54R)</option>
+            <option value="vss_vintorez_9x39mm">VSS Vintorez (9×39mm)</option>
+            <option value="walther_wa_2000_300_win_mag">Walther WA 2000 (.300 Win Mag)</option>
             <option disabled>---------- Bolt-Action Rifles ----------</option>
-            <option value="rem700">Remington 700 (7.62 NATO)</option>
-            <option value="awm">AI AWM (.338 Lapua)</option>
-            <option value="aw50">AI AW-50 (.50 BMG)</option>
+            <option value="ai_aw_762_nato">AI AW (7.62 NATO)</option>
+            <option value="ai_aw_covert_762_nato">AI AW Covert (7.62 NATO)</option>
+            <option value="ai_aw_50_50_bmg">AI AW-50 (.50 BMG)</option>
+            <option value="ai_awm_7mm_rem">AI AWM (7mm Rem)</option>
+            <option value="ai_awm_300_win">AI AWM (.300 Win)</option>
+            <option value="ai_awm_338_lapua">AI AWM (.338 Lapua)</option>
+            <option value="ai_ax50_50_bmg">AI AX50 (.50 BMG)</option>
+            <option value="ai_axmc_762_nato">AI AXMC (7.62 NATO)</option>
+            <option value="ai_axmc_300_win">AI AXMC (.300 Win)</option>
+            <option value="ai_axmc_338_lapua">AI AXMC (.338 Lapua)</option>
+            <option value="amp_dsr_1_762_nato">AMP DSR-1 (7.62 NATO)</option>
+            <option value="amp_dsr_1_300_win">AMP DSR-1 (.300 Win)</option>
+            <option value="amp_dsr_1_338_lapua">AMP DSR-1 (.338 Lapua)</option>
+            <option value="barrett_m95_50_bmg">Barrett M95 (.50 BMG)</option>
+            <option value="barrett_mk_22_mrad_762_nato">Barrett Mk. 22 / MRAD (7.62 NATO)</option>
+            <option value="barrett_mk_22_mrad_300_win">Barrett Mk. 22 / MRAD (.300 Win)</option>
+            <option value="barrett_mk_22_mrad_338_lapua">Barrett Mk. 22 / MRAD (.338 Lapua)</option>
+            <option value="blaser_r93_tactical_2_762_nato">Blaser R93 Tactical 2 (7.62 NATO)</option>
+            <option value="blaser_r93_tactical_2_300_win">Blaser R93 Tactical 2 (.300 Win)</option>
+            <option value="blaser_r93_tactical_2_338_lapua">Blaser R93 Tactical 2 (.338 Lapua)</option>
+            <option value="cheytac_m200_intervention_408_cheytac">CheyTac M200 Intervention (.408 CheyTac)</option>
+            <option value="desert_tech_srs_762_nato">Desert Tech SRS (7.62 NATO)</option>
+            <option value="desert_tech_srs_300_win">Desert Tech SRS (.300 Win)</option>
+            <option value="desert_tech_srs_338_lapua">Desert Tech SRS (.338 Lapua)</option>
+            <option value="fn_hecate_ii_50_bmg">FN Hecate II (.50 BMG)</option>
+            <option value="fn_ultra_ratio_commando_ii_762_nato">FN Ultra-Ratio Commando II (7.62 NATO)</option>
+            <option value="lee_enfield_delisle_carbine_45_acp">Lee-Enfield DeLisle Carbine (.45 ACP)</option>
+            <option value="lee_enfield_no_1_mk_3_303_british">Lee-Enfield No. 1 Mk. 3 (.303 British)</option>
+            <option value="lee_enfield_no_2_22_lr">Lee-Enfield No. 2 (.22 LR)</option>
+            <option value="lee_enfield_no_4_mk_1_303_british">Lee-Enfield No. 4 Mk. 1 (.303 British)</option>
+            <option value="lee_enfield_no_5_303_british">Lee-Enfield No. 5 (.303 British)</option>
+            <option value="mauser_model_1898_8mm_mauser">Mauser Model 1898 (8mm Mauser)</option>
+            <option value="mcmillan_tac_338_338_lapua">McMillan TAC-338 (.338 Lapua)</option>
+            <option value="mcmillan_tac_50_50_bmg">McMillan TAC-50 (.50 BMG)</option>
+            <option value="mini_hecate_338_lapua">Mini-Hecate (.338 Lapua)</option>
+            <option value="mosin_nagant_m1891_762x54r">Mosin-Nagant M1891 (7.62×54R)</option>
+            <option value="mosin_nagant_m1891_sniper_762x54r">Mosin-Nagant M1891 Sniper (7.62×54R)</option>
+            <option value="remington_700_556_nato">Remington 700 (5.56 NATO)</option>
+            <option value="remington_700_7mm_rem">Remington 700 (7mm Rem)</option>
+            <option value="remington_700_762_nato">Remington 700 (7.62 NATO)</option>
+            <option value="remington_700_30_06">Remington 700 (.30-06)</option>
+            <option value="remington_700_300_win">Remington 700 (.300 Win)</option>
+            <option value="remington_700_375_hh">Remington 700 (.375 H&amp;H)</option>
+            <option value="remington_m24_sws_762_nato">Remington M24 SWS (7.62 NATO)</option>
+            <option value="remington_m24_sws_300_win">Remington M24 SWS (.300 Win)</option>
+            <option value="remington_m40a1_762_nato">Remington M40A1 (7.62 NATO)</option>
+            <option value="ruger_precision_rifle_762_nato">Ruger Precision Rifle (7.62 NATO)</option>
+            <option value="ruger_precision_rifle_300_win">Ruger Precision Rifle (.300 Win)</option>
+            <option value="ruger_precision_rifle_338_lapua">Ruger Precision Rifle (.338 Lapua)</option>
+            <option value="sako_trg_22_762_nato">Sako TRG-22 (7.62 NATO)</option>
+            <option value="sako_trg_42_300_win">Sako TRG-42 (.300 Win)</option>
+            <option value="sako_trg_42_338_lapua">Sako TRG-42 (.338 Lapua)</option>
+            <option value="sig_ssg_3000_762_nato">SIG SSG 3000 (7.62 NATO)</option>
+            <option value="simonov_ptrd_145mm_russian">Simonov PTRD (14.5mm Russian)</option>
+            <option value="springfield_m1903_30_06">Springfield M1903 (.30-06)</option>
+            <option value="springfield_m1903a4_30_06">Springfield M1903A4 (.30-06)</option>
+            <option value="steyr_ssg_08_762_nato">Steyr SSG 08 (7.62 NATO)</option>
+            <option value="steyr_ssg_08_300_win">Steyr SSG 08 (.300 Win)</option>
+            <option value="steyr_ssg_08_338_lapua">Steyr SSG 08 (.338 Lapua)</option>
+            <option value="steyr_ssg_69_762_nato">Steyr SSG 69 (7.62 NATO)</option>
+            <option value="weatherby_mk_v_556_nato">Weatherby Mk. V (5.56 NATO)</option>
+            <option value="weatherby_mk_v_7mm_rem">Weatherby Mk. V (7mm Rem)</option>
+            <option value="weatherby_mk_v_762_nato">Weatherby Mk. V (7.62 NATO)</option>
+            <option value="weatherby_mk_v_30_06">Weatherby Mk. V (.30-06)</option>
+            <option value="weatherby_mk_v_460_weatherby">Weatherby Mk. V (.460 Weatherby)</option>
             <option disabled>---------- Shotguns ----------</option>
-            <option value="rem870">Remington 870 (12ga slug)</option>
-            <option value="benelli_m4">Benelli M4 Super 90 (12ga slug)</option>
-            <option value="saiga12">Saiga 12K (12ga slug)</option>
-            <option disabled>---------- SAW / Machine Guns ----------</option>
-            <option value="minimi">FN Minimi / M249 (5.56 NATO)</option>
-            <option value="m240">FN MAG / M240 (7.62 NATO)</option>
-            <option value="pk">RSA PK (7.62x54R)</option>
+            <option value="browning_superposed_410_slug">Browning Superposed (.410 slug)</option>
+            <option value="browning_superposed_410_shot">Browning Superposed (.410 shot)</option>
+            <option value="browning_superposed_20_ga_slug">Browning Superposed (20 ga slug)</option>
+            <option value="browning_superposed_20_ga_shot">Browning Superposed (20 ga shot)</option>
+            <option value="browning_superposed_12_ga_slug">Browning Superposed (12 ga slug)</option>
+            <option value="browning_superposed_12_ga_shot">Browning Superposed (12 ga shot)</option>
+            <option value="charles_daly_field_ii_hunter_410_slug">Charles Daly Field II Hunter (.410 slug)</option>
+            <option value="charles_daly_field_ii_hunter_410_shot">Charles Daly Field II Hunter (.410 shot)</option>
+            <option value="charles_daly_field_ii_hunter_20_ga_slug">Charles Daly Field II Hunter (20 ga slug)</option>
+            <option value="charles_daly_field_ii_hunter_20_ga_shot">Charles Daly Field II Hunter (20 ga shot)</option>
+            <option value="charles_daly_field_ii_hunter_16_ga_slug">Charles Daly Field II Hunter (16 ga slug)</option>
+            <option value="charles_daly_field_ii_hunter_16_ga_shot">Charles Daly Field II Hunter (16 ga shot)</option>
+            <option value="charles_daly_field_ii_hunter_12_ga_slug">Charles Daly Field II Hunter (12 ga slug)</option>
+            <option value="charles_daly_field_ii_hunter_12_ga_shot">Charles Daly Field II Hunter (12 ga shot)</option>
+            <option value="charles_daly_field_ii_hunter_10_ga_slug">Charles Daly Field II Hunter (10 ga slug)</option>
+            <option value="charles_daly_field_ii_hunter_10_ga_shot">Charles Daly Field II Hunter (10 ga shot)</option>
+            <option value="savage_arms_model_24_410_slug">Savage Arms Model 24 (.410 slug)</option>
+            <option value="savage_arms_model_24_410_shot">Savage Arms Model 24 (.410 shot)</option>
+            <option value="savage_arms_model_24_20_ga_slug">Savage Arms Model 24 (20 ga slug)</option>
+            <option value="savage_arms_model_24_20_ga_shot">Savage Arms Model 24 (20 ga shot)</option>
+            <option value="savage_arms_model_24_12_ga_slug">Savage Arms Model 24 (12 ga slug)</option>
+            <option value="savage_arms_model_24_12_ga_shot">Savage Arms Model 24 (12 ga shot)</option>
+            <option value="winchester_model_21_20_ga_slug">Winchester Model 21 (20 ga slug)</option>
+            <option value="winchester_model_21_20_ga_shot">Winchester Model 21 (20 ga shot)</option>
+            <option value="winchester_model_21_16_ga_slug">Winchester Model 21 (16 ga slug)</option>
+            <option value="winchester_model_21_16_ga_shot">Winchester Model 21 (16 ga shot)</option>
+            <option value="winchester_model_21_12_ga_slug">Winchester Model 21 (12 ga slug)</option>
+            <option value="winchester_model_21_12_ga_shot">Winchester Model 21 (12 ga shot)</option>
+            <option value="browning_bps_stalker_12_ga_slug">Browning BPS Stalker (12 ga slug)</option>
+            <option value="browning_bps_stalker_12_ga_shot">Browning BPS Stalker (12 ga shot)</option>
+            <option value="browning_bps_stalker_10_ga_slug">Browning BPS Stalker (10 ga slug)</option>
+            <option value="browning_bps_stalker_10_ga_shot">Browning BPS Stalker (10 ga shot)</option>
+            <option value="ithaca_37_12_ga_slug">Ithaca 37 (12 ga slug)</option>
+            <option value="ithaca_37_12_ga_shot">Ithaca 37 (12 ga shot)</option>
+            <option value="kac_masterkey_12_ga_slug">KAC Masterkey (12 ga slug)</option>
+            <option value="kac_masterkey_12_ga_shot">KAC Masterkey (12 ga shot)</option>
+            <option value="kel_tec_ksg_12_ga_slug">Kel-Tec KSG (12 ga slug)</option>
+            <option value="kel_tec_ksg_12_ga_shot">Kel-Tec KSG (12 ga shot)</option>
+            <option value="mossberg_500_12_ga_slug">Mossberg 500 (12 ga slug)</option>
+            <option value="mossberg_500_12_ga_shot">Mossberg 500 (12 ga shot)</option>
+            <option value="mossberg_590_12_ga_slug">Mossberg 590 (12 ga slug)</option>
+            <option value="mossberg_590_12_ga_shot">Mossberg 590 (12 ga shot)</option>
+            <option value="mossberg_590a1_12_ga_slug">Mossberg 590A1 (12 ga slug)</option>
+            <option value="mossberg_590a1_12_ga_shot">Mossberg 590A1 (12 ga shot)</option>
+            <option value="remington_870_20_ga_slug">Remington 870 (20 ga slug)</option>
+            <option value="remington_870_20_ga_shot">Remington 870 (20 ga shot)</option>
+            <option value="remington_870_16_ga_slug">Remington 870 (16 ga slug)</option>
+            <option value="remington_870_16_ga_shot">Remington 870 (16 ga shot)</option>
+            <option value="remington_870_12_ga_slug">Remington 870 (12 ga slug)</option>
+            <option value="remington_870_12_ga_shot">Remington 870 (12 ga shot)</option>
+            <option value="remington_870p_12_ga_slug">Remington 870P (12 ga slug)</option>
+            <option value="remington_870p_12_ga_shot">Remington 870P (12 ga shot)</option>
+            <option value="truvelo_neostead_12_ga_slug">Truvelo Neostead (12 ga slug)</option>
+            <option value="truvelo_neostead_12_ga_shot">Truvelo Neostead (12 ga shot)</option>
+            <option value="winchester_1300_20_ga_slug">Winchester 1300 (20 ga slug)</option>
+            <option value="winchester_1300_20_ga_shot">Winchester 1300 (20 ga shot)</option>
+            <option value="winchester_1300_12_ga_slug">Winchester 1300 (12 ga slug)</option>
+            <option value="winchester_1300_12_ga_shot">Winchester 1300 (12 ga shot)</option>
+            <option value="winchester_model_1897_12_ga_slug">Winchester Model 1897 (12 ga slug)</option>
+            <option value="winchester_model_1897_12_ga_shot">Winchester Model 1897 (12 ga shot)</option>
+            <option value="aa_12_12_ga_slug">AA-12 (12 ga slug)</option>
+            <option value="aa_12_12_ga_shot">AA-12 (12 ga shot)</option>
+            <option value="benelli_m1_practical_12_ga_slug">Benelli M1 Practical (12 ga slug)</option>
+            <option value="benelli_m1_practical_12_ga_shot">Benelli M1 Practical (12 ga shot)</option>
+            <option value="benelli_m1_tactical_12_ga_slug">Benelli M1 Tactical (12 ga slug)</option>
+            <option value="benelli_m1_tactical_12_ga_shot">Benelli M1 Tactical (12 ga shot)</option>
+            <option value="benelli_m2_tactical_12_ga_slug">Benelli M2 Tactical (12 ga slug)</option>
+            <option value="benelli_m2_tactical_12_ga_shot">Benelli M2 Tactical (12 ga shot)</option>
+            <option value="benelli_m3_super_90_12_ga_slug">Benelli M3 Super 90 (12 ga slug)</option>
+            <option value="benelli_m3_super_90_12_ga_shot">Benelli M3 Super 90 (12 ga shot)</option>
+            <option value="benelli_m4_super_90_12_ga_slug">Benelli M4 Super 90 (12 ga slug)</option>
+            <option value="benelli_m4_super_90_12_ga_shot">Benelli M4 Super 90 (12 ga shot)</option>
+            <option value="beretta_1301_tactical_12_ga_slug">Beretta 1301 Tactical (12 ga slug)</option>
+            <option value="beretta_1301_tactical_12_ga_shot">Beretta 1301 Tactical (12 ga shot)</option>
+            <option value="beretta_a400_xtreme_12_ga_slug">Beretta A400 Xtreme (12 ga slug)</option>
+            <option value="beretta_a400_xtreme_12_ga_shot">Beretta A400 Xtreme (12 ga shot)</option>
+            <option value="browning_auto_5_20_ga_slug">Browning Auto-5 (20 ga slug)</option>
+            <option value="browning_auto_5_20_ga_shot">Browning Auto-5 (20 ga shot)</option>
+            <option value="browning_auto_5_16_ga_slug">Browning Auto-5 (16 ga slug)</option>
+            <option value="browning_auto_5_16_ga_shot">Browning Auto-5 (16 ga shot)</option>
+            <option value="browning_auto_5_12_ga_slug">Browning Auto-5 (12 ga slug)</option>
+            <option value="browning_auto_5_12_ga_shot">Browning Auto-5 (12 ga shot)</option>
+            <option value="daewoo_usas_12_12_ga_slug">Daewoo USAS-12 (12 ga slug)</option>
+            <option value="daewoo_usas_12_12_ga_shot">Daewoo USAS-12 (12 ga shot)</option>
+            <option value="fostech_origin_12_12_ga_slug">Fostech Origin 12 (12 ga slug)</option>
+            <option value="fostech_origin_12_12_ga_shot">Fostech Origin 12 (12 ga shot)</option>
+            <option value="franchi_spas_12_12_ga_slug">Franchi SPAS-12 (12 ga slug)</option>
+            <option value="franchi_spas_12_12_ga_shot">Franchi SPAS-12 (12 ga shot)</option>
+            <option value="franchi_spas_15_12_ga_slug">Franchi SPAS-15 (12 ga slug)</option>
+            <option value="franchi_spas_15_12_ga_shot">Franchi SPAS-15 (12 ga shot)</option>
+            <option value="molot_vepr_12_12_ga_slug">Molot Vepr-12 (12 ga slug)</option>
+            <option value="molot_vepr_12_12_ga_shot">Molot Vepr-12 (12 ga shot)</option>
+            <option value="mossberg_930_12_ga_slug">Mossberg 930 (12 ga slug)</option>
+            <option value="mossberg_930_12_ga_shot">Mossberg 930 (12 ga shot)</option>
+            <option value="remington_11_87_20_ga_slug">Remington 11-87 (20 ga slug)</option>
+            <option value="remington_11_87_20_ga_shot">Remington 11-87 (20 ga shot)</option>
+            <option value="remington_11_87_12_ga_slug">Remington 11-87 (12 ga slug)</option>
+            <option value="remington_11_87_12_ga_shot">Remington 11-87 (12 ga shot)</option>
+            <option value="remington_1100_20_ga_slug">Remington 1100 (20 ga slug)</option>
+            <option value="remington_1100_20_ga_shot">Remington 1100 (20 ga shot)</option>
+            <option value="remington_1100_12_ga_slug">Remington 1100 (12 ga slug)</option>
+            <option value="remington_1100_12_ga_shot">Remington 1100 (12 ga shot)</option>
+            <option value="reutech_striker_12_ga_slug">Reutech Striker (12 ga slug)</option>
+            <option value="reutech_striker_12_ga_shot">Reutech Striker (12 ga shot)</option>
+            <option value="saiga_12k_410_slug">Saiga 12K (.410 slug)</option>
+            <option value="saiga_12k_410_shot">Saiga 12K (.410 shot)</option>
+            <option value="saiga_12k_20_ga_slug">Saiga 12K (20 ga slug)</option>
+            <option value="saiga_12k_20_ga_shot">Saiga 12K (20 ga shot)</option>
+            <option value="saiga_12k_12_ga_slug">Saiga 12K (12 ga slug)</option>
+            <option value="saiga_12k_12_ga_shot">Saiga 12K (12 ga shot)</option>
+            <option value="srm_arms_m1216_12_ga_slug">SRM Arms M1216 (12 ga slug)</option>
+            <option value="srm_arms_m1216_12_ga_shot">SRM Arms M1216 (12 ga shot)</option>
+            <option disabled>---------- Machine Guns ----------</option>
+            <option value="browning_m1918_bar_30_06">Browning M1918 BAR (.30-06)</option>
+            <option value="enfield_l86a1_lsw_556_nato">Enfield L86A1 LSW (5.56 NATO)</option>
+            <option value="fn_minimi_m249_556_nato">FN Minimi (M249) (5.56 NATO)</option>
+            <option value="fn_minimi_mk3_556_nato">FN Minimi Mk3 (5.56 NATO)</option>
+            <option value="fn_minimi_para_556_nato">FN Minimi Para (5.56 NATO)</option>
+            <option value="hk_mg4_556_nato">H&amp;K MG4 (5.56 NATO)</option>
+            <option value="iwi_negev_556_nato">IWI Negev (5.56 NATO)</option>
+            <option value="norinco_qjy_88_58x42mm">NORINCO QJY-88 (5.8×42mm)</option>
+            <option value="rpk_762x39mm">RPK (7.62×39mm)</option>
+            <option value="rpk_74_545x39mm">RPK-74 (5.45×39mm)</option>
+            <option value="steyr_aug_hbar_556_nato">Steyr AUG Hbar (5.56 NATO)</option>
+            <option value="ultimax_100_556_nato">Ultimax 100 (5.56 NATO)</option>
+            <option value="fn_mag_m240_762_nato">FN MAG (M240) (7.62 NATO)</option>
+            <option value="hk_mg3_762_nato">H&amp;K MG3 (7.62 NATO)</option>
+            <option value="hk_mg5_762_nato">H&amp;K MG5 (7.62 NATO)</option>
+            <option value="iwi_negev_ng7_762_nato">IWI Negev NG7 (7.62 NATO)</option>
+            <option value="mg_42_762_nato">MG-42 (7.62 NATO)</option>
+            <option value="mg_42_8mm_mauser">MG-42 (8mm Mauser)</option>
+            <option value="mk_48_762_nato">Mk 48 (7.62 NATO)</option>
+            <option value="pk_762x54r">PK (7.62×54R)</option>
+            <option value="pkm_762x54r">PKM (7.62×54R)</option>
+            <option value="pkp_pecheneg_762x54r">PKP Pecheneg (7.62×54R)</option>
+            <option value="saco_m60_762_nato">Saco M60 (7.62 NATO)</option>
+            <option value="browning_m2hb_50_bmg">Browning M2HB (.50 BMG)</option>
+            <option value="dshk_127x109mm">DShK (12.7×109mm)</option>
+            <option value="fn_m3m_gau_21_50_bmg">FN M3M / GAU-21 (.50 BMG)</option>
+            <option value="ge_m134_minigun_762_nato">GE M134 Minigun (7.62 NATO)</option>
+            <option value="kord_127x108mm">Kord (12.7×108mm)</option>
+            <option value="kpv_145mm_russian">KPV (14.5mm Russian)</option>
+            <option value="nsv_127x108mm">NSV (12.7×108mm)</option>
             <option disabled>---------- Grenade Launchers ----------</option>
-            <option value="m203">Colt M203 (40mm, under-barrel)</option>
-            <option value="mgl">Milkor MGL Mk. 1 (40mm, 6-shot)</option>
+            <option value="ags_17_plamya_30mm">AGS-17 Plamya (30mm)</option>
+            <option value="ags_30_30mm">AGS-30 (30mm)</option>
+            <option value="china_lake_nlw_40mm">China Lake NLW (40mm)</option>
+            <option value="colt_m203_40mm">Colt M203 (40mm)</option>
+            <option value="colt_m203p_40mm">Colt M203P (40mm)</option>
+            <option value="colt_m79_thumper_40mm">Colt M79 (Thumper) (40mm)</option>
+            <option value="fn40gl_40mm">FN40GL (40mm)</option>
+            <option value="gp_25_40mm">GP-25 (40mm)</option>
+            <option value="gp_30_40mm">GP-30 (40mm)</option>
+            <option value="gp_34_40mm">GP-34 (40mm)</option>
+            <option value="hk_ag36_40mm">H&amp;K AG36 (40mm)</option>
+            <option value="hk_gmg_40mm">H&amp;K GMG (40mm)</option>
+            <option value="hk_hk69a1_40mm">H&amp;K HK69A1 (40mm)</option>
+            <option value="hk_hk79_40mm">H&amp;K HK79 (40mm)</option>
+            <option value="hk_m320_40mm">H&amp;K M320 (40mm)</option>
+            <option value="hk_m320a1_40mm">H&amp;K M320A1 (40mm)</option>
+            <option value="hawk_mm_1_40mm">Hawk MM-1 (40mm)</option>
+            <option value="milkor_m32_mgl_40mm">Milkor M32 MGL (40mm)</option>
+            <option value="milkor_mgl_mk_1_40mm">Milkor MGL Mk. 1 (40mm)</option>
+            <option value="milkor_y4_40mm">Milkor Y4 (40mm)</option>
+            <option value="rg_6_6g30_40mm">RG-6 / 6G30 (40mm)</option>
+            <option value="saco_mk_19_40mm">Saco Mk. 19 (40mm)</option>
+            <option value="xm25_cdte_25mm">XM25 CDTE (25mm)</option>
             <option disabled>---------- Rocket Launchers ----------</option>
-            <option value="law">Talley M72 LAW</option>
-            <option value="at4">Bofors AT4 HE</option>
-            <option value="at4heat">Bofors AT4 HEAT</option>
+            <option value="bofors_at4_he">Bofors AT4 HE</option>
+            <option value="bofors_at4_heat">Bofors AT4 HEAT</option>
+            <option value="carl_gustaf_m3">Carl Gustaf M3</option>
+            <option value="carl_gustaf_m4">Carl Gustaf M4</option>
+            <option value="fgm_148_javelin">FGM-148 Javelin</option>
+            <option value="fim_92_stinger">FIM-92 Stinger</option>
+            <option value="law_80">LAW 80</option>
+            <option value="matador">Matador</option>
+            <option value="nlaw">NLAW</option>
+            <option value="panzerfaust_3">Panzerfaust 3</option>
+            <option value="rpg_7_pg_7v_heat">RPG-7 (PG-7V HEAT)</option>
+            <option value="rpg_7_tbg_7v_thermobaric">RPG-7 (TBG-7V Thermobaric)</option>
+            <option value="rpg_18">RPG-18</option>
+            <option value="rpg_22">RPG-22</option>
+            <option value="rpg_26">RPG-26</option>
+            <option value="rpg_27">RPG-27</option>
+            <option value="rpg_29">RPG-29</option>
+            <option value="rpo_a_shmel">RPO-A Shmel</option>
+            <option value="smaw_mk_153_heaa">SMAW Mk 153 (HEAA)</option>
+            <option value="smaw_mk_153_hedp">SMAW Mk 153 (HEDP)</option>
+            <option value="talley_m72_law">Talley M72 LAW</option>
           </select>
           <input type="hidden" name="attr_wname" />
           </div>
@@ -202,20 +675,34 @@
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_acc_1" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Praezise +1: +1 auf Angriffswuerfe mit dieser Waffe.">Accurate +1</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_acc_2" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Praezise +2: +2 auf Angriffswuerfe mit dieser Waffe.">Accurate +2</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_acc_3" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Praezise +3: +3 auf Angriffswuerfe mit dieser Waffe.">Accurate +3</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_inacc_1" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Ungenau -1: -1 auf Angriffswuerfe.">Inaccurate -1</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_inacc_2" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Ungenau -2: -2 auf Angriffswuerfe.">Inaccurate -2</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_inacc_3" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Ungenau -3: -3 auf Angriffswuerfe.">Inaccurate -3</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_inacc_4" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Ungenau -4: -4 auf Angriffswuerfe.">Inaccurate -4</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_inacc_5" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Ungenau -5: -5 auf Angriffswuerfe (typisch fuer Launcher).">Inaccurate -5</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_manual_action" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Manuelles Repetieren: Bolt/Lever muss nach jedem Schuss betaetigt werden. Kein Burst, kein Full-Auto.">Manual Action</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_pump" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Pump-Action: Vorderschaft muss nach jedem Schuss gepumpt werden. Kein Burst, kein Full-Auto.">Pump</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_semi_auto" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Halb-Automatisch: Ein Schuss pro Trigger-Pull. Kein Burst, kein Full-Auto.">Semi-Auto</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_belt_fed" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Gurtgefuettert: Sehr grosse Kapazitaet (100-200+), lange Reload-Zeit.">Belt-Fed</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_braced" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Abgestuetzt: Recoil-Penalty halbiert wenn Waffe abgestuetzt (Bipod / Prone / Wand).">Braced</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_mounted" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Stationaer montiert: Waffe muss auf Stativ/Lafette/Fahrzeug montiert sein (HMG, AGL).">Mounted</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_unreliable" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Unzuverlaessig: +1 Misfire-Range generell.">Unreliable</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_imprecise" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Unpraezise: +1 Misfire-Range bei Full-Auto-Feuer.">Imprecise</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_under_barrel" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Unterlauf-Montage: Wird unter einem Hauptgewehr montiert (z.B. M203).">Under-Barrel</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sb" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single und Burst gewechselt werden (Bonus-Action).">Select Fire S/B</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sa" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single und Full-Auto gewechselt werden (Bonus-Action).">Select Fire S/A</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_sba" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Single, Burst und Full-Auto gewechselt werden (Bonus-Action).">Select Fire S/B/A</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_sf_ba" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Select Fire: Kann zwischen Burst und Full-Auto gewechselt werden (kein Single).">Select Fire B/A</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_quirky" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Eigenheit: Siehe Compendium fuer Special-Rules zu dieser Waffe.">Quirky</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_blast_10" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Explosionsradius 10ft: Alle im Radius betroffen. Dex-Save fuer halben Schaden.">Blast 10ft</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_blast_15" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Explosionsradius 15ft: Alle im Radius betroffen. Dex-Save fuer halben Schaden.">Blast 15ft</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_blast_20" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Explosionsradius 20ft: Alle im Radius betroffen. Dex-Save fuer halben Schaden.">Blast 20ft</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_blast_25" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Explosionsradius 25ft: Alle im Radius betroffen. Dex-Save fuer halben Schaden.">Blast 25ft</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_thrown" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Wurfwaffe: Wird mit Dex-Mod + Prof geworfen.">Thrown</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_deviation" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Deviation: Bei Miss weicht der Einschlag um 1d8 Richtung / 1d6x5ft ab (GM-Regel).">Deviation</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_ignite" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Entzuendet: Brandflaeche bleibt fuer Duration aktiv, Stoff/Holz/Kraftstoff brennt weiter.">Ignite</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_obscures" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Obscures: Rauch-Wolke - schwer sichtbar, Attacks von/zu mit Disadvantage.">Obscures</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_engulf" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Engulf: Kegel / lineare Flaeche - alle betroffen, Dex-Save fuer halben Schaden.">Engulf</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_force_pierce" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Schaden kombiniert Force- und Piercing-Typ (Ruestungs-Resistenzen entsprechend pruefen).">Force+Piercing</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_force" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Schaden vom Typ Force (umgeht die meisten Armor-Resistenzen).">Force</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_ammo_dmg" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Schaden haengt vom geladenen Ammo-Typ ab (HE / Buckshot / Flechette etc.).">siehe Ammo-Typ für Damage</span></span>
@@ -392,14 +879,67 @@
             <label>Granate</label>
           <select name="attr_gpreset" class="atlas-grenade-name-select">
             <option value="" disabled selected>-- Granate wählen --</option>
-            <option disabled>---------- Grenades ----------</option>
-            <option value="m67">M67 Fragmentation</option>
-            <option value="anm14">AN-M14 TH3 Incendiary</option>
-            <option value="m84">M84 Flashbang</option>
-            <option disabled>---------- Raw Explosives ----------</option>
-            <option value="c4_quarter">0.1 kg C4</option>
-            <option value="detcord">1 ft Det Cord</option>
-            <option value="sticky">Sticky Grenade</option>
+            <option disabled>---------- Fragmentation Grenades ----------</option>
+            <option value="arges_hg_85_austria">ARGES HG 85 (Austria)</option>
+            <option value="dm51_german">DM51 (German)</option>
+            <option value="dm61_german">DM61 (German)</option>
+            <option value="f1_soviet">F1 (Soviet)</option>
+            <option value="l109a1_uk">L109A1 (UK)</option>
+            <option value="l111a1_uk">L111A1 (UK)</option>
+            <option value="m26_fragmentation">M26 Fragmentation</option>
+            <option value="m67_fragmentation">M67 Fragmentation</option>
+            <option value="mk_2_pineapple_us">Mk 2 "Pineapple" (US)</option>
+            <option value="rgd_5_soviet">RGD-5 (Soviet)</option>
+            <option value="v40_mini_dutch">V40 Mini (Dutch)</option>
+            <option disabled>---------- Offensive/Concussion Grenades ----------</option>
+            <option value="mk3a2_offensive">Mk3A2 Offensive</option>
+            <option disabled>---------- Incendiary Grenades ----------</option>
+            <option value="an_m14_th3_incendiary">AN-M14 TH3 Incendiary</option>
+            <option value="m34_wp">M34 WP</option>
+            <option disabled>---------- Stun/Flashbang Grenades ----------</option>
+            <option value="als_1007_flashbang">ALS 1007 Flashbang</option>
+            <option value="g60_stun_grenade_uk">G60 Stun Grenade (UK)</option>
+            <option value="m84_flashbang">M84 Flashbang</option>
+            <option value="mk141_mod_0_us_seal">Mk141 Mod 0 (US SEAL)</option>
+            <option value="model_7290_flashbang">Model 7290 Flashbang</option>
+            <option disabled>---------- Smoke Grenades ----------</option>
+            <option value="an_m8_hc_white_smoke">AN-M8 HC White Smoke</option>
+            <option value="m18_signal_smoke">M18 Signal Smoke</option>
+            <option value="m83_ir_smoke">M83 IR Smoke</option>
+            <option value="rdg_2_smoke_russian">RDG-2 Smoke (Russian)</option>
+            <option disabled>---------- Less-Lethal / Riot Control Grenades ----------</option>
+            <option value="m7a3_cs">M7A3 CS</option>
+            <option value="stingball">Stingball</option>
+            <option disabled>---------- Plastic Explosives ----------</option>
+            <option value="g01_kg_c4">0.1 kg C4</option>
+            <option value="g01_kg_pe_4">0.1 kg PE-4</option>
+            <option value="g01_kg_semtex">0.1 kg Semtex</option>
+            <option value="m112_c4_block">M112 C4 Block</option>
+            <option value="m118_demo_sheet">M118 Demo Sheet</option>
+            <option value="tnt_block_05_lb">TNT Block (0.5 lb)</option>
+            <option disabled>---------- Detonation Cord ----------</option>
+            <option value="g1_ft_det_cord">1 ft Det Cord</option>
+            <option disabled>---------- Directional Mines ----------</option>
+            <option value="c19_mine_can">C19 Mine (CAN)</option>
+            <option value="l105a1_uk">L105A1 (UK)</option>
+            <option value="m18a1_claymore">M18A1 Claymore</option>
+            <option value="mon_50_soviet">MON-50 (Soviet)</option>
+            <option disabled>---------- Anti-Personnel Mines ----------</option>
+            <option value="m14_ap_mine">M14 AP Mine</option>
+            <option value="m16_bouncing_betty">M16 Bouncing Betty</option>
+            <option value="pmn_mine_soviet">PMN Mine (Soviet)</option>
+            <option disabled>---------- Anti-Tank Mines ----------</option>
+            <option value="l9_bar_mine">L9 Bar Mine</option>
+            <option value="m15_at_mine">M15 AT Mine</option>
+            <option value="m19_at_mine">M19 AT Mine</option>
+            <option disabled>---------- Satchel Charges ----------</option>
+            <option value="m183_satchel_charge">M183 Satchel Charge</option>
+            <option disabled>---------- Breaching Charges ----------</option>
+            <option value="m1a2_bangalore_torpedo">M1A2 Bangalore Torpedo</option>
+            <option value="m2a4_shaped_charge">M2A4 Shaped Charge</option>
+            <option disabled>---------- Improvised Throwables ----------</option>
+            <option value="molotov_cocktail">Molotov Cocktail</option>
+            <option value="sticky_grenade">Sticky Grenade</option>
           </select>
           <input type="hidden" name="attr_gname" />
           </div>

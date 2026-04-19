@@ -1,0 +1,13 @@
+{
+  "name": "mw-5e-roll20-character-sheet",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "vite": "^8.0.8"
+  }
+}

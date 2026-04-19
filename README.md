@@ -1,0 +1,75 @@
+# MW 5E Roll20 Character Sheet
+
+Roll20 character sheet for a Modern Warfare 5E campaign, plus a local Vite
+preview so you don't have to upload to Roll20 just to see a layout change.
+
+## Use
+
+```bash
+npm install       # once
+npm run dev       # http://localhost:5173
+npm run build     # one-shot sync of src/ → root (CI / sanity check)
+```
+
+Edit `src/sheet.html` and `src/sheet.css`. While `npm run dev` is running, the
+root `sheet.html` + `sheet.css` are copied from `src/` on every save (and
+again on server start), so the autouploader always sees a fresh artifact.
+`npm run build` is just the same sync as a one-shot, useful for CI or to
+re-sync after editing `src/` with the dev server off.
+
+Upload the root `sheet.html` + `sheet.css` to Roll20
+(Settings → Game Settings → Character Sheet Template → Custom), or point
+your autouploader at the repo root.
+
+## Layout
+
+```
+src/sheet.html, src/sheet.css   source of truth — edit these
+sheet.html, sheet.css           build output at root, the only Roll20 artifacts
+preview/index.html              dev-only entry (full HTML doc wrapper)
+preview/main.js                 boots the stub, hydrates repeating sections, evals the worker
+preview/roll20-stub.js          on / getAttrs / setAttrs / getSectionIDs / startRoll / finishRoll
+vite.config.mjs                 Vite root = preview/; serves /__sheet-fragment + /__sheet-css
+scripts/build.mjs               src/ → root sync (imported by Vite + CLI for `npm run build`)
+```
+
+The repo root intentionally contains no HTML other than `sheet.html`, so
+autouploader extensions pointed at the root can't confuse the dev entry for
+the Roll20 sheet.
+
+## How the preview works
+
+Roll20 sheets are HTML fragments: Roll20 wraps them in `<div class="charsheet">`
+and runs the `<script type="text/worker">` block in a sandbox with an
+`on/getAttrs/setAttrs` API. A plain browser does none of that.
+
+The preview reproduces it locally:
+
+1. **Wrap.** `preview/index.html` is a full document with a
+   `<div class="charsheet"><div id="sheet-root"></div></div>` and a link to
+   `/__sheet-css` (served by the Vite plugin, reads `src/sheet.css`).
+2. **Fetch + clean.** On boot, `preview/main.js` fetches `/__sheet-fragment`.
+   The Vite plugin returns `src/sheet.html` with `<rolltemplate>` blocks
+   stripped and `<script type="text/worker">` rewritten to
+   `type="text/roll20-worker"` so the browser leaves it alone.
+3. **Hydrate repeating sections.** Each `<fieldset class="repeating_xxx">` is
+   turned into a `.repcontainer` with an add-row button; rows get Roll20-style
+   `attr_repeating_xxx_<rowid>_<field>` names and a delete button.
+4. **Run the worker.** `main.js` finds each `text/roll20-worker` script and
+   evals it with `on / getAttrs / setAttrs / getSectionIDs / startRoll /
+   finishRoll / generateRowID` injected as locals. `roll20-stub.js` routes
+   those through the live DOM, so derived fields (ability mods, prof bonus,
+   encumbrance, stress tiers, …) update as you edit inputs.
+5. **Chat log.** `startRoll` output is appended to a `#roll20-chat` div at the
+   bottom of the page — no real dice math, just a record that a roll fired.
+
+## Known limits
+
+- **No dice.** `startRoll` returns an empty `results` object; `finishRoll`
+  just logs. Visual rolls in Roll20 chat aren't reproduced.
+- **Rolltemplates aren't rendered.** They only exist in Roll20 chat.
+- **Repeating rows start empty.** Use the `+ Add` button under each section
+  to create rows; they're not persisted across reloads.
+- **Sync happens via the dev server.** The root artifacts are refreshed on
+  every `src/` save while `npm run dev` is running. Edit `src/` with the
+  server off and you'll need `npm run build` before pushing.

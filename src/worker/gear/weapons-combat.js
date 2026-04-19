@@ -37,12 +37,23 @@
         if (lvl >= 5)    note += ` L5: 1d10 wenn beide Haende frei (manuell).`;
         if (shakenDisadv) note += ` Shaken 5/Broken (Disadv: ${d20a}/${d20b} -> ${d20}).`;
 
+        // Two-step flow: bake the full damage rolltemplate (with
+        // [[...]] inline rolls intact so they re-roll on each click)
+        // into the GLOBAL last_damage_full attr. The chat link targets
+        // the single global last_damage link (targets roll_last_damage button). No repeating row
+        // id in the macro call -> no Roll20 macro-parser strip issues.
+        const modeLabel = `Unarmed (${abilLabel})`;
+        const dmgFull =
+          `&{template:damage} {{title=Unarmed Strike}} {{who=${charName}}} ` +
+          `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}}`;
+        setAttrs({ last_damage_full: dmgFull });
+        const damageLink = `[Schaden würfeln](~@{character_id}|last_damage)`;
         startRoll(
           `&{template:attack} ` +
           `{{title=Unarmed Strike}} ` +
-          `{{mode=Unarmed (${abilLabel})}} ` +
+          `{{mode=${modeLabel}}} ` +
           `{{attack=[[${d20} + ${atkBonus}]]}} ` +
-          `{{damage=[[${damageFormula}]]}} ` +
+          `{{damage_link=${damageLink}}} ` +
           `{{who=${charName}}} ` +
           `{{note=${note}}}`,
           (r) => finishRoll(r.rollId)
@@ -462,6 +473,19 @@
       for (const rm of rangeMultMods)         modNotes.push(rm);
       const modsInfo = modNotes.length ? ` Mods: ${modNotes.join(", ")}.` : "";
 
+      // Two-step flow: damage link targets the global last_damage (calls roll_last_damage button)
+      // button (see src/sheet.html). Hidden unless the weapon misfired
+      // (misfire_yes = weapon damaged, no shot).
+      const zoneNote = zoneKey !== "torso" ? `${zone.label}: ${zone.effect}` : "";
+      const damageLink = (misfireKey !== "misfire_yes")
+        ? `[Schaden würfeln](~@{character_id}|last_damage)`
+        : "";
+      const dmgFull =
+        `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
+        `{{mode=${cfg.mode}}} {{damage=[[${damageFormula}]]}}` +
+        (critNote ? ` {{crit_note=${critNote}}}` : "") +
+        (zoneNote ? ` {{zone_note=${zoneNote}}}` : "");
+
       let rollText = `&{template:attack} ` +
         `{{title=${wname}}} ` +
         (wcaliber ? `{{caliber=${wcaliber}}} ` : "") +
@@ -471,7 +495,7 @@
         `{{crit_label=${critLabel}}} ` +
         `{{${misfireKey}=1}} ` +
         `{{${critKey}=1}} ` +
-        `{{damage=[[${damageFormula}]]}} ` +
+        (damageLink ? `{{damage_link=${damageLink}}} ` : "") +
         (modeKey === "wauto" ? `{{burst_size=${ammoUsed}}} ` : "") +
         `{{recoil_pen=-${penalty}}} ` +
         (zoneKey !== "torso" ? `{{zone=${zone.label} (-${zone.pen})}} {{zone_effect=${zone.effect}}} ` : "") +
@@ -481,7 +505,10 @@
         `{{who=${charName}}}`;
 
       startRoll(rollText, (results) => {
-        const setUpd = { [`${rowPrefix}_wammo`]: ammoAfter };
+        const setUpd = {
+          [`${rowPrefix}_wammo`]: ammoAfter,
+          last_damage_full: dmgFull,
+        };
         if (newWeaponStatus) applyWeaponStatus(rowPrefix, newWeaponStatus, setUpd);
         setAttrs(setUpd);
         finishRoll(results.rollId);
@@ -565,15 +592,22 @@
       if (trainMelee > 0) note += ` Melee Training L${trainMelee}: +${meleeB.atk} Atk / +${meleeB.dmg} Dmg.`;
       if (shakenDisadv)  note += ` Shaken 5/Broken (Disadv: ${d20a}/${d20b} -> ${d20}).`;
 
+      const damageLink = `[Schaden würfeln](~@{character_id}|last_damage)`;
+      const dmgFull =
+        `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
+        `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}}`;
       const rollText = `&{template:attack} ` +
         `{{title=${wname}}} ` +
         `{{mode=${modeLabel}}} ` +
         `{{attack=[[${d20} + ${effAtkBonus}]]}} ` +
-        `{{damage=[[${damageFormula}]]}} ` +
+        `{{damage_link=${damageLink}}} ` +
         `{{who=${charName}}} ` +
         `{{note=${note}}}`;
 
-      startRoll(rollText, (r) => finishRoll(r.rollId));
+      startRoll(rollText, (r) => {
+        setAttrs({ last_damage_full: dmgFull });
+        finishRoll(r.rollId);
+      });
     });
   }
 
@@ -827,25 +861,40 @@
         if (m) dmgDice = `${parseInt(m[1]) + autoExtraDie}d${m[2]}${m[3]}`;
       }
 
+      // Two-step: one damage link on the spray card. User clicks it once
+      // per target that hits (per GM adjudication). Each click re-rolls
+      // damage from the stored formula, so fresh dice each time.
+      const baseDmg = `${dmgDice} + ${effDmgBonus}`;
+      const dmgFormula = hasSuppressor ? `${baseDmg} - 1d4` : baseDmg;
+      const zoneNote = zoneKey !== "torso" ? `${zone.label}: ${zone.effect}` : "";
+      const spCritNote = headShotMultiplier > 1 ? `Kopfschuss: alle Dice x${headShotMultiplier}` : "";
+      const dmgFull =
+        `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
+        `{{mode=${modeLabel}}} {{damage=[[${dmgFormula}]]}}` +
+        (spCritNote ? ` {{crit_note=${spCritNote}}}` : "") +
+        (zoneNote ? ` {{zone_note=${zoneNote}}}` : "");
+      const damageLink = `[Schaden würfeln (pro Hit)](~@{character_id}|last_damage)`;
+
       let rollText = `&{template:spray} ` +
         `{{title=${wname}}} ` +
         `{{mode=${modeLabel}}} ` +
         `{{who=${charName}}} ` +
         `{{ammo=${ammoDisplay}}} ` +
+        `{{damage_link=${damageLink}}} ` +
         `{{note=${noteText}}}`;
 
       for (let i = 0; i < targets; i++) {
         const targetPen = i * autoTargetPen;
         const atkDie = shakenDisadv ? "2d20kl1" : "1d20";
         const atkFormula = `${atkDie} + ${effAttack} - ${penalty} - ${zone.pen} - ${targetPen}`;
-        const baseDmg = `${dmgDice} + ${effDmgBonus}`;
-        const dmgFormula = hasSuppressor ? `${baseDmg} - 1d4` : baseDmg;
         rollText += ` {{t${i+1}_atk=[[${atkFormula}]]}}`;
-        rollText += ` {{t${i+1}_dmg=[[${dmgFormula}]]}}`;
       }
 
       startRoll(rollText, (results) => {
-        setAttrs({ [`${rowPrefix}_wammo`]: ammoAfter });
+        setAttrs({
+          [`${rowPrefix}_wammo`]: ammoAfter,
+          last_damage_full: dmgFull,
+        });
         finishRoll(results.rollId);
       });
     });

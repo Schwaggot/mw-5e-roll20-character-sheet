@@ -5,6 +5,14 @@
 
 <div class="atlas-sheet">
 
+  <!-- Global two-step damage roll button. Every attack/spray/unarmed -->
+  <!-- path writes the full damage rolltemplate string into           -->
+  <!-- last_damage_full via setAttrs, then posts a chat link pointing -->
+  <!-- here. Single global button avoids repeating-row-id chars that  -->
+  <!-- Roll20's macro resolver strips on some parses.                 -->
+  <input type="hidden" name="attr_last_damage_full" value="" />
+  <button type="roll" name="roll_last_damage" style="display:none" value="@{last_damage_full}"></button>
+
   <!-- INCLUDE: src/html/header.html -->
 
   <!-- INCLUDE: src/html/tabs-nav.html -->

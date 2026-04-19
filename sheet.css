@@ -2052,3 +2052,108 @@
   color: #e8f5cc !important;
   border: 1px solid #8ab85e !important;
 }
+
+/* ---------- Damage Template (Two-Step Attack -> Damage) ---------- */
+/* Mirrors the attack template's frame/header/row styling so the     */
+/* damage card looks like a sibling of the attack card in chat.      */
+.sheet-rolltemplate-damage .sheet-atlas-rt {
+  background: #1a1d20 !important;
+  border: 1px solid #5c7a3a !important;
+  border-radius: 3px;
+  color: #e6e6e6 !important;
+  padding: 0;
+  font-family: "Consolas", "Menlo", monospace;
+  font-size: 12px;
+  margin: 2px 0;
+  overflow: hidden;
+}
+.sheet-rolltemplate-damage .sheet-atlas-rt-head {
+  background: linear-gradient(180deg, #4a3a23 0%, #3a2a19 100%) !important;
+  color: #e5c8a8 !important;
+  padding: 6px 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 12px;
+  border-bottom: 1px solid #8a6030;
+}
+.sheet-rolltemplate-damage .sheet-atlas-rt-who {
+  background: #262a2f !important;
+  color: #b8bcc0 !important;
+  padding: 2px 10px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #3a3f44;
+}
+.sheet-rolltemplate-damage .sheet-atlas-rt-body { padding: 6px 10px; }
+.sheet-rolltemplate-damage .sheet-atlas-rt-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline;
+  padding: 3px 0;
+  border-bottom: 1px dotted #3a3f44;
+  gap: 12px;
+}
+.sheet-rolltemplate-damage .sheet-atlas-rt-row:last-child { border-bottom: none; }
+.sheet-rolltemplate-damage .sheet-atlas-rt-label {
+  color: #c5c9cd !important;
+  font-size: 11px !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: normal;
+}
+.sheet-rolltemplate-damage .sheet-atlas-rt-val {
+  color: #e5c8a8 !important;
+  font-weight: 700;
+  font-size: 14px !important;
+  text-align: right;
+}
+.sheet-rolltemplate-damage .sheet-atlas-rt-note {
+  color: #b0b0b0 !important;
+  font-size: 10px !important;
+  font-style: italic;
+  margin-top: 4px;
+  display: block;
+  border-bottom: none;
+}
+.sheet-rolltemplate-damage .inlinerollresult {
+  background: #3a2a19 !important;
+  background-color: #3a2a19 !important;
+  color: #ffd8a0 !important;
+  border: 1px solid #8a6030 !important;
+  padding: 0 5px !important;
+  border-radius: 2px !important;
+  font-weight: 700;
+}
+.sheet-rolltemplate-damage .inlinerollresult.fullcrit {
+  background: #3a2a19 !important;
+  color: #ffe8b8 !important;
+  border: 2px solid #ffb85c !important;
+}
+.sheet-rolltemplate-damage .inlinerollresult.fullfail {
+  background: #3a1f1f !important;
+  color: #ffb8b8 !important;
+  border: 2px solid #ff5c5c !important;
+}
+
+/* Damage link row in the attack/spray template: make the "Schaden   */
+/* wuerfeln" link look clickable and slightly highlighted so players */
+/* notice they need to click it after the GM confirms the hit.       */
+.sheet-rolltemplate-attack .sheet-atlas-rt-damage-link,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-damage-link {
+  background: #2a231a !important;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0 -10px;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-damage-link .sheet-atlas-rt-label,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-damage-link .sheet-atlas-rt-label {
+  color: #d8b468 !important;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-damage-link a,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-damage-link a {
+  color: #ffc878 !important;
+  text-decoration: underline !important;
+  font-weight: 700;
+}

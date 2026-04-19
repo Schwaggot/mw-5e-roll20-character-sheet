@@ -5,6 +5,14 @@
 
 <div class="atlas-sheet">
 
+  <!-- Global two-step damage roll button. Every attack/spray/unarmed -->
+  <!-- path writes the full damage rolltemplate string into           -->
+  <!-- last_damage_full via setAttrs, then posts a chat link pointing -->
+  <!-- here. Single global button avoids repeating-row-id chars that  -->
+  <!-- Roll20's macro resolver strips on some parses.                 -->
+  <input type="hidden" name="attr_last_damage_full" value="" />
+  <button type="roll" name="roll_last_damage" style="display:none" value="@{last_damage_full}"></button>
+
   <!-- ===================== HEADER ===================== -->
   <header class="atlas-header">
     <div class="atlas-header-row">
@@ -2402,11 +2410,12 @@
     {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
     <div class="sheet-atlas-rt-body">
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Modus</span><span class="sheet-atlas-rt-val">{{mode}}</span></div>
-      {{#t1_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 1</span><span class="sheet-atlas-rt-val">Atk {{t1_atk}} | Dmg {{t1_dmg}}</span></div>{{/t1_atk}}
-      {{#t2_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 2 (-5)</span><span class="sheet-atlas-rt-val">Atk {{t2_atk}} | Dmg {{t2_dmg}}</span></div>{{/t2_atk}}
-      {{#t3_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 3 (-10)</span><span class="sheet-atlas-rt-val">Atk {{t3_atk}} | Dmg {{t3_dmg}}</span></div>{{/t3_atk}}
-      {{#t4_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 4 (-15)</span><span class="sheet-atlas-rt-val">Atk {{t4_atk}} | Dmg {{t4_dmg}}</span></div>{{/t4_atk}}
-      {{#t5_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 5 (-20)</span><span class="sheet-atlas-rt-val">Atk {{t5_atk}} | Dmg {{t5_dmg}}</span></div>{{/t5_atk}}
+      {{#t1_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 1</span><span class="sheet-atlas-rt-val">Atk {{t1_atk}}</span></div>{{/t1_atk}}
+      {{#t2_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 2 (-5)</span><span class="sheet-atlas-rt-val">Atk {{t2_atk}}</span></div>{{/t2_atk}}
+      {{#t3_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 3 (-10)</span><span class="sheet-atlas-rt-val">Atk {{t3_atk}}</span></div>{{/t3_atk}}
+      {{#t4_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 4 (-15)</span><span class="sheet-atlas-rt-val">Atk {{t4_atk}}</span></div>{{/t4_atk}}
+      {{#t5_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 5 (-20)</span><span class="sheet-atlas-rt-val">Atk {{t5_atk}}</span></div>{{/t5_atk}}
+      {{#damage_link}}<div class="sheet-atlas-rt-row sheet-atlas-rt-damage-link"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage_link}}</span></div>{{/damage_link}}
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>
       {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
     </div>
@@ -2424,7 +2433,8 @@
       {{#recoil_pen}}<div class="sheet-atlas-rt-row sheet-atlas-rt-recoil"><span class="sheet-atlas-rt-label">Recoil-Pen</span><span class="sheet-atlas-rt-val">{{recoil_pen}}</span></div>{{/recoil_pen}}
       {{#zone}}<div class="sheet-atlas-rt-row sheet-atlas-rt-zone"><span class="sheet-atlas-rt-label">Zielzone</span><span class="sheet-atlas-rt-val">{{zone}}</span></div>{{/zone}}
       {{#zone_effect}}<div class="sheet-atlas-rt-row sheet-atlas-rt-zone-effect">{{zone_effect}}</div>{{/zone_effect}}
-      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage}}</span></div>
+      {{#damage}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage}}</span></div>{{/damage}}
+      {{#damage_link}}<div class="sheet-atlas-rt-row sheet-atlas-rt-damage-link"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage_link}}</span></div>{{/damage_link}}
       {{#burst_size}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo verbraucht</span><span class="sheet-atlas-rt-val">{{burst_size}}</span></div>{{/burst_size}}
       {{#misfire_no}}<div class="sheet-atlas-rt-row sheet-atlas-rt-misfire-no"><span class="sheet-atlas-rt-label">{{misfire_label}}</span><span class="sheet-atlas-rt-val">Nein</span></div>{{/misfire_no}}
       {{#misfire_miss}}<div class="sheet-atlas-rt-row sheet-atlas-rt-misfire-miss"><span class="sheet-atlas-rt-label">{{misfire_label}}</span><span class="sheet-atlas-rt-val">Miss - Waffe OK</span></div>{{/misfire_miss}}
@@ -2434,6 +2444,22 @@
       {{#crit_no}}<div class="sheet-atlas-rt-row sheet-atlas-rt-crit-no"><span class="sheet-atlas-rt-label">{{crit_label}}</span><span class="sheet-atlas-rt-val">Nein</span></div>{{/crit_no}}
       {{#ammo}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>{{/ammo}}
       {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
+    </div>
+  </div>
+</rolltemplate>
+
+<!-- Damage-only template for the two-step Attack -> Damage flow.  -->
+<!-- Rendered when a player clicks the chat "Schaden wuerfeln"      -->
+<!-- link in the attack/spray template.                             -->
+<rolltemplate class="sheet-rolltemplate-damage">
+  <div class="sheet-atlas-rt sheet-atlas-rt-damage">
+    <div class="sheet-atlas-rt-head">{{title}} - Schaden</div>
+    {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
+    <div class="sheet-atlas-rt-body">
+      {{#mode}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Modus</span><span class="sheet-atlas-rt-val">{{mode}}</span></div>{{/mode}}
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage}}</span></div>
+      {{#crit_note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{crit_note}}</div>{{/crit_note}}
+      {{#zone_note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{zone_note}}</div>{{/zone_note}}
     </div>
   </div>
 </rolltemplate>
@@ -2846,12 +2872,23 @@
         if (lvl >= 5)    note += ` L5: 1d10 wenn beide Haende frei (manuell).`;
         if (shakenDisadv) note += ` Shaken 5/Broken (Disadv: ${d20a}/${d20b} -> ${d20}).`;
 
+        // Two-step flow: bake the full damage rolltemplate (with
+        // [[...]] inline rolls intact so they re-roll on each click)
+        // into the GLOBAL last_damage_full attr. The chat link targets
+        // the single global last_damage link (targets roll_last_damage button). No repeating row
+        // id in the macro call -> no Roll20 macro-parser strip issues.
+        const modeLabel = `Unarmed (${abilLabel})`;
+        const dmgFull =
+          `&{template:damage} {{title=Unarmed Strike}} {{who=${charName}}} ` +
+          `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}}`;
+        setAttrs({ last_damage_full: dmgFull });
+        const damageLink = `[Schaden würfeln](~@{character_id}|last_damage)`;
         startRoll(
           `&{template:attack} ` +
           `{{title=Unarmed Strike}} ` +
-          `{{mode=Unarmed (${abilLabel})}} ` +
+          `{{mode=${modeLabel}}} ` +
           `{{attack=[[${d20} + ${atkBonus}]]}} ` +
-          `{{damage=[[${damageFormula}]]}} ` +
+          `{{damage_link=${damageLink}}} ` +
           `{{who=${charName}}} ` +
           `{{note=${note}}}`,
           (r) => finishRoll(r.rollId)
@@ -3271,6 +3308,19 @@
       for (const rm of rangeMultMods)         modNotes.push(rm);
       const modsInfo = modNotes.length ? ` Mods: ${modNotes.join(", ")}.` : "";
 
+      // Two-step flow: damage link targets the global last_damage (calls roll_last_damage button)
+      // button (see src/sheet.html). Hidden unless the weapon misfired
+      // (misfire_yes = weapon damaged, no shot).
+      const zoneNote = zoneKey !== "torso" ? `${zone.label}: ${zone.effect}` : "";
+      const damageLink = (misfireKey !== "misfire_yes")
+        ? `[Schaden würfeln](~@{character_id}|last_damage)`
+        : "";
+      const dmgFull =
+        `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
+        `{{mode=${cfg.mode}}} {{damage=[[${damageFormula}]]}}` +
+        (critNote ? ` {{crit_note=${critNote}}}` : "") +
+        (zoneNote ? ` {{zone_note=${zoneNote}}}` : "");
+
       let rollText = `&{template:attack} ` +
         `{{title=${wname}}} ` +
         (wcaliber ? `{{caliber=${wcaliber}}} ` : "") +
@@ -3280,7 +3330,7 @@
         `{{crit_label=${critLabel}}} ` +
         `{{${misfireKey}=1}} ` +
         `{{${critKey}=1}} ` +
-        `{{damage=[[${damageFormula}]]}} ` +
+        (damageLink ? `{{damage_link=${damageLink}}} ` : "") +
         (modeKey === "wauto" ? `{{burst_size=${ammoUsed}}} ` : "") +
         `{{recoil_pen=-${penalty}}} ` +
         (zoneKey !== "torso" ? `{{zone=${zone.label} (-${zone.pen})}} {{zone_effect=${zone.effect}}} ` : "") +
@@ -3290,7 +3340,10 @@
         `{{who=${charName}}}`;
 
       startRoll(rollText, (results) => {
-        const setUpd = { [`${rowPrefix}_wammo`]: ammoAfter };
+        const setUpd = {
+          [`${rowPrefix}_wammo`]: ammoAfter,
+          last_damage_full: dmgFull,
+        };
         if (newWeaponStatus) applyWeaponStatus(rowPrefix, newWeaponStatus, setUpd);
         setAttrs(setUpd);
         finishRoll(results.rollId);
@@ -3374,15 +3427,22 @@
       if (trainMelee > 0) note += ` Melee Training L${trainMelee}: +${meleeB.atk} Atk / +${meleeB.dmg} Dmg.`;
       if (shakenDisadv)  note += ` Shaken 5/Broken (Disadv: ${d20a}/${d20b} -> ${d20}).`;
 
+      const damageLink = `[Schaden würfeln](~@{character_id}|last_damage)`;
+      const dmgFull =
+        `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
+        `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}}`;
       const rollText = `&{template:attack} ` +
         `{{title=${wname}}} ` +
         `{{mode=${modeLabel}}} ` +
         `{{attack=[[${d20} + ${effAtkBonus}]]}} ` +
-        `{{damage=[[${damageFormula}]]}} ` +
+        `{{damage_link=${damageLink}}} ` +
         `{{who=${charName}}} ` +
         `{{note=${note}}}`;
 
-      startRoll(rollText, (r) => finishRoll(r.rollId));
+      startRoll(rollText, (r) => {
+        setAttrs({ last_damage_full: dmgFull });
+        finishRoll(r.rollId);
+      });
     });
   }
 
@@ -3636,25 +3696,40 @@
         if (m) dmgDice = `${parseInt(m[1]) + autoExtraDie}d${m[2]}${m[3]}`;
       }
 
+      // Two-step: one damage link on the spray card. User clicks it once
+      // per target that hits (per GM adjudication). Each click re-rolls
+      // damage from the stored formula, so fresh dice each time.
+      const baseDmg = `${dmgDice} + ${effDmgBonus}`;
+      const dmgFormula = hasSuppressor ? `${baseDmg} - 1d4` : baseDmg;
+      const zoneNote = zoneKey !== "torso" ? `${zone.label}: ${zone.effect}` : "";
+      const spCritNote = headShotMultiplier > 1 ? `Kopfschuss: alle Dice x${headShotMultiplier}` : "";
+      const dmgFull =
+        `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
+        `{{mode=${modeLabel}}} {{damage=[[${dmgFormula}]]}}` +
+        (spCritNote ? ` {{crit_note=${spCritNote}}}` : "") +
+        (zoneNote ? ` {{zone_note=${zoneNote}}}` : "");
+      const damageLink = `[Schaden würfeln (pro Hit)](~@{character_id}|last_damage)`;
+
       let rollText = `&{template:spray} ` +
         `{{title=${wname}}} ` +
         `{{mode=${modeLabel}}} ` +
         `{{who=${charName}}} ` +
         `{{ammo=${ammoDisplay}}} ` +
+        `{{damage_link=${damageLink}}} ` +
         `{{note=${noteText}}}`;
 
       for (let i = 0; i < targets; i++) {
         const targetPen = i * autoTargetPen;
         const atkDie = shakenDisadv ? "2d20kl1" : "1d20";
         const atkFormula = `${atkDie} + ${effAttack} - ${penalty} - ${zone.pen} - ${targetPen}`;
-        const baseDmg = `${dmgDice} + ${effDmgBonus}`;
-        const dmgFormula = hasSuppressor ? `${baseDmg} - 1d4` : baseDmg;
         rollText += ` {{t${i+1}_atk=[[${atkFormula}]]}}`;
-        rollText += ` {{t${i+1}_dmg=[[${dmgFormula}]]}}`;
       }
 
       startRoll(rollText, (results) => {
-        setAttrs({ [`${rowPrefix}_wammo`]: ammoAfter });
+        setAttrs({
+          [`${rowPrefix}_wammo`]: ammoAfter,
+          last_damage_full: dmgFull,
+        });
         finishRoll(results.rollId);
       });
     });

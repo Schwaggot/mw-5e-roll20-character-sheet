@@ -37,11 +37,12 @@
     {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
     <div class="sheet-atlas-rt-body">
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Modus</span><span class="sheet-atlas-rt-val">{{mode}}</span></div>
-      {{#t1_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 1</span><span class="sheet-atlas-rt-val">Atk {{t1_atk}} | Dmg {{t1_dmg}}</span></div>{{/t1_atk}}
-      {{#t2_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 2 (-5)</span><span class="sheet-atlas-rt-val">Atk {{t2_atk}} | Dmg {{t2_dmg}}</span></div>{{/t2_atk}}
-      {{#t3_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 3 (-10)</span><span class="sheet-atlas-rt-val">Atk {{t3_atk}} | Dmg {{t3_dmg}}</span></div>{{/t3_atk}}
-      {{#t4_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 4 (-15)</span><span class="sheet-atlas-rt-val">Atk {{t4_atk}} | Dmg {{t4_dmg}}</span></div>{{/t4_atk}}
-      {{#t5_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 5 (-20)</span><span class="sheet-atlas-rt-val">Atk {{t5_atk}} | Dmg {{t5_dmg}}</span></div>{{/t5_atk}}
+      {{#t1_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 1</span><span class="sheet-atlas-rt-val">Atk {{t1_atk}}</span></div>{{/t1_atk}}
+      {{#t2_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 2 (-5)</span><span class="sheet-atlas-rt-val">Atk {{t2_atk}}</span></div>{{/t2_atk}}
+      {{#t3_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 3 (-10)</span><span class="sheet-atlas-rt-val">Atk {{t3_atk}}</span></div>{{/t3_atk}}
+      {{#t4_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 4 (-15)</span><span class="sheet-atlas-rt-val">Atk {{t4_atk}}</span></div>{{/t4_atk}}
+      {{#t5_atk}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ziel 5 (-20)</span><span class="sheet-atlas-rt-val">Atk {{t5_atk}}</span></div>{{/t5_atk}}
+      {{#damage_link}}<div class="sheet-atlas-rt-row sheet-atlas-rt-damage-link"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage_link}}</span></div>{{/damage_link}}
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>
       {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
     </div>
@@ -59,7 +60,8 @@
       {{#recoil_pen}}<div class="sheet-atlas-rt-row sheet-atlas-rt-recoil"><span class="sheet-atlas-rt-label">Recoil-Pen</span><span class="sheet-atlas-rt-val">{{recoil_pen}}</span></div>{{/recoil_pen}}
       {{#zone}}<div class="sheet-atlas-rt-row sheet-atlas-rt-zone"><span class="sheet-atlas-rt-label">Zielzone</span><span class="sheet-atlas-rt-val">{{zone}}</span></div>{{/zone}}
       {{#zone_effect}}<div class="sheet-atlas-rt-row sheet-atlas-rt-zone-effect">{{zone_effect}}</div>{{/zone_effect}}
-      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage}}</span></div>
+      {{#damage}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage}}</span></div>{{/damage}}
+      {{#damage_link}}<div class="sheet-atlas-rt-row sheet-atlas-rt-damage-link"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage_link}}</span></div>{{/damage_link}}
       {{#burst_size}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo verbraucht</span><span class="sheet-atlas-rt-val">{{burst_size}}</span></div>{{/burst_size}}
       {{#misfire_no}}<div class="sheet-atlas-rt-row sheet-atlas-rt-misfire-no"><span class="sheet-atlas-rt-label">{{misfire_label}}</span><span class="sheet-atlas-rt-val">Nein</span></div>{{/misfire_no}}
       {{#misfire_miss}}<div class="sheet-atlas-rt-row sheet-atlas-rt-misfire-miss"><span class="sheet-atlas-rt-label">{{misfire_label}}</span><span class="sheet-atlas-rt-val">Miss - Waffe OK</span></div>{{/misfire_miss}}
@@ -69,6 +71,22 @@
       {{#crit_no}}<div class="sheet-atlas-rt-row sheet-atlas-rt-crit-no"><span class="sheet-atlas-rt-label">{{crit_label}}</span><span class="sheet-atlas-rt-val">Nein</span></div>{{/crit_no}}
       {{#ammo}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>{{/ammo}}
       {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
+    </div>
+  </div>
+</rolltemplate>
+
+<!-- Damage-only template for the two-step Attack -> Damage flow.  -->
+<!-- Rendered when a player clicks the chat "Schaden wuerfeln"      -->
+<!-- link in the attack/spray template.                             -->
+<rolltemplate class="sheet-rolltemplate-damage">
+  <div class="sheet-atlas-rt sheet-atlas-rt-damage">
+    <div class="sheet-atlas-rt-head">{{title}} - Schaden</div>
+    {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
+    <div class="sheet-atlas-rt-body">
+      {{#mode}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Modus</span><span class="sheet-atlas-rt-val">{{mode}}</span></div>{{/mode}}
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage}}</span></div>
+      {{#crit_note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{crit_note}}</div>{{/crit_note}}
+      {{#zone_note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{zone_note}}</div>{{/zone_note}}
     </div>
   </div>
 </rolltemplate>

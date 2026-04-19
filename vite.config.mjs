@@ -1,12 +1,18 @@
 import { defineConfig } from 'vite';
-import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { syncArtifacts, buildCss, cssSourcePaths } from './scripts/build.mjs';
+import {
+  syncArtifacts,
+  buildCss,
+  buildHtml,
+  cssSourcePaths,
+  htmlSourcePaths,
+} from './scripts/build.mjs';
 
 const repoRoot = resolve(import.meta.dirname);
-const sheetHtmlPath = resolve(repoRoot, 'src/sheet.html');
 const cssPaths = cssSourcePaths();
 const cssPathSet = new Set(cssPaths);
+const htmlPaths = htmlSourcePaths();
+const htmlPathSet = new Set(htmlPaths);
 
 function transformSheet(raw) {
   // Strip <rolltemplate>…</rolltemplate> (Roll20-only, only rendered in chat),
@@ -21,15 +27,14 @@ function roll20SheetPlugin() {
   return {
     name: 'roll20-sheet',
     configureServer(server) {
-      // Serve processed fragment + concatenated CSS on their own URLs. The
-      // fragment is too large/irregular for Vite's HTML transform pipeline
-      // (parse5 chokes); the CSS lives outside the Vite root and is now
-      // assembled from multiple source files.
+      // Serve the assembled fragment + concatenated CSS on their own URLs.
+      // The fragment is too large/irregular for Vite's HTML transform pipeline
+      // (parse5 chokes); both live outside the Vite root and are assembled
+      // from multiple source files.
       server.middlewares.use('/__sheet-fragment', (_req, res) => {
-        const raw = readFileSync(sheetHtmlPath, 'utf8');
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('Cache-Control', 'no-store');
-        res.end(transformSheet(raw));
+        res.end(transformSheet(buildHtml()));
       });
       server.middlewares.use('/__sheet-css', (_req, res) => {
         res.setHeader('Content-Type', 'text/css; charset=utf-8');
@@ -38,7 +43,7 @@ function roll20SheetPlugin() {
       });
 
       // Watch every source file even though they're outside the Vite root.
-      server.watcher.add([sheetHtmlPath, ...cssPaths]);
+      server.watcher.add([...htmlPaths, ...cssPaths]);
 
       // Initial sync so the Roll20 artifacts at the repo root match src/
       // the moment the dev server starts.
@@ -49,13 +54,14 @@ function roll20SheetPlugin() {
       }
     },
     handleHotUpdate({ file, server }) {
-      const isSheetHtml = file === sheetHtmlPath;
-      const isSheetCss = cssPathSet.has(file);
-      if (!isSheetHtml && !isSheetCss) return;
+      const isHtml = htmlPathSet.has(file);
+      const isCss = cssPathSet.has(file);
+      if (!isHtml && !isCss) return;
       try {
         syncArtifacts();
-        const label = isSheetHtml ? 'sheet.html' : `sheet.css (from ${file.slice(repoRoot.length + 1)})`;
-        server.config.logger.info(`[roll20-sheet] synced ${label} → repo root`, {
+        const target = isHtml ? 'sheet.html' : 'sheet.css';
+        const rel = file.slice(repoRoot.length + 1);
+        server.config.logger.info(`[roll20-sheet] synced ${target} (from ${rel}) → repo root`, {
           clear: false,
           timestamp: true,
         });

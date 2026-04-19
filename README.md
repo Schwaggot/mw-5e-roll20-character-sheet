@@ -23,7 +23,8 @@ your autouploader at the repo root.
 ## Layout
 
 ```
-src/sheet.html                  sheet fragment — edit here
+src/sheet.html                  HTML fragment (header, tabs, rolltemplates); <!-- SHEET_WORKER --> placeholder marks where the worker is injected
+src/sheet-worker.js             sheet-worker JavaScript, edited as plain JS
 src/css/base/*.css              shared styles (root, header, tab nav, checkboxes, buttons, …)
 src/css/tabs/<tab>.css          per-tab styles: overview, skills, gear, features
 src/css/rolltemplates.css       chat rolltemplate styles
@@ -33,17 +34,24 @@ preview/index.html              dev-only entry (full HTML doc wrapper)
 preview/main.js                 boots the stub, hydrates repeating sections, evals the worker
 preview/roll20-stub.js          on / getAttrs / setAttrs / getSectionIDs / startRoll / finishRoll
 vite.config.mjs                 Vite root = preview/; serves /__sheet-fragment + /__sheet-css
-scripts/build.mjs               src/ → root sync (imported by Vite + CLI for `npm run build`)
+scripts/build.mjs               src/ → root assembly (imported by Vite + CLI for `npm run build`)
 ```
 
 The repo root intentionally contains no HTML other than `sheet.html`, so
 autouploader extensions pointed at the root can't confuse the dev entry for
-the Roll20 sheet. `sheet.css` at the root is the concatenation of every file
-in `src/css/`, in the order defined by `CSS_SOURCES` in
-`scripts/build.mjs` — base files first (so per-tab rules can override them
-via the cascade), then `tabs/*`, then `rolltemplates.css`. Each concatenated
-block is preceded by a `/* === src/css/… === */` banner to make the
-generated file traceable back to its source.
+the Roll20 sheet.
+
+`sheet.html` at the root is `src/sheet.html` with the `<!-- SHEET_WORKER -->`
+placeholder replaced by `<script type="text/worker">…</script>` wrapping
+`src/sheet-worker.js` verbatim. The resulting file is byte-identical to what
+you'd get by pasting the worker back inline.
+
+`sheet.css` at the root is the concatenation of every file in `src/css/`, in
+the order defined by `CSS_SOURCES` in `scripts/build.mjs` — base files first
+(so per-tab rules can override them via the cascade), then `tabs/*`, then
+`rolltemplates.css`. Each concatenated block is preceded by a
+`/* === src/css/… === */` banner to make the generated file traceable back
+to its source.
 
 ## How the preview works
 

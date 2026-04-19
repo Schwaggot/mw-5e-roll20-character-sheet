@@ -2,7 +2,7 @@
 // Exported for the Vite dev plugin (auto-sync on save); runnable as a CLI
 // (`npm run build`) for one-shot builds / CI.
 
-import { readFileSync, writeFileSync, copyFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -28,6 +28,9 @@ export const CSS_SOURCES = [
   'src/css/rolltemplates.css',
 ];
 
+const HTML_SOURCE = 'src/sheet.html';
+const WORKER_SOURCE = 'src/sheet-worker.js';
+
 export function buildCss() {
   const chunks = CSS_SOURCES.map((rel) => {
     const body = readFileSync(resolve(repoRoot, rel), 'utf8').replace(/\s+$/, '');
@@ -36,17 +39,32 @@ export function buildCss() {
   return chunks.join('\n');
 }
 
+export function buildHtml() {
+  const html = readFileSync(resolve(repoRoot, HTML_SOURCE), 'utf8');
+  const worker = readFileSync(resolve(repoRoot, WORKER_SOURCE), 'utf8').replace(/\s+$/, '');
+  if (!html.includes('<!-- SHEET_WORKER -->')) {
+    throw new Error(`${HTML_SOURCE} is missing the <!-- SHEET_WORKER --> placeholder`);
+  }
+  const scriptBlock = `<script type="text/worker">\n${worker}\n</script>`;
+  return html.replace('<!-- SHEET_WORKER -->', scriptBlock);
+}
+
+export function htmlSourcePaths() {
+  return [resolve(repoRoot, HTML_SOURCE), resolve(repoRoot, WORKER_SOURCE)];
+}
+
 export function cssSourcePaths() {
   return CSS_SOURCES.map((rel) => resolve(repoRoot, rel));
 }
 
 export function syncArtifacts({ log = false } = {}) {
-  copyFileSync(resolve(repoRoot, 'src/sheet.html'), resolve(repoRoot, 'sheet.html'));
+  const html = buildHtml();
+  writeFileSync(resolve(repoRoot, 'sheet.html'), html);
   const css = buildCss();
   writeFileSync(resolve(repoRoot, 'sheet.css'), css);
   if (log) {
-    console.log(`  src/sheet.html  →  sheet.html`);
-    console.log(`  ${CSS_SOURCES.length} css files  →  sheet.css  (${css.length} bytes)`);
+    console.log(`  src/sheet.html + src/sheet-worker.js  →  sheet.html  (${html.length} bytes)`);
+    console.log(`  ${CSS_SOURCES.length} css files                      →  sheet.css  (${css.length} bytes)`);
   }
 }
 

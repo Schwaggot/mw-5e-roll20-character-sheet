@@ -67,11 +67,17 @@
   };
 
   function recalcAllSaves(prof, shaken) {
-    const lvlAttrs = SAVE_ABILITIES.map((a) => `save_${a}_level`);
+    const lvlAttrs = [];
+    SAVE_ABILITIES.forEach((a) => {
+      lvlAttrs.push(`save_${a}_level`);
+      lvlAttrs.push(`save_${a}_train_level`);
+    });
     getAttrs(lvlAttrs, (v) => {
       const upd = {};
       for (const a of SAVE_ABILITIES) {
-        const lvl = parseInt(v[`save_${a}_level`]) || 0;
+        const manual = parseInt(v[`save_${a}_level`]) || 0;
+        const train  = parseInt(v[`save_${a}_train_level`]) || 0;
+        const lvl    = Math.max(manual, train);
         const disadv = shakenImposesDisadv("save", a, shaken);
         upd[`save_${a}_bonus`] = saveBonusForLevel(lvl, prof);
         upd[`save_${a}_die`]   = dieForState(lvl, disadv);
@@ -80,19 +86,23 @@
     });
   }
 
-  // Bei jeder Level-Aenderung: nur das eine Save neu rechnen.
+  // Bei jeder Level-Aenderung (manuell ODER training): nur das eine Save neu rechnen.
   SAVE_ABILITIES.forEach((a) => {
-    on(`change:save_${a}_level`, () => {
-      getAttrs([`save_${a}_level`, "prof_bonus", "shaken_level"], (v) => {
-        const lvl = parseInt(v[`save_${a}_level`]) || 0;
-        const prof = parseInt(v.prof_bonus) || 2;
+    const handler = () => {
+      getAttrs([`save_${a}_level`, `save_${a}_train_level`, "prof_bonus", "shaken_level"], (v) => {
+        const manual = parseInt(v[`save_${a}_level`]) || 0;
+        const train  = parseInt(v[`save_${a}_train_level`]) || 0;
+        const lvl    = Math.max(manual, train);
+        const prof   = parseInt(v.prof_bonus) || 2;
         const shaken = parseInt(v.shaken_level) || 0;
         setAttrs({
           [`save_${a}_bonus`]: saveBonusForLevel(lvl, prof),
           [`save_${a}_die`]:   dieForState(lvl, shakenImposesDisadv("save", a, shaken)),
         });
       });
-    });
+    };
+    on(`change:save_${a}_level`, handler);
+    on(`change:save_${a}_train_level`, handler);
   });
 
   // Bei Prof-Bonus / Shaken-Aenderung (Level-Up oder Stress) alle Dice neu rechnen.
@@ -115,11 +125,17 @@
   ];
 
   function recalcAllSkills(prof, shaken) {
-    const lvlAttrs = SKILL_SLUGS.map((s) => `skill_${s}_level`);
+    const lvlAttrs = [];
+    SKILL_SLUGS.forEach((s) => {
+      lvlAttrs.push(`skill_${s}_level`);
+      lvlAttrs.push(`skill_${s}_train_level`);
+    });
     getAttrs(lvlAttrs, (v) => {
       const upd = {};
       for (const s of SKILL_SLUGS) {
-        const lvl = parseInt(v[`skill_${s}_level`]) || 0;
+        const manual = parseInt(v[`skill_${s}_level`]) || 0;
+        const train  = parseInt(v[`skill_${s}_train_level`]) || 0;
+        const lvl    = Math.max(manual, train);
         const abil = SKILL_ABILITY_MAP[s];
         const disadv = shakenImposesDisadv("skill", abil, shaken);
         upd[`skill_${s}_bonus`] = saveBonusForLevel(lvl, prof);
@@ -129,20 +145,24 @@
     });
   }
 
-  // Pro Skill: Level-Aenderung -> nur dieses Skill neu rechnen.
+  // Pro Skill: Level-Aenderung (manuell ODER training) -> nur dieses Skill neu rechnen.
   SKILL_SLUGS.forEach((s) => {
-    on(`change:skill_${s}_level`, () => {
-      getAttrs([`skill_${s}_level`, "prof_bonus", "shaken_level"], (v) => {
-        const lvl = parseInt(v[`skill_${s}_level`]) || 0;
-        const prof = parseInt(v.prof_bonus) || 2;
+    const handler = () => {
+      getAttrs([`skill_${s}_level`, `skill_${s}_train_level`, "prof_bonus", "shaken_level"], (v) => {
+        const manual = parseInt(v[`skill_${s}_level`]) || 0;
+        const train  = parseInt(v[`skill_${s}_train_level`]) || 0;
+        const lvl    = Math.max(manual, train);
+        const prof   = parseInt(v.prof_bonus) || 2;
         const shaken = parseInt(v.shaken_level) || 0;
-        const abil = SKILL_ABILITY_MAP[s];
+        const abil   = SKILL_ABILITY_MAP[s];
         setAttrs({
           [`skill_${s}_bonus`]: saveBonusForLevel(lvl, prof),
           [`skill_${s}_die`]:   dieForState(lvl, shakenImposesDisadv("skill", abil, shaken)),
         });
       });
-    });
+    };
+    on(`change:skill_${s}_level`, handler);
+    on(`change:skill_${s}_train_level`, handler);
   });
 
   // Ability-Check-Dice (keine Trainings-Levels, nur Shaken-Disadv).

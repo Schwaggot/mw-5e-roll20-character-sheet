@@ -2124,21 +2124,211 @@
       <input type="checkbox" name="attr_inspire_available" value="1" style="display:none" />
     </div>
 
+    <!-- ===================== Physical Fitness Programs ===================== -->
     <div class="atlas-section">
-      <h2>Weitere Training Programs / Notizen</h2>
-      <div class="atlas-training-header">
-        <span>Programm</span>
-        <span>Level</span>
-        <span>Notizen</span>
+      <h2>Physical Fitness Programs</h2>
+      <div class="atlas-hint">Kursiv = Auto-Apply in Worker. Ability-Bumps werden direkt auf die Base-Scores addiert (Delta-Rollback bei Level-Aenderung).</div>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield"><label title="Weight Training (Max Level 4):&#10;Jeder Level: +1 STR (respektiere racial/class Maximum).&#10;Auto-Apply: ja (auf Base-STR).">Weight (+STR)</label><input type="number" name="attr_train_weight" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Agility Training (Max Level 4):&#10;Jeder Level: +1 DEX.&#10;Auto-Apply: ja (auf Base-DEX).">Agility (+DEX)</label><input type="number" name="attr_train_agility" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Fortitude Training (Max Level 4):&#10;Jeder Level: +1 CON.&#10;Auto-Apply: ja (auf Base-CON).">Fortitude (+CON)</label><input type="number" name="attr_train_fortitude" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Cardio Training (Max Level 4):&#10;L1: Proficiency in Athletics (Expertise wenn bereits prof - manuell auf L2 setzen).&#10;L2: +5 ft Speed.&#10;L3: Dash als Bonus-Action.&#10;L4: +5 ft Speed (gesamt +10 ft).&#10;Auto-Apply: Athletics-Training-Level und Speed.">Cardio</label><input type="number" name="attr_train_cardio" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Obstacle Course Training (Max Level 4):&#10;L1: Klettern kostet keine Extra-Bewegung.&#10;L2: Aufstehen (prone) kostet 10 ft statt halbe Speed.&#10;L3: Running Jump braucht nur 5 ft Anlauf.&#10;L4: +1d4 auf alle Acrobatics/Athletics-Checks.&#10;Auto-Apply: nein (situational).">Obstacle Course</label><input type="number" name="attr_train_obstacle" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Resistance Training (Max Level 6):&#10;L1/3/5: Resistance gegen 1 Damage-Type (Wahl).&#10;L2/4/6: +HP in Hoehe deines Character-Levels (pro even-Level 1x).&#10;Auto-Apply: nein (Choice-basiert). Notiere gewaehlte Damage-Types im Notes-Feld rechts.">Resistance</label><input type="number" name="attr_train_resistance" value="0" min="0" max="6" /></div>
       </div>
-      <fieldset class="repeating_training">
+      <div class="atlas-wfield" style="margin-top:6px">
+        <label>Resistance Training Notes (gewaehlte Damage-Types, +HP-Tracking)</label>
+        <textarea name="attr_train_resistance_notes" rows="2" placeholder="z.B. L1: Piercing, L3: Fire, L5: Cold; +HP-Boni: 2x (L2+L4)"></textarea>
+      </div>
+
+      <h3 class="atlas-sub-heading">Physical Saves Training</h3>
+      <div class="atlas-hint">Pro Save eigene Zeile (Track separat fuer STR/DEX/CON). L1: Proficiency. L2/L3: +1/+1. L4: Advantage.</div>
+      <div class="atlas-training-header"><span>Save</span><span>Level</span><span>&nbsp;</span></div>
+      <fieldset class="repeating_phys_saves">
         <div class="atlas-training-row">
-          <input type="text" name="attr_tpname" placeholder="z.B. Unarmed Training, Language Training, Covert Movement..." />
-          <input type="number" name="attr_tplevel" value="1" min="1" max="5" />
-          <textarea name="attr_tpnotes" rows="1" placeholder="Effekte..."></textarea>
+          <select name="attr_ptsave">
+            <option value="">-</option>
+            <option value="str">STR</option>
+            <option value="dex">DEX</option>
+            <option value="con">CON</option>
+          </select>
+          <input type="number" name="attr_ptslvl" value="1" min="0" max="4" />
+          <span class="atlas-hint">Auto-Apply: ja (ueber save_X_train_level).</span>
+        </div>
+      </fieldset>
+
+      <h3 class="atlas-sub-heading">Physical Skills Training</h3>
+      <div class="atlas-hint">Pro Skill eigene Zeile. L1: Proficiency. L2: +1. L3: Reroll Nat-1 (1x/long rest). L4: +1 (gesamt +2). L5: Reroll 1x/short rest.</div>
+      <div class="atlas-training-header"><span>Skill</span><span>Level</span><span>&nbsp;</span></div>
+      <fieldset class="repeating_phys_skills">
+        <div class="atlas-training-row">
+          <select name="attr_ptskill">
+            <option value="">-</option>
+            <option value="athletics">Athletics</option>
+            <option value="acrobatics">Acrobatics</option>
+            <option value="sleight">Sleight of Hand</option>
+            <option value="stealth">Stealth</option>
+          </select>
+          <input type="number" name="attr_ptlvl" value="1" min="0" max="5" />
+          <span class="atlas-hint">Auto-Apply: ja (ueber skill_X_train_level).</span>
         </div>
       </fieldset>
     </div>
+
+    <!-- ===================== Mental Fitness Programs ===================== -->
+    <div class="atlas-section">
+      <h2>Mental Fitness Programs</h2>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield"><label title="Education Training (Max Level 4):&#10;Jeder Level: +1 INT.&#10;Auto-Apply: ja (auf Base-INT).">Education (+INT)</label><input type="number" name="attr_train_education" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Resolve Training (Max Level 4):&#10;Jeder Level: +1 WIS.&#10;Auto-Apply: ja (auf Base-WIS).">Resolve (+WIS)</label><input type="number" name="attr_train_resolve" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Social Training (Max Level 4):&#10;Jeder Level: +1 CHA.&#10;Auto-Apply: ja (auf Base-CHA).">Social (+CHA)</label><input type="number" name="attr_train_social" value="0" min="0" max="4" /></div>
+      </div>
+
+      <h3 class="atlas-sub-heading">Mental Saves Training</h3>
+      <div class="atlas-hint">Pro Save eigene Zeile (Track separat fuer INT/WIS/CHA). L1: Proficiency. L2/L3: +1/+1. L4: Advantage.</div>
+      <div class="atlas-training-header"><span>Save</span><span>Level</span><span>&nbsp;</span></div>
+      <fieldset class="repeating_ment_saves">
+        <div class="atlas-training-row">
+          <select name="attr_mtsave">
+            <option value="">-</option>
+            <option value="int">INT</option>
+            <option value="wis">WIS</option>
+            <option value="cha">CHA</option>
+          </select>
+          <input type="number" name="attr_mtslvl" value="1" min="0" max="4" />
+          <span class="atlas-hint">Auto-Apply: ja (ueber save_X_train_level).</span>
+        </div>
+      </fieldset>
+
+      <h3 class="atlas-sub-heading">Mental Skills Training</h3>
+      <div class="atlas-hint">Pro Skill eigene Zeile. L1: Proficiency. L2: +1. L3: Reroll Nat-1 (1x/long rest). L4: +1 (gesamt +2). L5: Reroll 1x/short rest.</div>
+      <div class="atlas-training-header"><span>Skill</span><span>Level</span><span>&nbsp;</span></div>
+      <fieldset class="repeating_ment_skills">
+        <div class="atlas-training-row">
+          <select name="attr_mtskill">
+            <option value="">-</option>
+            <option value="history">History</option>
+            <option value="investigation">Investigation</option>
+            <option value="nature">Nature</option>
+            <option value="animal">Animal Handling</option>
+            <option value="insight">Insight</option>
+            <option value="medicine">Medicine</option>
+            <option value="perception">Perception</option>
+            <option value="survival">Survival</option>
+            <option value="deception">Deception</option>
+            <option value="intimidation">Intimidation</option>
+            <option value="performance">Performance</option>
+            <option value="persuasion">Persuasion</option>
+          </select>
+          <input type="number" name="attr_mtlvl" value="1" min="0" max="5" />
+          <span class="atlas-hint">Auto-Apply: ja (ueber skill_X_train_level).</span>
+        </div>
+      </fieldset>
+
+      <h3 class="atlas-sub-heading">Language Training</h3>
+      <div class="atlas-hint">Pro Sprache eigene Zeile. L1 DC10, L2 DC15, L3 DC20, L4 fluent, L5 lip-read. Auto-Apply: nein.</div>
+      <div class="atlas-training-header"><span>Sprache</span><span>Level</span><span>Notizen</span></div>
+      <fieldset class="repeating_languages">
+        <div class="atlas-training-row">
+          <input type="text" name="attr_lname" placeholder="z.B. Arabisch" />
+          <input type="number" name="attr_llvl" value="1" min="0" max="5" />
+          <input type="text" name="attr_lnotes" placeholder="Dialekt, Anmerkungen..." />
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- ===================== Awareness Programs ===================== -->
+    <div class="atlas-section">
+      <h2>Awareness Programs</h2>
+      <div class="atlas-hint">Alle Effekte situational / passive-Perception-basiert. Auto-Apply: nein.</div>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield"><label title="Awareness Training (Max Level 4):&#10;L1: Dim Light gibt keinen Disadvantage mehr auf WIS(Perception) sight-Checks.&#10;L2: +5 auf passive Perception.&#10;L3: Advantage auf WIS(Perception) und INT(Investigation) zum Finden von Secret Doors / Hidden Caches.&#10;L4: +5 auf passive Perception (gesamt +10).&#10;Auto-Apply: nein (passive Perception nicht im Sheet getrackt).">Awareness</label><input type="number" name="attr_train_awareness" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Advanced Awareness Training (Max Level 4, Prereq: Awareness L2):&#10;L1: Advantage auf Initiative.&#10;L2: Fast-Pace-Travel verliert -5 Passive-Perception-Penalty.&#10;L3: Kann nicht ueberrascht werden solange bei Bewusstsein.&#10;L4: Hoeren lokalisiert hidden/invisible Kreaturen in 20 ft.&#10;Auto-Apply: nein.">Advanced Awareness</label><input type="number" name="attr_train_adv_awareness" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Counter Ambush Training (Max Level 4):&#10;L1: Advantage auf WIS(Perception)/INT(Investigation) gegen Traps/Surprise.&#10;L2: Fast-Pace ohne -5 passive-Perception.&#10;L3: Resistance gegen Damage in einer Surprise-Runde gegen dich.&#10;L4: +5 AC gegen unsichtbare Angreifer.&#10;Auto-Apply: nein.">Counter Ambush</label><input type="number" name="attr_train_counter_ambush" value="0" min="0" max="4" /></div>
+      </div>
+    </div>
+
+    <!-- ===================== Covert Programs ===================== -->
+    <div class="atlas-section">
+      <h2>Covert Programs</h2>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield"><label title="Covert Movement Training (Max Level 3):&#10;L1: Proficiency in Stealth (Expertise falls bereits prof - manuell auf L2 setzen).&#10;L2: Hide als Bonus-Action.&#10;L3: Hide aus Light-Obscurement moeglich.&#10;Auto-Apply: Stealth-Training-Level via L1.">Covert Movement</label><input type="number" name="attr_train_covert_movement" value="0" min="0" max="3" /></div>
+        <div class="atlas-wfield"><label title="Covert Assault Training (Max Level 6):&#10;L1: Sneak Attack 2d6.&#10;L2: Miss aus Hiding enthuellt Position nicht.&#10;L3: Sneak Attack 4d6.&#10;L4: Advantage gegen Gegner ohne Turn; Krit auf surprised.&#10;L5: Sneak Attack 6d6.&#10;L6: Sneak-Attack-Hit -> DEX-Save oder doppelter Sneak-Dmg.&#10;Auto-Apply: nein (Sneak-Attack manuell im Damage-Button).">Covert Assault (SA)</label><input type="number" name="attr_train_covert_assault" value="0" min="0" max="6" /></div>
+        <div class="atlas-wfield"><label title="Ambush Training (Max Level 4):&#10;L1: Advantage auf Stealth fuer Ambush-Setup.&#10;L2: +2 Atk in Surprise-Runde.&#10;L3: Erster Hit in Surprise = Auto-Crit (Triple Dice wenn ohnehin Crit).&#10;L4: In Surprise-Runde explodiert jeder max-Damage-Wuerfel (keine Chain).&#10;Auto-Apply: nein.">Ambush</label><input type="number" name="attr_train_ambush" value="0" min="0" max="4" /></div>
+      </div>
+    </div>
+
+    <!-- ===================== Tactical Programs ===================== -->
+    <div class="atlas-section">
+      <h2>Tactical Programs</h2>
+      <div class="atlas-hint">Die meisten Effekte sind Reactions / Orders / Buffs - Auto-Apply: nein.</div>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield"><label title="Evasion Training (Max Level 5):&#10;L1: Disengage als Bonus-Action.&#10;L2: Advantage auf Saves vs Traps.&#10;L3: DEX-Save fuer halben Schaden -> bei Success gar keiner, bei Fail nur halb.&#10;L4: Reaction: halve Damage eines Treffers.&#10;L5: Kein Angriff gegen dich hat Advantage solange nicht incapacitated.">Evasion</label><input type="number" name="attr_train_evasion" value="0" min="0" max="5" /></div>
+        <div class="atlas-wfield"><label title="Envelopment Training (Max Level 4):&#10;L1: Advantage Melee wenn Ally adjacent; Advantage CQB bei 90deg.&#10;L2: Reaction Melee/CQB wenn Gegner in 5ft jemand anderen angreift.&#10;L3: Advantage Ranged bei 90deg-Ally in 30ft.&#10;L4: Reaction Ranged wenn Gegner in 30ft jemand anderen angreift.">Envelopment</label><input type="number" name="attr_train_envelopment" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Leadership Training (Max Level 4, Prereq: CHA 13+):&#10;10-min Briefings, 24h Buff, 6 Targets in 30ft, 1x pro SR/LR.&#10;L1: +CHA-Mod auf alle Skill-Checks.&#10;L2: Temp-HP = Level + CHA.&#10;L3: +CHA-Mod Damage.&#10;L4: +CHA-Mod Attack.">Leadership</label><input type="number" name="attr_train_leadership" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Army of One Training (Max Level 4):&#10;Content TBD in source material.">Army of One</label><input type="number" name="attr_train_army_of_one" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Radio Operations Training (Max Level 4):&#10;L1: Advantage auf Technology-Checks fuer UHF/VHF/Sat-Radios.&#10;L2: Crypto-Key + Prof damit.&#10;L3: Halbierte Zeit zum Bedienen/Troubleshooten.&#10;L4: Advantage auf alle Radio-Technology-Checks.">Radio Ops</label><input type="number" name="attr_train_radio" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Ordnance Training (Max Level 4, Prereq: INT 16+):&#10;L1: +INT-Mod Damage fuer raw Explosives/Mines.&#10;L2: +halber Prof-Bonus (aufgerundet) Save-DC.&#10;L3: Advantage auf Demolitions-Tools.&#10;L4: +voller Prof-Bonus Save-DC (ersetzt L2).">Ordnance</label><input type="number" name="attr_train_ordnance" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Grenade Training (Max Level 4):&#10;L1: +WIS-Mod Damage fuer Grenades / Launcher-Rounds.&#10;L2: +halber Prof-Bonus (aufgerundet) Save-DC.&#10;L3: Reroll Deviation-Die.&#10;L4: +voller Prof-Bonus Save-DC (ersetzt L2).">Grenade</label><input type="number" name="attr_train_grenade" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Thrown Training (Max Level 4):&#10;L1: +5 ft Range Thrown-Weapons.&#10;L2: 1x/day Reroll Nat-1 Thrown-Attack.&#10;L3: +5 ft Range (gesamt +10 ft).&#10;L4: Reroll = DEX-Mod x pro Long Rest.">Thrown</label><input type="number" name="attr_train_thrown" value="0" min="0" max="4" /></div>
+      </div>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield">
+          <label title="Combat Life Savers Certified (single-level):&#10;IFAK stabilize +1 HP.&#10;Tourniquet + Medicine-Check gegen Bleed (DC 10/15).&#10;Action: IFAK + DC15 Medicine -> 1d6+WIS HP (scales 2d6 L7, 3d6 L14, 4d6 L20).">Combat Life Savers</label>
+          <input type="checkbox" name="attr_train_cls" value="1" />
+        </div>
+        <div class="atlas-wfield">
+          <label title="Field Mess (single-level):&#10;Mess Kit Prof.&#10;Short Rest + Mess Kit: fuer (WIS+Prof) Wesen kochen - pro ausgegebenem Hit-Die +1d4 HP.&#10;Prep: Snacks fuer (Prof+WIS) Wesen, 12h haltbar, Bonus-Action -> Temp-HP = Prof+WIS.">Field Mess</label>
+          <input type="checkbox" name="attr_train_field_mess" value="1" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== Armor Proficiency Programs ===================== -->
+    <div class="atlas-section">
+      <h2>Armor Proficiency Programs</h2>
+      <div class="atlas-hint">Konditional ("while wearing X armor") - Sheet trackt Armor-Klasse nicht. Auto-Apply: nein, manuell in AC/HP eintragen.</div>
+      <div class="atlas-training-grid">
+        <div class="atlas-wfield"><label title="Light Armor Training (Max Level 4):&#10;L1: Proficiency in Light armor.&#10;L2: +1 AC (Light armor).&#10;L3: Expertise auf DEX-Saves (Light armor).&#10;L4: +1 AC weiter (gesamt +2).">Light Armor</label><input type="number" name="attr_train_light_armor" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Medium Armor Training (Max Level 4):&#10;L1: Proficiency in Medium armor.&#10;L2: Bonus-HP = Prof-Bonus (Medium armor).&#10;L3: Expertise auf CON-Saves (Medium armor).&#10;L4: Bonus-HP = 2x Prof-Bonus (ersetzt L2).">Medium Armor</label><input type="number" name="attr_train_medium_armor" value="0" min="0" max="4" /></div>
+        <div class="atlas-wfield"><label title="Heavy Armor Training (Max Level 4):&#10;L1: Proficiency in Heavy armor.&#10;L2: +1 DR pro Coverage-Slot.&#10;L3: Expertise auf STR-Saves (Heavy armor).&#10;L4: +1 DR pro Slot weiter (gesamt +2 pro Slot).">Heavy Armor</label><input type="number" name="attr_train_heavy_armor" value="0" min="0" max="4" /></div>
+      </div>
+    </div>
+
+    <!-- Hidden state attrs for training auto-apply rollback -->
+    <input type="hidden" name="attr_train_weight_applied"    value="0" />
+    <input type="hidden" name="attr_train_agility_applied"   value="0" />
+    <input type="hidden" name="attr_train_fortitude_applied" value="0" />
+    <input type="hidden" name="attr_train_education_applied" value="0" />
+    <input type="hidden" name="attr_train_resolve_applied"   value="0" />
+    <input type="hidden" name="attr_train_social_applied"    value="0" />
+    <input type="hidden" name="attr_train_cardio_speed_applied" value="0" />
+
+    <!-- Hidden aggregated train-levels per save/skill (from repeating rows + Cardio/Covert) -->
+    <input type="hidden" name="attr_save_str_train_level" value="0" />
+    <input type="hidden" name="attr_save_dex_train_level" value="0" />
+    <input type="hidden" name="attr_save_con_train_level" value="0" />
+    <input type="hidden" name="attr_save_int_train_level" value="0" />
+    <input type="hidden" name="attr_save_wis_train_level" value="0" />
+    <input type="hidden" name="attr_save_cha_train_level" value="0" />
+    <input type="hidden" name="attr_skill_acrobatics_train_level"    value="0" />
+    <input type="hidden" name="attr_skill_animal_train_level"        value="0" />
+    <input type="hidden" name="attr_skill_athletics_train_level"     value="0" />
+    <input type="hidden" name="attr_skill_deception_train_level"     value="0" />
+    <input type="hidden" name="attr_skill_history_train_level"       value="0" />
+    <input type="hidden" name="attr_skill_insight_train_level"       value="0" />
+    <input type="hidden" name="attr_skill_intimidation_train_level"  value="0" />
+    <input type="hidden" name="attr_skill_investigation_train_level" value="0" />
+    <input type="hidden" name="attr_skill_medicine_train_level"      value="0" />
+    <input type="hidden" name="attr_skill_nature_train_level"        value="0" />
+    <input type="hidden" name="attr_skill_perception_train_level"    value="0" />
+    <input type="hidden" name="attr_skill_performance_train_level"   value="0" />
+    <input type="hidden" name="attr_skill_persuasion_train_level"    value="0" />
+    <input type="hidden" name="attr_skill_science_train_level"       value="0" />
+    <input type="hidden" name="attr_skill_sleight_train_level"       value="0" />
+    <input type="hidden" name="attr_skill_stealth_train_level"       value="0" />
+    <input type="hidden" name="attr_skill_survival_train_level"      value="0" />
+    <input type="hidden" name="attr_skill_technology_train_level"    value="0" />
 
     <div class="atlas-section">
       <h2>Combat Designation Features</h2>
@@ -2390,16 +2580,6 @@
       <h3 class="atlas-sub-heading">War Dog Training Traits <span class="atlas-class-resource-note">(Anzahl: <input type="number" name="attr_dog_traits" value="0" min="0" max="6" style="width: 40px;" />)</span></h3>
       <textarea name="attr_dog_trait_notes" rows="3" placeholder="+2 AC, +1 HP per Op-Level, Multi-Attack (2), Resistance Piercing, ..."></textarea>
       <div class="atlas-hint">Tracking Dog: 1d4+1 Bite. Attack Dog: 1d6+3 Bite, +10 Grapple (Lock Jaw). Keen Hearing/Smell = Adv. auf Perception durch Hören/Riechen.</div>
-    </div>
-
-    <div class="atlas-section">
-      <h2>Other Features / Feats</h2>
-      <fieldset class="repeating_features">
-        <div class="atlas-feat-row">
-          <input type="text" name="attr_fname" placeholder="Feature" />
-          <textarea name="attr_fdesc" rows="2" placeholder="Beschreibung"></textarea>
-        </div>
-      </fieldset>
     </div>
 
   </section>
@@ -5253,11 +5433,17 @@
   };
 
   function recalcAllSaves(prof, shaken) {
-    const lvlAttrs = SAVE_ABILITIES.map((a) => `save_${a}_level`);
+    const lvlAttrs = [];
+    SAVE_ABILITIES.forEach((a) => {
+      lvlAttrs.push(`save_${a}_level`);
+      lvlAttrs.push(`save_${a}_train_level`);
+    });
     getAttrs(lvlAttrs, (v) => {
       const upd = {};
       for (const a of SAVE_ABILITIES) {
-        const lvl = parseInt(v[`save_${a}_level`]) || 0;
+        const manual = parseInt(v[`save_${a}_level`]) || 0;
+        const train  = parseInt(v[`save_${a}_train_level`]) || 0;
+        const lvl    = Math.max(manual, train);
         const disadv = shakenImposesDisadv("save", a, shaken);
         upd[`save_${a}_bonus`] = saveBonusForLevel(lvl, prof);
         upd[`save_${a}_die`]   = dieForState(lvl, disadv);
@@ -5266,19 +5452,23 @@
     });
   }
 
-  // Bei jeder Level-Aenderung: nur das eine Save neu rechnen.
+  // Bei jeder Level-Aenderung (manuell ODER training): nur das eine Save neu rechnen.
   SAVE_ABILITIES.forEach((a) => {
-    on(`change:save_${a}_level`, () => {
-      getAttrs([`save_${a}_level`, "prof_bonus", "shaken_level"], (v) => {
-        const lvl = parseInt(v[`save_${a}_level`]) || 0;
-        const prof = parseInt(v.prof_bonus) || 2;
+    const handler = () => {
+      getAttrs([`save_${a}_level`, `save_${a}_train_level`, "prof_bonus", "shaken_level"], (v) => {
+        const manual = parseInt(v[`save_${a}_level`]) || 0;
+        const train  = parseInt(v[`save_${a}_train_level`]) || 0;
+        const lvl    = Math.max(manual, train);
+        const prof   = parseInt(v.prof_bonus) || 2;
         const shaken = parseInt(v.shaken_level) || 0;
         setAttrs({
           [`save_${a}_bonus`]: saveBonusForLevel(lvl, prof),
           [`save_${a}_die`]:   dieForState(lvl, shakenImposesDisadv("save", a, shaken)),
         });
       });
-    });
+    };
+    on(`change:save_${a}_level`, handler);
+    on(`change:save_${a}_train_level`, handler);
   });
 
   // Bei Prof-Bonus / Shaken-Aenderung (Level-Up oder Stress) alle Dice neu rechnen.
@@ -5301,11 +5491,17 @@
   ];
 
   function recalcAllSkills(prof, shaken) {
-    const lvlAttrs = SKILL_SLUGS.map((s) => `skill_${s}_level`);
+    const lvlAttrs = [];
+    SKILL_SLUGS.forEach((s) => {
+      lvlAttrs.push(`skill_${s}_level`);
+      lvlAttrs.push(`skill_${s}_train_level`);
+    });
     getAttrs(lvlAttrs, (v) => {
       const upd = {};
       for (const s of SKILL_SLUGS) {
-        const lvl = parseInt(v[`skill_${s}_level`]) || 0;
+        const manual = parseInt(v[`skill_${s}_level`]) || 0;
+        const train  = parseInt(v[`skill_${s}_train_level`]) || 0;
+        const lvl    = Math.max(manual, train);
         const abil = SKILL_ABILITY_MAP[s];
         const disadv = shakenImposesDisadv("skill", abil, shaken);
         upd[`skill_${s}_bonus`] = saveBonusForLevel(lvl, prof);
@@ -5315,20 +5511,24 @@
     });
   }
 
-  // Pro Skill: Level-Aenderung -> nur dieses Skill neu rechnen.
+  // Pro Skill: Level-Aenderung (manuell ODER training) -> nur dieses Skill neu rechnen.
   SKILL_SLUGS.forEach((s) => {
-    on(`change:skill_${s}_level`, () => {
-      getAttrs([`skill_${s}_level`, "prof_bonus", "shaken_level"], (v) => {
-        const lvl = parseInt(v[`skill_${s}_level`]) || 0;
-        const prof = parseInt(v.prof_bonus) || 2;
+    const handler = () => {
+      getAttrs([`skill_${s}_level`, `skill_${s}_train_level`, "prof_bonus", "shaken_level"], (v) => {
+        const manual = parseInt(v[`skill_${s}_level`]) || 0;
+        const train  = parseInt(v[`skill_${s}_train_level`]) || 0;
+        const lvl    = Math.max(manual, train);
+        const prof   = parseInt(v.prof_bonus) || 2;
         const shaken = parseInt(v.shaken_level) || 0;
-        const abil = SKILL_ABILITY_MAP[s];
+        const abil   = SKILL_ABILITY_MAP[s];
         setAttrs({
           [`skill_${s}_bonus`]: saveBonusForLevel(lvl, prof),
           [`skill_${s}_die`]:   dieForState(lvl, shakenImposesDisadv("skill", abil, shaken)),
         });
       });
-    });
+    };
+    on(`change:skill_${s}_level`, handler);
+    on(`change:skill_${s}_train_level`, handler);
   });
 
   // Ability-Check-Dice (keine Trainings-Levels, nur Shaken-Disadv).
@@ -5900,6 +6100,183 @@
       Object.assign(upd, buildPropPillUpdates(rowPrefix, p.properties));
       setAttrs(upd);
     });
+  });
+
+  // === src/worker/features/trainings.js ===
+  // ---- Training Programs Auto-Apply ----
+  // Non-combat training tracks (Physical/Mental Fitness, Awareness, Covert,
+  // Tactical, Armor). Combat trainings live in weapons-combat.js.
+  //
+  // Auto-applied here:
+  //   - Ability bumps (Weight/Agility/Fortitude/Education/Resolve/Social):
+  //     delta-rollback onto the base score attribute.
+  //   - Cardio speed bonus (L2 +5 ft, L4 +10 ft total): delta-rollback onto `speed`.
+  //   - Cardio L1 -> Athletics training level 1.
+  //   - Covert Movement L1 -> Stealth training level 1.
+  //   - Repeating Phys/Ment Saves + Skills rows: aggregated via max per
+  //     save/skill into save_X_train_level / skill_X_train_level (hidden
+  //     attrs). skills.js consumes those via effectiveLevel = max(manual,
+  //     train).
+  //
+  // NOT auto-applied (documented via tooltip in features.html): all
+  // trigger-based / situational / conditional-on-armor effects.
+
+  const ABILITY_BUMP_MAP = {
+    train_weight:    "strength",
+    train_agility:   "dexterity",
+    train_fortitude: "constitution",
+    train_education: "intelligence",
+    train_resolve:   "wisdom",
+    train_social:    "charisma",
+  };
+
+  // Ability bump: delta = new_level - applied, apply to base score.
+  Object.keys(ABILITY_BUMP_MAP).forEach((trainAttr) => {
+    const appliedAttr = `${trainAttr}_applied`;
+    const scoreAttr   = ABILITY_BUMP_MAP[trainAttr];
+    on(`change:${trainAttr}`, () => {
+      getAttrs([trainAttr, appliedAttr, scoreAttr], (v) => {
+        const lvl     = Math.max(0, Math.min(4, parseInt(v[trainAttr]) || 0));
+        const applied = parseInt(v[appliedAttr]) || 0;
+        const delta   = lvl - applied;
+        if (!delta) return;
+        const score = parseInt(v[scoreAttr]) || 10;
+        setAttrs({
+          [scoreAttr]:   score + delta,
+          [appliedAttr]: lvl,
+        });
+      });
+    });
+  });
+
+  // Cardio speed: target bonus = 0 (L<2), 5 (L2-3), 10 (L4).
+  function cardioSpeedBonus(lvl) {
+    if (lvl >= 4) return 10;
+    if (lvl >= 2) return 5;
+    return 0;
+  }
+
+  on("change:train_cardio", () => {
+    getAttrs(["train_cardio", "train_cardio_speed_applied", "speed"], (v) => {
+      const lvl     = Math.max(0, Math.min(4, parseInt(v.train_cardio) || 0));
+      const target  = cardioSpeedBonus(lvl);
+      const applied = parseInt(v.train_cardio_speed_applied) || 0;
+      const delta   = target - applied;
+      const upd = {};
+      if (delta) {
+        const speed = parseInt(v.speed) || 30;
+        upd.speed = speed + delta;
+        upd.train_cardio_speed_applied = target;
+      }
+      setAttrs(upd);
+      recalcSkillTrainLevels();
+    });
+  });
+
+  on("change:train_covert_movement", () => {
+    recalcSkillTrainLevels();
+  });
+
+  // ---- Aggregation of per-save / per-skill train levels ----
+  // For each save/skill, take the max level across:
+  //   - all repeating rows that selected it
+  //   - Cardio L1 (contributes 1 to Athletics)
+  //   - Covert Movement L1 (contributes 1 to Stealth)
+  const SAVE_KEYS  = ["str", "dex", "con", "int", "wis", "cha"];
+  const SKILL_KEYS = [
+    "acrobatics", "animal", "athletics", "deception", "history", "insight",
+    "intimidation", "investigation", "medicine", "nature", "perception",
+    "performance", "persuasion", "science", "sleight", "stealth", "survival",
+    "technology",
+  ];
+
+  function emptyMap(keys) {
+    const m = {};
+    keys.forEach((k) => { m[k] = 0; });
+    return m;
+  }
+
+  function bumpMax(map, key, lvl) {
+    if (!key || !(key in map)) return;
+    if (lvl > map[key]) map[key] = lvl;
+  }
+
+  // Collect repeating rows for one section and bump the given map.
+  function collectRows(section, keyAttr, lvlAttr, maxLvl, mapCb, done) {
+    getSectionIDs(`repeating_${section}`, (ids) => {
+      if (!ids.length) { done(); return; }
+      const attrs = [];
+      ids.forEach((id) => {
+        attrs.push(`repeating_${section}_${id}_${keyAttr}`);
+        attrs.push(`repeating_${section}_${id}_${lvlAttr}`);
+      });
+      getAttrs(attrs, (v) => {
+        ids.forEach((id) => {
+          const key = (v[`repeating_${section}_${id}_${keyAttr}`] || "").toLowerCase();
+          const lvl = Math.max(0, Math.min(maxLvl, parseInt(v[`repeating_${section}_${id}_${lvlAttr}`]) || 0));
+          mapCb(key, lvl);
+        });
+        done();
+      });
+    });
+  }
+
+  function recalcSaveTrainLevels() {
+    const map = emptyMap(SAVE_KEYS);
+    let pending = 2;
+    const done = () => {
+      pending -= 1;
+      if (pending > 0) return;
+      const upd = {};
+      SAVE_KEYS.forEach((k) => { upd[`save_${k}_train_level`] = map[k]; });
+      setAttrs(upd);
+    };
+    collectRows("phys_saves", "ptsave", "ptslvl", 4, (k, l) => bumpMax(map, k, l), done);
+    collectRows("ment_saves", "mtsave", "mtslvl", 4, (k, l) => bumpMax(map, k, l), done);
+  }
+
+  function recalcSkillTrainLevels() {
+    const map = emptyMap(SKILL_KEYS);
+    let pending = 2;
+    const finalize = () => {
+      getAttrs(["train_cardio", "train_covert_movement"], (v) => {
+        if ((parseInt(v.train_cardio) || 0) >= 1)          bumpMax(map, "athletics", 1);
+        if ((parseInt(v.train_covert_movement) || 0) >= 1) bumpMax(map, "stealth",   1);
+        const upd = {};
+        SKILL_KEYS.forEach((k) => { upd[`skill_${k}_train_level`] = map[k]; });
+        setAttrs(upd);
+      });
+    };
+    const done = () => {
+      pending -= 1;
+      if (pending === 0) finalize();
+    };
+    collectRows("phys_skills", "ptskill", "ptlvl", 5, (k, l) => bumpMax(map, k, l), done);
+    collectRows("ment_skills", "mtskill", "mtlvl", 5, (k, l) => bumpMax(map, k, l), done);
+  }
+
+  // Listeners for every repeating-row input.
+  [
+    "change:repeating_phys_saves:ptsave",
+    "change:repeating_phys_saves:ptslvl",
+    "remove:repeating_phys_saves",
+    "change:repeating_ment_saves:mtsave",
+    "change:repeating_ment_saves:mtslvl",
+    "remove:repeating_ment_saves",
+  ].forEach((evt) => on(evt, recalcSaveTrainLevels));
+
+  [
+    "change:repeating_phys_skills:ptskill",
+    "change:repeating_phys_skills:ptlvl",
+    "remove:repeating_phys_skills",
+    "change:repeating_ment_skills:mtskill",
+    "change:repeating_ment_skills:mtlvl",
+    "remove:repeating_ment_skills",
+  ].forEach((evt) => on(evt, recalcSkillTrainLevels));
+
+  on("sheet:opened", () => {
+    recalcSaveTrainLevels();
+    recalcSkillTrainLevels();
   });
 
   // === src/worker/gear/armor.js ===

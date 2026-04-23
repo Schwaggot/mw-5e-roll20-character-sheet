@@ -1,5 +1,6 @@
 // Minimal stub of the Roll20 sheet worker API, scoped to what this sheet uses:
-//   on, getAttrs, setAttrs, getSectionIDs, startRoll, finishRoll, generateRowID.
+//   on, getAttrs, setAttrs, getSectionIDs, startRoll, finishRoll, generateRowID,
+//   removeRepeatingRow.
 // Enough to let the real worker script compute derived values live in the browser.
 //
 // Conventions matching Roll20:
@@ -126,6 +127,24 @@ export function getSectionIDs(sectionName, callback) {
       )
     : [];
   queueMicrotask(() => callback(ids));
+}
+
+// Roll20 accepts the full row prefix `repeating_<section>_<rowid>` and removes
+// that row. Here we strip it back apart and drop the matching DOM node.
+export function removeRepeatingRow(rowPrefix) {
+  const m = /^repeating_([^_]+)_(.+)$/.exec(String(rowPrefix || ''));
+  if (!m) return;
+  const section = `repeating_${m[1]}`;
+  const rowId = m[2];
+  const row = document.querySelector(
+    `.repcontainer[data-section="${section}"] .repitem[data-reprowid="${CSS.escape(rowId)}"]`,
+  );
+  if (!row) return;
+  row.remove();
+  queueMicrotask(() => {
+    fire(`remove:${section}`);
+    fire(`change:${section}`);
+  });
 }
 
 const pendingRolls = new Map();

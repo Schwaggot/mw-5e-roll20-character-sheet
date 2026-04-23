@@ -139,6 +139,7 @@
       upd[`${rowPrefix}_wammo_max`]   = p.ammo_max;
       upd[`${rowPrefix}_wgroup`]      = WEAPON_GROUP_MAP[key] || "";
       upd[`${rowPrefix}_wweight`]     = WEAPON_GROUP_WEIGHT[WEAPON_GROUP_MAP[key]] || 0;
+      upd[`${rowPrefix}_wclass`]      = p.mag_class || "";
       upd[`${rowPrefix}_wproperties`] = p.properties || "";
 
       // Fire Modes: S/B/A Sichtbarkeit steuern (jetzt immer explizit im Preset)

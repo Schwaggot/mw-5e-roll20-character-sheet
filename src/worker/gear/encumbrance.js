@@ -20,6 +20,7 @@
         getSectionIDs("repeating_gear", (gearIds) => {
           getSectionIDs("repeating_grenades", (grenadeIds) => {
             getSectionIDs("repeating_clothing", (clothingIds) => {
+            getSectionIDs("repeating_magazines", (magIds) => {
             const attrs = ["strength", "desig_tech"];
             for (const id of weaponIds) {
               attrs.push(`repeating_weapons_${id}_wweight`);
@@ -39,6 +40,9 @@
             for (const id of clothingIds) {
               attrs.push(`repeating_clothing_${id}_cweight`);
               attrs.push(`repeating_clothing_${id}_ccount`);
+            }
+            for (const id of magIds) {
+              attrs.push(`repeating_magazines_${id}_mag_weight`);
             }
             getAttrs(attrs, (v) => {
               let total = 0;
@@ -64,6 +68,9 @@
                 const w = parseFloat(v[`repeating_clothing_${id}_cweight`]) || 0;
                 total += w * count;
               }
+              for (const id of magIds) {
+                total += parseFloat(v[`repeating_magazines_${id}_mag_weight`]) || 0;
+              }
               // Tech Specialist traegt die B-1 Recon Drone (~3.6 kg inkl. Console)
               if (parseInt(v.desig_tech) === 1) total += DRONE_WEIGHT;
               const str = Math.max(1, parseInt(v.strength) || 10);
@@ -79,6 +86,7 @@
                 weight_status_heavy:      isHeavy ? "1" : "0",
                 weight_status_overloaded: isOver ? "1" : "0",
               });
+            });
             });
             });
           });
@@ -98,6 +106,8 @@
     "change:repeating_grenades remove:repeating_grenades " +
     "change:repeating_clothing:cweight change:repeating_clothing:ccount " +
     "change:repeating_clothing remove:repeating_clothing " +
+    "change:repeating_magazines:mag_weight " +
+    "change:repeating_magazines remove:repeating_magazines " +
     "sheet:opened",
     () => recalcEncumbrance()
   );

@@ -1558,6 +1558,178 @@
   display: none !important;
 }
 
+/* === src/css/tabs/gear-magazines.css === */
+/* ---------- MAGAZINES (Ammunition Pool) ---------- */
+/* Liste der im Rig getragenen Spare-Mags. Pro Zeile: Waffe (readonly),   */
+/* Klassen-Label, Munition/Kapazität, Gewicht, Reload-Buttons.            */
+/* +Mag sitzt auf der Weapon-Row, Resupply All / Repack All sitzen in der */
+/* Magazines-Section-Actions-Bar.                                          */
+
+.charsheet .atlas-mag-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  padding: 6px 8px;
+  background: #1f2226;
+  border: 1px solid #3a3f44;
+  border-radius: 3px;
+}
+
+.charsheet .atlas-mag-actions-bar > button {
+  flex: 0 0 auto;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.charsheet .atlas-mag-hint {
+  flex: 1 1 auto;
+  color: #8a8a8a;
+  font-size: 10px;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.charsheet .atlas-mag-row {
+  display: grid;
+  grid-template-columns:
+    minmax(140px, 1.4fr)   /* weapon label           */
+    minmax(80px, 0.6fr)    /* class                  */
+    max-content            /* rounds / capacity      */
+    max-content            /* weight                 */
+    max-content;           /* reload actions         */
+  gap: 8px;
+  align-items: end;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 6px;
+}
+
+.charsheet .atlas-mag-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.charsheet .atlas-mag-field > label {
+  font-size: 9px;
+  color: #8ab85e;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+.charsheet .atlas-mag-field input[type="text"],
+.charsheet .atlas-mag-field input[type="number"] {
+  margin: 0 !important;
+  font-size: 11px;
+  padding: 2px 4px;
+}
+
+/* Text-Inputs in Weapon/Class/Note-Feldern sollen die ganze Grid-Spalte  */
+/* fuellen, sonst bleibt rechts daneben eine Lucke zwischen den Spalten.   */
+.charsheet .atlas-mag-weapon > input[type="text"],
+.charsheet .atlas-mag-class > input[type="text"] {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.charsheet .atlas-mag-rounds-cell,
+.charsheet .atlas-mag-weight-cell {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.charsheet .atlas-mag-rounds-cell > input[type="number"] {
+  width: 44px;
+  text-align: right;
+}
+
+.charsheet .atlas-mag-rounds-cell > span {
+  color: #666;
+  font-size: 11px;
+}
+
+.charsheet .atlas-mag-weight-cell > input[type="number"] {
+  width: 52px;
+  text-align: right;
+}
+
+.charsheet .atlas-mag-weight-cell > span {
+  color: #8a8a8a;
+  font-size: 10px;
+}
+
+.charsheet .atlas-mag-weapon input[readonly],
+.charsheet .atlas-mag-class input[readonly] {
+  font-weight: 600;
+  color: #cfd2d6;
+  background: #1a1d20;
+  border: 1px solid #2a2e33;
+}
+
+/* Partial-Mag hervorheben: rounds < capacity -> gelber Rahmen */
+.charsheet .atlas-mag-row:has(.atlas-mag-rounds-cell input[type="number"]:not([readonly])[value="0"]) {
+  border-left: 3px solid #e06060;
+}
+
+/* Pool-Management-Buttons (+Mag / Consolidate) auf der Weapon-Row */
+.charsheet .atlas-weapon-reload {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 3px;
+  flex: 0 1 auto;
+}
+
+.charsheet .atlas-weapon-reload > button {
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.charsheet .atlas-weapon-reload > .wmag-add-btn,
+.charsheet .atlas-weapon-reload > .wmag-consolidate-btn {
+  background: #2a3440;
+  border: 1px solid #3a4a55;
+  color: #b8c8d6;
+}
+
+/* Per-Mag Reload-Buttons (Load / Speed) */
+.charsheet .atlas-mag-actions-cell {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 3px;
+}
+
+.charsheet .atlas-mag-actions-cell > button {
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.charsheet .atlas-mag-actions-cell > .mag-load-btn {
+  background: #2a4a2a;
+  border: 1px solid #4a6a2a;
+  color: #cfe6b8;
+}
+
+.charsheet .atlas-mag-actions-cell > .mag-load-speed-btn {
+  background: #4a2a2a;
+  border: 1px solid #6a3a3a;
+  color: #e6b8b8;
+}
+
 /* === src/css/tabs/features.css === */
 /* ---------- TRAINING / FEATS ---------- */
 .charsheet .atlas-training-header {

@@ -26,6 +26,7 @@ export const CSS_SOURCES = [
   'src/css/tabs/overview.css',
   'src/css/tabs/skills.css',
   'src/css/tabs/gear.css',
+  'src/css/tabs/gear-magazines.css',
   'src/css/tabs/features.css',
   'src/css/rolltemplates.css',
 ];
@@ -42,6 +43,7 @@ export const WORKER_SOURCES = [
   'src/worker/features/drone.js',
   'src/worker/gear/weapons-combat.js',
   'src/worker/gear/weapons-data.js',
+  'src/worker/gear/magazines.js',
   'src/worker/skills.js',
   'src/worker/overview/stress.js',
   'src/worker/overview/hp-rest.js',

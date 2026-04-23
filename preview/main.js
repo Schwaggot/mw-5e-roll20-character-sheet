@@ -12,6 +12,7 @@ const api = {
   startRoll: roll20.startRoll,
   finishRoll: roll20.finishRoll,
   generateRowID: roll20.generateRowID,
+  removeRepeatingRow: roll20.removeRepeatingRow,
   // The real sheet sandbox also exposes console; no-op extras are harmless.
   _: undefined,
 };
@@ -97,6 +98,7 @@ function runWorkerScripts() {
         'startRoll',
         'finishRoll',
         'generateRowID',
+        'removeRepeatingRow',
         source,
       );
       fn(
@@ -107,6 +109,7 @@ function runWorkerScripts() {
         api.startRoll,
         api.finishRoll,
         api.generateRowID,
+        api.removeRepeatingRow,
       );
     } catch (err) {
       console.error('[preview] sheet worker threw during init:', err);

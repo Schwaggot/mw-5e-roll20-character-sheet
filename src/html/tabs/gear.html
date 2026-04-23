@@ -654,6 +654,9 @@
               <input type="number" name="attr_wammo_max" value="30" class="atlas-readonly" readonly />
             </div>
           </div>
+          <div class="atlas-weapon-reload">
+            <button type="action" name="act_wmagadd" class="wmag-add-btn" title="Fügt eine volle Spare-Mag für diese Waffe in den Pool ein.">+ Mag</button>
+          </div>
         </div>
         <div class="atlas-weapon-row-2">
           <label>Properties</label>
@@ -682,7 +685,7 @@
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_manual_action" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Manuelles Repetieren: Bolt/Lever muss nach jedem Schuss betaetigt werden. Kein Burst, kein Full-Auto.">Manual Action</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_pump" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Pump-Action: Vorderschaft muss nach jedem Schuss gepumpt werden. Kein Burst, kein Full-Auto.">Pump</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_semi_auto" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Halb-Automatisch: Ein Schuss pro Trigger-Pull. Kein Burst, kein Full-Auto.">Semi-Auto</span></span>
-            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_belt_fed" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Gurtgefuettert: Sehr grosse Kapazitaet (100-200+), lange Reload-Zeit.">Belt-Fed</span></span>
+            <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_belt_fed" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Gurtgefüttert: Sehr große Kapazität (100-200+), lange Reload-Zeit.">Belt-Fed</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_braced" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Abgestuetzt: Recoil-Penalty halbiert wenn Waffe abgestuetzt (Bipod / Prone / Wand).">Braced</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_mounted" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Stationaer montiert: Waffe muss auf Stativ/Lafette/Fahrzeug montiert sein (HMG, AGL).">Mounted</span></span>
             <span class="atlas-prop-pill-item"><input type="checkbox" name="attr_wprop_unreliable" value="1" class="atlas-prop-flag" /><span class="atlas-prop-pill" title="Unzuverlaessig: +1 Misfire-Range generell.">Unreliable</span></span>
@@ -711,6 +714,8 @@
         <input type="hidden" name="attr_wrecoil_pen_single" value="0" />
         <input type="hidden" name="attr_wrecoil_pen_auto" value="0" />
         <input type="hidden" name="attr_wgroup" value="" />
+        <input type="hidden" name="attr_wclass" value="" />
+        <input type="hidden" name="attr_wpool_seeded" value="" />
         <input type="hidden" name="attr_wweight" value="0" />
         <details class="atlas-weapon-mods-collapsible">
           <summary>Mods</summary>
@@ -808,6 +813,57 @@
         </details>
       </fieldset>
       <div class="atlas-hint">+Atk ist dein gesamter Angriffsbonus (Ability + Prof + Waffen-Mods). +Dmg addiert auf den Schadensbogen. Ammo ist current/max - runterklicken nach Feuerstoss.</div>
+    </div>
+
+    <!-- Magazines (ammunition pool) -->
+    <!-- Jede Mag traegt eigene Runden. Reload tauscht die geladene Mag  -->
+    <!-- gegen eine aus dem Pool (siehe compendium/rules/ammunition.md). -->
+    <!-- Verknüpfung Mag -> Waffe passiert ausschließlich über die    -->
+    <!-- Weapon-Row Buttons (+Mag / Repack) + Mag-Row Buttons (Reload).  -->
+    <!-- Der Pool wird beim Waffen-Preset-Wechsel auto-seeded.           -->
+    <div class="atlas-section">
+      <h2>Magazines</h2>
+      <div class="atlas-mag-actions-bar">
+        <button type="action" name="act_magsresupply" title="Long Rest @ secure base: alle geladenen Mags + Pool auf Starting Loadout auffüllen. Scavenged / lost mags werden nicht ersetzt.">Resupply All</button>
+        <button type="action" name="act_magsrepack" title="Repack: 1-Minute out-of-combat Aktion für alle Waffen. Verteilt Munition greedy auf möglichst volle Mags.">Repack All</button>
+      </div>
+      <fieldset class="repeating_magazines">
+        <div class="atlas-mag-row">
+          <div class="atlas-mag-field atlas-mag-weapon">
+            <label>Waffe</label>
+            <input type="text" name="attr_mag_weapon_label" value="" readonly class="atlas-readonly" title="Waffen-Zuordnung (gesetzt durch +Mag-Button auf der Waffen-Zeile)." />
+            <input type="hidden" name="attr_mag_weapon" value="" />
+          </div>
+          <div class="atlas-mag-field atlas-mag-class">
+            <label>Klasse</label>
+            <input type="text" name="attr_mag_class_label" value="" readonly class="atlas-readonly" title="Mag-Klasse. Bestimmt Starting-Pool-Größe und Basis-Gewicht." />
+            <input type="hidden" name="attr_mag_class" value="" />
+          </div>
+          <div class="atlas-mag-field atlas-mag-rounds">
+            <label>Munition</label>
+            <div class="atlas-mag-rounds-cell">
+              <input type="number" name="attr_mag_rounds" value="0" min="0" title="Aktuell geladene Munition in dieser Mag." />
+              <span>/</span>
+              <input type="number" name="attr_mag_capacity" value="0" readonly class="atlas-readonly" title="Kapazität (aus Waffe wammo_max, skaliert mit Extended/Drum-Mod)." />
+            </div>
+          </div>
+          <div class="atlas-mag-field atlas-mag-weight">
+            <label>Gewicht</label>
+            <div class="atlas-mag-weight-cell">
+              <input type="number" name="attr_mag_weight" value="0" step="0.1" min="0" title="Beladenes Gewicht (kg). Auto-berechnet aus Klasse x Kapazitäts-Ratio. Manuell editieren möglich." />
+              <span>kg</span>
+            </div>
+            <input type="hidden" name="attr_mag_weight_auto" value="1" />
+          </div>
+          <div class="atlas-mag-field atlas-mag-actions">
+            <label>Reload</label>
+            <div class="atlas-mag-actions-cell">
+              <button type="action" name="act_magload" class="mag-load-btn" title="Reload: Tauscht die geladene Mag der zugehörigen Waffe gegen diese Mag. Die vorher geladene Mag wandert (auch leer) als neue Zeile zurück in den Pool.">Reload</button>
+              <button type="action" name="act_magspeed" class="mag-load-speed-btn" title="Speed Reload: wie Reload, aber die vorher geladene Mag wird weggeworfen (verloren). GM kann erlauben sie später aufzusammeln.">Speed Reload</button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
     </div>
 
     <!-- Armor -->

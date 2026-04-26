@@ -176,6 +176,45 @@
     });
   });
 
+  // ---- Second Wind: 1d10 + Operator-Level auf HP (cap), markiert     //
+  // verbraucht. CSS :has(:checked) blockt Folge-Klicks wenn schon      //
+  // verbraucht (deshalb hier kein eigener used-Check - Roll20 gibt fuer //
+  // uninitialisierte Checkbox-Attrs den value="1" als Default zurueck,  //
+  // das wuerde frischer Sheets faelschlich als verbraucht erkennen).    //
+  // Nur Triage Red/Black wird hier geblockt (Compendium: Triage Orange+ //
+  // only).                                                              //
+  on("clicked:second_wind", () => {
+    getAttrs(["level", "hp", "hp_max", "character_name"], (v) => {
+      const charName = v.character_name || "Operator";
+
+      const hp = parseInt(v.hp) || 0;
+      const hpMax = parseInt(v.hp_max) || 1;
+      const pct = (hp / hpMax) * 100;
+
+      if (hp <= 0 || pct <= 25) {
+        const triage = hp <= 0 ? "Black" : "Red";
+        startRoll(
+          `&{template:check} {{title=Second Wind - blockiert}} {{who=${charName}}} {{result=Triage ${triage} - Second Wind nur bei Orange/Yellow/Green}}`,
+          (r) => finishRoll(r.rollId)
+        );
+        return;
+      }
+
+      const level = parseInt(v.level) || 1;
+      const rolled = Math.floor(Math.random() * 10) + 1;
+      const healed = rolled + level;
+      const newHp = Math.min(hpMax, hp + healed);
+      const actualHealed = newHp - hp;
+
+      setAttrs({ hp: newHp, second_wind_used: 1 });
+
+      startRoll(
+        `&{template:check} {{title=Second Wind}} {{who=${charName}}} {{result=+${actualHealed} HP (Wurf: ${rolled} + ${level} Level)}} {{note=HP ${hp} -> ${newHp} / ${hpMax}.}}`,
+        (r) => finishRoll(r.rollId)
+      );
+    });
+  });
+
   on("clicked:dog_grapple", () => {
     getAttrs(["dog_name", "character_name"], (v) => {
       const dogName = v.dog_name || "Dog";

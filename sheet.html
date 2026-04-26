@@ -299,7 +299,7 @@
           <label title="Second Wind (Operator Level 1+):&#10;- Bonus-Aktion auf deinem Zug&#10;- Heilt 1d10 + Operator-Level HP&#10;- Nur 1x pro Short oder Long Rest&#10;- Nur verfügbar bei Triage Orange/Yellow/Green (NICHT bei Red oder Black)">Second Wind</label>
           <div class="atlas-second-wind-row">
             <label class="atlas-feature-inline" title="Häkchen setzen sobald Second Wind diesen Rest verbraucht wurde. Reset automatisch via Short/Long Rest Button."><input type="checkbox" name="attr_second_wind_used" value="1" /> verbraucht</label>
-            <button type="roll" class="atlas-inline-roll" name="roll_second_wind" title="Rollt Second-Wind-Heilung: 1d10 + Operator-Level. Checkbox 'verbraucht' danach manuell setzen (oder via Short Rest resetten)." value="&{template:check} {{title=Second Wind}} {{who=@{character_name}}} {{result=[[1d10 + @{level}]]}}">&nbsp;Heal</button>
+            <button type="action" class="atlas-inline-roll" name="act_second_wind" title="Second Wind: rollt 1d10 + Operator-Level, addiert auf HP (max HP cap), setzt 'verbraucht'. Nur 1x pro Short/Long Rest. Bei Triage Red/Black blockiert.">Heal</button>
           </div>
         </div>
         <div class="atlas-feature">
@@ -6317,6 +6317,45 @@
 
       startRoll(
         `&{template:check} {{title=Death Save}} {{who=${charName}}} {{result=Wurf [[${roll}]] - ${result}}}${note ? ` {{note=${note}}}` : ""}`,
+        (r) => finishRoll(r.rollId)
+      );
+    });
+  });
+
+  // ---- Second Wind: 1d10 + Operator-Level auf HP (cap), markiert     //
+  // verbraucht. CSS :has(:checked) blockt Folge-Klicks wenn schon      //
+  // verbraucht (deshalb hier kein eigener used-Check - Roll20 gibt fuer //
+  // uninitialisierte Checkbox-Attrs den value="1" als Default zurueck,  //
+  // das wuerde frischer Sheets faelschlich als verbraucht erkennen).    //
+  // Nur Triage Red/Black wird hier geblockt (Compendium: Triage Orange+ //
+  // only).                                                              //
+  on("clicked:second_wind", () => {
+    getAttrs(["level", "hp", "hp_max", "character_name"], (v) => {
+      const charName = v.character_name || "Operator";
+
+      const hp = parseInt(v.hp) || 0;
+      const hpMax = parseInt(v.hp_max) || 1;
+      const pct = (hp / hpMax) * 100;
+
+      if (hp <= 0 || pct <= 25) {
+        const triage = hp <= 0 ? "Black" : "Red";
+        startRoll(
+          `&{template:check} {{title=Second Wind - blockiert}} {{who=${charName}}} {{result=Triage ${triage} - Second Wind nur bei Orange/Yellow/Green}}`,
+          (r) => finishRoll(r.rollId)
+        );
+        return;
+      }
+
+      const level = parseInt(v.level) || 1;
+      const rolled = Math.floor(Math.random() * 10) + 1;
+      const healed = rolled + level;
+      const newHp = Math.min(hpMax, hp + healed);
+      const actualHealed = newHp - hp;
+
+      setAttrs({ hp: newHp, second_wind_used: 1 });
+
+      startRoll(
+        `&{template:check} {{title=Second Wind}} {{who=${charName}}} {{result=+${actualHealed} HP (Wurf: ${rolled} + ${level} Level)}} {{note=HP ${hp} -> ${newHp} / ${hpMax}.}}`,
         (r) => finishRoll(r.rollId)
       );
     });

@@ -15,6 +15,7 @@
 
   <!-- ===================== HEADER ===================== -->
   <header class="atlas-header">
+    <input type="hidden" name="attr_personality_trait_applied" value="" />
     <div class="atlas-header-row">
       <div class="atlas-field">
         <label>Vorname</label>
@@ -92,13 +93,6 @@
         <input type="text" name="attr_unit" value="ATLAS" />
       </div>
     </div>
-    <div class="atlas-header-row">
-      <div class="atlas-field">
-        <label>Trait-Effekte (Attribut/Speed/AC/Init auto-angewendet, Rest manuell)</label>
-        <input type="text" name="attr_personality_trait_effects" readonly placeholder="(Wähle oben einen Personality Trait)" />
-      </div>
-    </div>
-    <input type="hidden" name="attr_personality_trait_applied" value="" />
   </header>
 
   <!-- ===================== TABS ===================== -->
@@ -6001,19 +5995,6 @@
                    note: "Auto: +2 CHA, -2 STR. | Manuell: Proficiency in Deception + Persuasion." },
   };
 
-  // Hilfsfunktion: nur den Effekt-Text setzen, keine Attribut-Aenderungen.
-  // Wird beim Sheet-Open genutzt damit der Text fuer den bereits gewaehlten
-  // Trait sichtbar bleibt (ohne die Boni nochmal anzuwenden).
-  function updateTraitEffectsText() {
-    getAttrs(["personality_trait"], (v) => {
-      const key = v.personality_trait || "";
-      const effects = (TRAIT_EFFECTS[key] && TRAIT_EFFECTS[key].note) || "(Wähle oben einen Personality Trait)";
-      setAttrs({ personality_trait_effects: effects });
-    });
-  }
-
-  on("sheet:opened", updateTraitEffectsText);
-
   on("change:personality_trait", () => {
     getAttrs([
       "personality_trait", "personality_trait_applied",
@@ -6022,6 +6003,7 @@
     ], (v) => {
       const oldKey = v.personality_trait_applied || "";
       const newKey = v.personality_trait || "";
+      if (oldKey === newKey) return;
 
       const upd = {};
       const setNum = (name, delta) => {
@@ -6032,38 +6014,27 @@
         upd[name] = cur + delta;
       };
 
-      // Wenn sich der Trait wirklich geaendert hat: Deltas neu rechnen
-      if (oldKey !== newKey) {
-        // 1. Alten Trait rueckgaengig
-        const old = TRAIT_EFFECTS[oldKey];
-        if (old) {
-          if (old.attr) {
-            for (const a in old.attr) setNum(a, -old.attr[a]);
-          }
-          if (old.speed) setNum("speed", -old.speed);
-          if (old.ac)    setNum("ac", -old.ac);
-          if (old.init)  setNum("init_bonus", -old.init);
+      const old = TRAIT_EFFECTS[oldKey];
+      if (old) {
+        if (old.attr) {
+          for (const a in old.attr) setNum(a, -old.attr[a]);
         }
-
-        // 2. Neuen Trait anwenden
-        const neu = TRAIT_EFFECTS[newKey];
-        if (neu) {
-          if (neu.attr) {
-            for (const a in neu.attr) setNum(a, neu.attr[a]);
-          }
-          if (neu.speed) setNum("speed", neu.speed);
-          if (neu.ac)    setNum("ac", neu.ac);
-          if (neu.init)  setNum("init_bonus", neu.init);
-        }
-
-        upd.personality_trait_applied = newKey;
+        if (old.speed) setNum("speed", -old.speed);
+        if (old.ac)    setNum("ac", -old.ac);
+        if (old.init)  setNum("init_bonus", -old.init);
       }
 
-      // Effekt-Text IMMER setzen (auch wenn Trait gleich blieb -
-      // sonst verliert man die Text-Anzeige bei Re-Render).
-      const cur = TRAIT_EFFECTS[newKey];
-      upd.personality_trait_effects = (cur && cur.note) || "(Wähle oben einen Personality Trait)";
+      const neu = TRAIT_EFFECTS[newKey];
+      if (neu) {
+        if (neu.attr) {
+          for (const a in neu.attr) setNum(a, neu.attr[a]);
+        }
+        if (neu.speed) setNum("speed", neu.speed);
+        if (neu.ac)    setNum("ac", neu.ac);
+        if (neu.init)  setNum("init_bonus", neu.init);
+      }
 
+      upd.personality_trait_applied = newKey;
       setAttrs(upd);
     });
   });

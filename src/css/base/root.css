@@ -74,20 +74,6 @@
   text-align: center;
 }
 
-/* Personality-Trait-Effekte Feld - linksbündig, normale Schrift,   */
-/* damit der längere Effekt-Text vollständig lesbar bleibt.          */
-/* readonly statt disabled, damit setAttrs den Wert zuverlässig      */
-/* anzeigt (Roll20-Quirk mit disabled-Inputs).                        */
-.charsheet input[name="attr_personality_trait_effects"],
-.charsheet input[name="attr_personality_trait_effects"]:read-only {
-  text-align: left !important;
-  font-weight: normal !important;
-  color: #b8bcc0 !important;
-  width: 100%;
-  background: #1f2226;
-  cursor: default;
-}
-
 .charsheet .atlas-sheet label {
   font-size: 10px;
   letter-spacing: 1px;

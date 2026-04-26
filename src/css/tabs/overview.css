@@ -124,6 +124,51 @@
   text-transform: uppercase;
 }
 
+/* Health-Card: HP / Max HP / Temp HP / Triage als 4 beschriftete       */
+/* Felder nebeneinander. Spannt 2 Grid-Spalten.                          */
+.charsheet .atlas-hp-cell {
+  grid-column: span 2;
+}
+
+.charsheet .atlas-hp-inline {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr 1fr auto;
+  gap: 6px;
+  align-items: end;
+}
+
+.charsheet .atlas-hp-sep {
+  color: #7a8087;
+  padding-bottom: 4px;
+  font-size: 14px;
+}
+
+.charsheet .atlas-hp-field-triage {
+  width: 70px;
+}
+
+.charsheet .atlas-hp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.charsheet .atlas-hp-sublabel {
+  color: #7a8087;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.charsheet .atlas-sheet .atlas-hp-field input {
+  width: 100% !important;
+  min-width: 0 !important;
+  text-align: center;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
 /* Encumbrance-Cell: Hintergrund-Farbe vom Weight-Status getriggert.     */
 /* Worker setzt drei kumulative Status-Checkboxen (encumbered/heavy/     */
 /* overloaded). CSS matcht per :has(:checked) und faerbt entsprechend.   */

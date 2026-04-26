@@ -60,21 +60,27 @@
     <div class="atlas-section">
       <h2>Combat</h2>
       <div class="atlas-combat-grid">
-        <div class="atlas-combat-cell">
-          <label>HP</label>
-          <div class="atlas-hp-row">
-            <input type="number" name="attr_hp" value="10" />
-            <span>/</span>
-            <input type="number" name="attr_hp_max" value="10" />
+        <div class="atlas-combat-cell atlas-hp-cell">
+          <label>Health</label>
+          <div class="atlas-hp-inline">
+            <div class="atlas-hp-field">
+              <span class="atlas-hp-sublabel">HP</span>
+              <input type="number" name="attr_hp" value="10" />
+            </div>
+            <span class="atlas-hp-sep">/</span>
+            <div class="atlas-hp-field">
+              <span class="atlas-hp-sublabel">Max HP</span>
+              <input type="number" name="attr_hp_max" value="10" />
+            </div>
+            <div class="atlas-hp-field">
+              <span class="atlas-hp-sublabel">Temp HP</span>
+              <input type="number" name="attr_hp_temp" value="0" />
+            </div>
+            <div class="atlas-hp-field atlas-hp-field-triage">
+              <span class="atlas-hp-sublabel">Triage</span>
+              <input type="text" name="attr_triage_label" value="Green" disabled class="atlas-triage" />
+            </div>
           </div>
-        </div>
-        <div class="atlas-combat-cell">
-          <label>Temp HP</label>
-          <input type="number" name="attr_hp_temp" value="0" />
-        </div>
-        <div class="atlas-combat-cell">
-          <label>Triage</label>
-          <input type="text" name="attr_triage_label" value="Green" disabled class="atlas-triage" />
         </div>
         <div class="atlas-combat-cell">
           <label>AC</label>

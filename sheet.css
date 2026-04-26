@@ -1878,23 +1878,6 @@
   text-align: center;
 }
 
-.charsheet .atlas-feat-row {
-  display: grid;
-  grid-template-columns: 2fr 60px 3fr 60px 60px;
-  gap: 6px;
-  background: #262a2f;
-  border: 1px solid #3a3f44;
-  padding: 6px;
-  align-items: center;
-  margin-bottom: 4px;
-}
-
-.charsheet .atlas-feat-row input,
-.charsheet .atlas-feat-row textarea {
-  width: 100%;
-  min-width: 0;
-}
-
 /* ---------- CLASS RESOURCES (Features Tab) ---------- */
 .charsheet .atlas-class-resource {
   background: #262a2f;

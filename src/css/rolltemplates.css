@@ -7,7 +7,8 @@
 .sheet-rolltemplate-check .sheet-atlas-rt,
 .sheet-rolltemplate-attack .sheet-atlas-rt,
 .sheet-rolltemplate-spray .sheet-atlas-rt,
-.sheet-rolltemplate-order  .sheet-atlas-rt {
+.sheet-rolltemplate-order  .sheet-atlas-rt,
+.sheet-rolltemplate-ability .sheet-atlas-rt {
   background: #1a1d20 !important;
   border: 1px solid #5c7a3a !important;
   border-radius: 3px;
@@ -22,7 +23,8 @@
 .sheet-rolltemplate-check .sheet-atlas-rt-head,
 .sheet-rolltemplate-attack .sheet-atlas-rt-head,
 .sheet-rolltemplate-spray .sheet-atlas-rt-head,
-.sheet-rolltemplate-order  .sheet-atlas-rt-head {
+.sheet-rolltemplate-order  .sheet-atlas-rt-head,
+.sheet-rolltemplate-ability .sheet-atlas-rt-head {
   background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
   color: #cfe5a8 !important;
   padding: 6px 10px;
@@ -36,7 +38,8 @@
 .sheet-rolltemplate-check .sheet-atlas-rt-who,
 .sheet-rolltemplate-attack .sheet-atlas-rt-who,
 .sheet-rolltemplate-spray .sheet-atlas-rt-who,
-.sheet-rolltemplate-order  .sheet-atlas-rt-who {
+.sheet-rolltemplate-order  .sheet-atlas-rt-who,
+.sheet-rolltemplate-ability .sheet-atlas-rt-who {
   background: #262a2f !important;
   color: #b8bcc0 !important;
   padding: 2px 10px;
@@ -49,7 +52,8 @@
 .sheet-rolltemplate-check .sheet-atlas-rt-body,
 .sheet-rolltemplate-attack .sheet-atlas-rt-body,
 .sheet-rolltemplate-spray .sheet-atlas-rt-body,
-.sheet-rolltemplate-order  .sheet-atlas-rt-body {
+.sheet-rolltemplate-order  .sheet-atlas-rt-body,
+.sheet-rolltemplate-ability .sheet-atlas-rt-body {
   padding: 6px 10px;
 }
 
@@ -335,6 +339,34 @@
   background: #3a1f1f !important;
   color: #ffb8b8 !important;
   border: 2px solid #ff5c5c !important;
+}
+
+/* ---------- Ability Template ---------- */
+/* Reine Info-Karte ohne Wuerfel - Beschreibung steht im Vordergrund. */
+/* Der Body bekommt etwas mehr Padding, der Beschreibungstext ist nicht */
+/* italic / klein wie bei den anderen Templates, sondern lesbar als     */
+/* Hauptinhalt.                                                         */
+.sheet-rolltemplate-ability .sheet-atlas-rt-head {
+  background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
+  color: #cfe5a8 !important;
+  border-bottom: 1px solid #5c7a3a;
+}
+.sheet-rolltemplate-ability .sheet-atlas-rt-body {
+  padding: 8px 12px;
+}
+.sheet-rolltemplate-ability .sheet-atlas-rt-row {
+  display: block !important;
+  padding: 0;
+  border-bottom: none;
+}
+.sheet-rolltemplate-ability .sheet-atlas-rt-note {
+  color: #d8dde2 !important;
+  font-size: 12px !important;
+  font-style: normal !important;
+  line-height: 1.5;
+  margin-top: 0;
+  display: block;
+  border-bottom: none;
 }
 
 /* Damage link row in the attack/spray template: make the "Schaden   */

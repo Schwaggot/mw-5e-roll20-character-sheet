@@ -849,7 +849,7 @@
 /* ---------- LANGUAGES ---------- */
 .charsheet .atlas-language-header {
   display: grid;
-  grid-template-columns: 2fr 160px 3fr 70px;
+  grid-template-columns: 2fr 160px 1fr auto;
   gap: 6px;
   font-size: 10px;
   color: #7a8087;
@@ -861,7 +861,7 @@
 
 .charsheet .atlas-language-row {
   display: grid;
-  grid-template-columns: 2fr 160px 3fr 70px;
+  grid-template-columns: 2fr 160px 1fr auto;
   gap: 6px;
   background: #262a2f;
   border: 1px solid #3a3f44;
@@ -869,6 +869,7 @@
   align-items: center;
   margin-bottom: 4px;
 }
+
 
 .charsheet .atlas-language-row input,
 .charsheet .atlas-language-row select,
@@ -891,9 +892,122 @@
   vertical-align: middle !important;
 }
 
-/* Roll-Button (type=roll) - Roll20 fügt Auto-Icon ein. */
+/* Roll-Button (type=roll) - kompakte Skills-Tab-Optik (font-size 11px, */
+/* padding 2px 8px) aber Hoehe an die Text-/Select-Felder der Zeile      */
+/* angeglichen (28px), damit alle Felder vertikal auf einer Linie sind.  */
 .charsheet .atlas-sheet .atlas-language-row button[type="roll"] {
-  padding: 0 !important;
+  width: auto !important;
+  height: 28px !important;
+  padding: 2px 8px !important;
+  font-size: 11px !important;
+  line-height: normal !important;
+  box-sizing: border-box !important;
+  justify-self: start;
+}
+
+/* ---------- ABILITIES ---------- */
+.charsheet .atlas-ability-header {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 6px;
+  font-size: 10px;
+  color: #7a8087;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0 6px 4px;
+}
+
+.charsheet .atlas-ability-collapsible {
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  margin-bottom: 4px;
+}
+
+/* Summary IST gleichzeitig die Zeile (Name + Toggle + Use-Button).      */
+/* Klick auf den Input/Button hat dank <summary>-Default-Verhalten keinen */
+/* Toggle-Effekt; nur das Toggle-Span und der freie Padding-Bereich       */
+/* klappen ein/aus.                                                        */
+.charsheet .atlas-ability-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 6px;
+  padding: 6px;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+}
+
+.charsheet .atlas-ability-row::-webkit-details-marker {
+  display: none;
+}
+
+.charsheet .atlas-ability-row input,
+.charsheet .atlas-ability-row button {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  cursor: auto;
+}
+
+.charsheet .atlas-ability-row input[type="text"] {
+  height: 28px;
+  padding: 0 6px;
+}
+
+.charsheet .atlas-ability-row button[type="action"] {
+  height: 28px;
+  padding: 2px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* Inline-Toggle-Marker zwischen Name und Use-Button. Rotiert um 90° */
+/* wenn das umschließende <details> open ist - selbe Optik wie die    */
+/* Weapon-Mods-Section.                                                */
+.charsheet .atlas-ability-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 8px;
+  color: #8ab85e;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  user-select: none;
+}
+
+.charsheet .atlas-ability-toggle::before {
+  content: "▶";
+  font-size: 9px;
+  color: #5c7a3a;
+  transition: transform 0.15s;
+}
+
+.charsheet .atlas-ability-row:hover .atlas-ability-toggle {
+  color: #cfe5a8;
+}
+
+.charsheet .atlas-ability-collapsible[open] .atlas-ability-toggle::before {
+  transform: rotate(90deg);
+  color: #8ab85e;
+}
+
+.charsheet .atlas-ability-collapsible textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 60px;
+  padding: 6px 10px;
+  border: none;
+  border-top: 1px solid #3a3f44;
+  background: #1a1d20;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #d8dde2;
 }
 
 /* === src/css/tabs/gear.css === */
@@ -1998,7 +2112,8 @@
 .sheet-rolltemplate-check .sheet-atlas-rt,
 .sheet-rolltemplate-attack .sheet-atlas-rt,
 .sheet-rolltemplate-spray .sheet-atlas-rt,
-.sheet-rolltemplate-order  .sheet-atlas-rt {
+.sheet-rolltemplate-order  .sheet-atlas-rt,
+.sheet-rolltemplate-ability .sheet-atlas-rt {
   background: #1a1d20 !important;
   border: 1px solid #5c7a3a !important;
   border-radius: 3px;
@@ -2013,7 +2128,8 @@
 .sheet-rolltemplate-check .sheet-atlas-rt-head,
 .sheet-rolltemplate-attack .sheet-atlas-rt-head,
 .sheet-rolltemplate-spray .sheet-atlas-rt-head,
-.sheet-rolltemplate-order  .sheet-atlas-rt-head {
+.sheet-rolltemplate-order  .sheet-atlas-rt-head,
+.sheet-rolltemplate-ability .sheet-atlas-rt-head {
   background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
   color: #cfe5a8 !important;
   padding: 6px 10px;
@@ -2027,7 +2143,8 @@
 .sheet-rolltemplate-check .sheet-atlas-rt-who,
 .sheet-rolltemplate-attack .sheet-atlas-rt-who,
 .sheet-rolltemplate-spray .sheet-atlas-rt-who,
-.sheet-rolltemplate-order  .sheet-atlas-rt-who {
+.sheet-rolltemplate-order  .sheet-atlas-rt-who,
+.sheet-rolltemplate-ability .sheet-atlas-rt-who {
   background: #262a2f !important;
   color: #b8bcc0 !important;
   padding: 2px 10px;
@@ -2040,7 +2157,8 @@
 .sheet-rolltemplate-check .sheet-atlas-rt-body,
 .sheet-rolltemplate-attack .sheet-atlas-rt-body,
 .sheet-rolltemplate-spray .sheet-atlas-rt-body,
-.sheet-rolltemplate-order  .sheet-atlas-rt-body {
+.sheet-rolltemplate-order  .sheet-atlas-rt-body,
+.sheet-rolltemplate-ability .sheet-atlas-rt-body {
   padding: 6px 10px;
 }
 
@@ -2326,6 +2444,34 @@
   background: #3a1f1f !important;
   color: #ffb8b8 !important;
   border: 2px solid #ff5c5c !important;
+}
+
+/* ---------- Ability Template ---------- */
+/* Reine Info-Karte ohne Wuerfel - Beschreibung steht im Vordergrund. */
+/* Der Body bekommt etwas mehr Padding, der Beschreibungstext ist nicht */
+/* italic / klein wie bei den anderen Templates, sondern lesbar als     */
+/* Hauptinhalt.                                                         */
+.sheet-rolltemplate-ability .sheet-atlas-rt-head {
+  background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
+  color: #cfe5a8 !important;
+  border-bottom: 1px solid #5c7a3a;
+}
+.sheet-rolltemplate-ability .sheet-atlas-rt-body {
+  padding: 8px 12px;
+}
+.sheet-rolltemplate-ability .sheet-atlas-rt-row {
+  display: block !important;
+  padding: 0;
+  border-bottom: none;
+}
+.sheet-rolltemplate-ability .sheet-atlas-rt-note {
+  color: #d8dde2 !important;
+  font-size: 12px !important;
+  font-style: normal !important;
+  line-height: 1.5;
+  margin-top: 0;
+  display: block;
+  border-bottom: none;
 }
 
 /* Damage link row in the attack/spray template: make the "Schaden   */

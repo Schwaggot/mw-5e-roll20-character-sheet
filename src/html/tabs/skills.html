@@ -91,6 +91,28 @@
 
     </div>
 
+    <!-- Abilities -->
+    <div class="atlas-section">
+      <h2>Abilities</h2>
+      <div class="atlas-ability-header">
+        <span>Name</span>
+        <span></span>
+        <span>Aktion</span>
+      </div>
+      <fieldset class="repeating_abilities">
+        <details class="atlas-ability-collapsible">
+          <summary class="atlas-ability-row">
+            <input type="hidden" name="attr_source" value="manual" />
+            <input type="text"   name="attr_name" placeholder="Name der Faehigkeit" />
+            <span class="atlas-ability-toggle" title="Beschreibung ein-/ausklappen">Beschreibung</span>
+            <button type="action" name="act_use" title="Faehigkeit im Chat anzeigen">Use</button>
+          </summary>
+          <textarea name="attr_description" placeholder="Beschreibung (wird im Chat ausgegeben)"></textarea>
+        </details>
+      </fieldset>
+      <div class="atlas-hint">Trait-bezogene Eintraege werden beim Wechsel des Personality Trait automatisch ersetzt. Manuelle Eintraege (Source = "manual") bleiben erhalten.</div>
+    </div>
+
     <!-- Languages -->
     <div class="atlas-section">
       <h2>Languages / Sprachen</h2>

@@ -108,18 +108,23 @@
               <span class="atlas-hp-sublabel">Total</span>
               <input type="number" name="attr_init_total" value="0" readonly class="atlas-readonly" />
             </div>
-            <button type="roll" class="atlas-init-btn" name="roll_initiative" title="Initiative: 1d20 + DEX-Mod + Init-Bonus. Shaken 3+ = Disadvantage (auto)." value="&{template:check} {{title=Initiative}} {{who=@{character_name}}} {{result=[[@{init_die} + @{dexterity_mod} + @{init_bonus} &{tracker}]]}}">&nbsp;</button>
+            <button type="roll" class="atlas-init-btn" name="roll_initiative" title="Initiative: 1d20 + DEX-Mod + Init-Bonus. Shaken 3+ = Disadvantage (auto)." value="&{template:check} {{title=Initiative}} {{who=@{character_name}}} {{result=[[@{init_die} + @{dexterity_mod} + @{init_bonus} &{tracker}]]}}"></button>
           </div>
         </div>
         <div class="atlas-combat-cell">
           <label>Hit Dice</label>
-          <div class="atlas-hp-row">
-            <input type="number" name="attr_hit_dice" value="1" />
-            <span>/</span>
-            <input type="number" name="attr_hit_dice_max" value="1" />
-            <span class="atlas-hd-type">d10</span>
+          <div class="atlas-init-row atlas-hd-row">
+            <div class="atlas-hp-field">
+              <span class="atlas-hp-sublabel">Current</span>
+              <input type="number" name="attr_hit_dice" value="1" />
+            </div>
+            <span class="atlas-hp-sep">/</span>
+            <div class="atlas-hp-field">
+              <span class="atlas-hp-sublabel">Max</span>
+              <input type="number" name="attr_hit_dice_max" value="1" />
+            </div>
+            <button type="roll" name="roll_hit_dice" class="atlas-init-btn" title="Hit Die ausgeben (1d10 + CON-Mod). Triage Red blockt HD - HP manuell anpassen. HD wird automatisch dekrementiert." value="&{template:check} {{title=Hit Dice}} {{who=@{character_name}}} {{result=+[[1d10 + @{constitution_mod}]] HP}}"></button>
           </div>
-          <button type="action" name="act_roll_hd" class="atlas-inline-roll">&nbsp;Roll HD</button>
         </div>
         <div class="atlas-combat-cell">
           <label>Death Saves</label>

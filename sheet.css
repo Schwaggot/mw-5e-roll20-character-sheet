@@ -696,11 +696,16 @@
   align-items: end;
 }
 
-.charsheet .atlas-sheet .atlas-init-btn[type="roll"] {
+.charsheet .atlas-sheet button.atlas-init-btn {
   align-self: end;
-  min-width: 32px;
-  padding: 4px 6px !important;
-  margin: 0 !important;
+  padding: 2px 8px;
+  font-size: 11px;
+  margin: 0;
+}
+
+/* Hit-Dice-Variante: zwischen Current und Max kommt ein "/" wie bei HP. */
+.charsheet .atlas-hd-row {
+  grid-template-columns: 1fr auto 1fr auto;
 }
 
 /* Heal-Button in Second-Wind-Feature-Zelle: full-width, linksbündig   */

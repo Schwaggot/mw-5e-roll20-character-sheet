@@ -70,39 +70,14 @@
     stressHeal("long");
   });
 
-  // ---- Hit Dice Roll ----
-  on("clicked:roll_hd", () => {
-    getAttrs(["hit_dice", "constitution_mod", "hp", "hp_max", "character_name"], (v) => {
+  // ---- Hit Dice: dekrementiert HD beim Klick auf den Roll-Button.    //
+  // Der Wuerfel selbst kommt aus der value-Formel des type="roll"      //
+  // Buttons (Roll20 zeigt das d20-Icon nur fuer roll-Typ Buttons),     //
+  // HP wird vom Spieler manuell angepasst. Bei HD = 0 passiert nichts. //
+  on("clicked:hit_dice", () => {
+    getAttrs(["hit_dice"], (v) => {
       const current = parseInt(v.hit_dice) || 0;
-      const conMod = parseInt(v.constitution_mod) || 0;
-      const hp = parseInt(v.hp) || 0;
-      const hpMax = parseInt(v.hp_max) || 0;
-      const charName = v.character_name || "Operator";
-
-      if (current <= 0) {
-        startRoll(
-          `&{template:check} {{title=Hit Dice - leer}} {{who=${charName}}} {{result=Keine Hit Dice mehr uebrig}}`,
-          (r) => finishRoll(r.rollId)
-        );
-        return;
-      }
-
-      // 1d10 + CON-Mod, clamp zwischen 1 und (hpMax - hp)
-      const healed = Math.floor(Math.random() * 10) + 1 + conMod;
-      const healClamped = Math.max(1, healed);
-      const newHP = Math.min(hpMax, hp + healClamped);
-      const actualHealed = newHP - hp;
-      const newHD = current - 1;
-
-      setAttrs({
-        hit_dice: newHD,
-        hp: newHP,
-      });
-
-      startRoll(
-        `&{template:check} {{title=Hit Dice (Short Rest)}} {{who=${charName}}} {{result=+${actualHealed} HP (Wurf: [[${healed}]])}} {{note=HD ${current} -> ${newHD}. HP ${hp} -> ${newHP} / ${hpMax}.}}`,
-        (r) => finishRoll(r.rollId)
-      );
+      if (current > 0) setAttrs({ hit_dice: current - 1 });
     });
   });
 

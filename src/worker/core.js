@@ -36,3 +36,11 @@
     });
   });
 
+  // ---- Initiative Total = DEX-Mod + Init-Bonus ----
+  on("change:dexterity_mod change:init_bonus sheet:opened", () => {
+    getAttrs(["dexterity_mod", "init_bonus"], (v) => {
+      const total = (parseInt(v.dexterity_mod) || 0) + (parseInt(v.init_bonus) || 0);
+      setAttrs({ init_total: total });
+    });
+  });
+

@@ -208,10 +208,19 @@
           <span class="atlas-hp-sublabel">Speed (ft)</span>
           <input type="number" name="attr_speed" value="30" />
         </div>
-        <div class="atlas-combat-cell">
-          <label>Init-Bonus</label>
-          <input type="number" name="attr_init_bonus" value="0" />
-          <button type="roll" class="atlas-inline-roll" name="roll_initiative" title="Initiative: 1d20 + DEX-Mod + Init-Bonus. Shaken 3+ = Disadvantage (auto)." value="&{template:check} {{title=Initiative}} {{who=@{character_name}}} {{result=[[@{init_die} + @{dexterity_mod} + @{init_bonus} &{tracker}]]}}">&nbsp;Init</button>
+        <div class="atlas-combat-cell atlas-init-cell">
+          <label>Initiative</label>
+          <div class="atlas-init-row">
+            <div class="atlas-hp-field">
+              <span class="atlas-hp-sublabel">Bonus</span>
+              <input type="number" name="attr_init_bonus" value="0" />
+            </div>
+            <div class="atlas-hp-field">
+              <span class="atlas-hp-sublabel">Total</span>
+              <input type="number" name="attr_init_total" value="0" readonly class="atlas-readonly" />
+            </div>
+            <button type="roll" class="atlas-init-btn" name="roll_initiative" title="Initiative: 1d20 + DEX-Mod + Init-Bonus. Shaken 3+ = Disadvantage (auto)." value="&{template:check} {{title=Initiative}} {{who=@{character_name}}} {{result=[[@{init_die} + @{dexterity_mod} + @{init_bonus} &{tracker}]]}}">&nbsp;</button>
+          </div>
         </div>
         <div class="atlas-combat-cell">
           <label>Hit Dice</label>
@@ -2787,6 +2796,14 @@
         upd[`${a}_mod`] = Math.floor((score - 10) / 2);
       });
       setAttrs(upd);
+    });
+  });
+
+  // ---- Initiative Total = DEX-Mod + Init-Bonus ----
+  on("change:dexterity_mod change:init_bonus sheet:opened", () => {
+    getAttrs(["dexterity_mod", "init_bonus"], (v) => {
+      const total = (parseInt(v.dexterity_mod) || 0) + (parseInt(v.init_bonus) || 0);
+      setAttrs({ init_total: total });
     });
   });
 

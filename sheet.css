@@ -688,6 +688,21 @@
   width: 100%;
 }
 
+/* Initiative-Card: Bonus, Total und Roll-Button in einer Zeile.        */
+.charsheet .atlas-init-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 6px;
+  align-items: end;
+}
+
+.charsheet .atlas-sheet .atlas-init-btn[type="roll"] {
+  align-self: end;
+  min-width: 32px;
+  padding: 4px 6px !important;
+  margin: 0 !important;
+}
+
 /* Heal-Button in Second-Wind-Feature-Zelle: full-width, linksbündig   */
 /* zum Cell-Rand. Specificity forciert gegen den generischen Button-   */
 /* Style, margin/padding explizit damit nichts nach rechts schiebt.     */

@@ -109,6 +109,73 @@
     });
   });
 
+  // ---- Death Save: 1d20 mit Compendium-Regeln                        //
+  // (modern-warfare-5e/rules/hit-points.md "Death Saving Throws").     //
+  //   10+ -> Success                                                   //
+  //   <10 -> Failure                                                   //
+  //   Nat 20 -> +1 HP, Death Saves cleared, aufgewacht                 //
+  //   Nat 1 -> 2 Failures                                              //
+  //   3 Successes -> stabil (kein weiterer Save noetig)                //
+  //   3 Failures -> tot (HP=0, Triage Black via auto-calc)             //
+  on("clicked:roll_death_save", () => {
+    getAttrs([
+      "ds_s1", "ds_s2", "ds_s3", "ds_f1", "ds_f2", "ds_f3",
+      "character_name",
+    ], (v) => {
+      const charName = v.character_name || "Operator";
+      const sCount = ["ds_s1", "ds_s2", "ds_s3"].reduce((n, k) => n + (v[k] == "1" ? 1 : 0), 0);
+      const fCount = ["ds_f1", "ds_f2", "ds_f3"].reduce((n, k) => n + (v[k] == "1" ? 1 : 0), 0);
+
+      if (sCount >= 3 || fCount >= 3) {
+        startRoll(
+          `&{template:check} {{title=Death Save - bereits ${sCount >= 3 ? "stabil" : "tot"}}} {{who=${charName}}} {{result=Kein Save noetig}}`,
+          (r) => finishRoll(r.rollId)
+        );
+        return;
+      }
+
+      const roll = Math.floor(Math.random() * 20) + 1;
+      let newS = sCount;
+      let newF = fCount;
+      const updates = {};
+      let result;
+      let note = "";
+
+      if (roll === 20) {
+        newS = 0;
+        newF = 0;
+        updates.hp = 1;
+        result = `Nat 20 - aufwachen mit 1 HP, Death Saves cleared`;
+      } else if (roll === 1) {
+        newF = Math.min(3, fCount + 2);
+        result = `Nat 1 - 2 Failures (${fCount} -> ${newF})`;
+      } else if (roll >= 10) {
+        newS = Math.min(3, sCount + 1);
+        result = `Success (${sCount} -> ${newS})`;
+      } else {
+        newF = Math.min(3, fCount + 1);
+        result = `Failure (${fCount} -> ${newF})`;
+      }
+
+      updates.ds_s1 = newS >= 1 ? 1 : 0;
+      updates.ds_s2 = newS >= 2 ? 1 : 0;
+      updates.ds_s3 = newS >= 3 ? 1 : 0;
+      updates.ds_f1 = newF >= 1 ? 1 : 0;
+      updates.ds_f2 = newF >= 2 ? 1 : 0;
+      updates.ds_f3 = newF >= 3 ? 1 : 0;
+
+      if (newS >= 3) note = "STABIL - kein weiterer Save. 1d4h dann +1 HP, dann Triage Red.";
+      else if (newF >= 3) note = "TOT - Triage Black.";
+
+      setAttrs(updates);
+
+      startRoll(
+        `&{template:check} {{title=Death Save}} {{who=${charName}}} {{result=Wurf [[${roll}]] - ${result}}}${note ? ` {{note=${note}}}` : ""}`,
+        (r) => finishRoll(r.rollId)
+      );
+    });
+  });
+
   on("clicked:dog_grapple", () => {
     getAttrs(["dog_name", "character_name"], (v) => {
       const dogName = v.dog_name || "Dog";

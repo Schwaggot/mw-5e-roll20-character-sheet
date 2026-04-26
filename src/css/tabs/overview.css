@@ -124,6 +124,37 @@
   text-transform: uppercase;
 }
 
+/* Triage-Badge faerbt sich nach aktuellem State. Worker setzt 5        */
+/* versteckte Checkboxen (attr_triage_g/y/o/r/b), CSS matcht via :has() */
+/* die jeweils gecheckte und faerbt das sichtbare .atlas-triage-Input.   */
+.charsheet .atlas-sheet .atlas-hp-field-triage:has(input[name="attr_triage_g"]:checked) .atlas-triage {
+  background: #1f2a1c !important;
+  color: #8ab85e !important;
+  border-color: #5c7a3a !important;
+}
+.charsheet .atlas-sheet .atlas-hp-field-triage:has(input[name="attr_triage_y"]:checked) .atlas-triage {
+  background: #2a2a1c !important;
+  color: #d4c45e !important;
+  border-color: #8a7a3a !important;
+}
+.charsheet .atlas-sheet .atlas-hp-field-triage:has(input[name="attr_triage_o"]:checked) .atlas-triage {
+  background: #2f241c !important;
+  color: #d48a5a !important;
+  border-color: #a66a3a !important;
+}
+.charsheet .atlas-sheet .atlas-hp-field-triage:has(input[name="attr_triage_r"]:checked) .atlas-triage {
+  background: #2f1c1c !important;
+  color: #e06060 !important;
+  border-color: #a63a3a !important;
+  font-weight: bold;
+}
+.charsheet .atlas-sheet .atlas-hp-field-triage:has(input[name="attr_triage_b"]:checked) .atlas-triage {
+  background: #0a0a0a !important;
+  color: #888 !important;
+  border-color: #444 !important;
+  font-weight: bold;
+}
+
 /* Health-Card: HP / Max HP / Temp HP / Triage als 4 beschriftete       */
 /* Felder nebeneinander. Spannt 2 Grid-Spalten.                          */
 .charsheet .atlas-hp-cell {

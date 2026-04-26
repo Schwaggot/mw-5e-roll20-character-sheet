@@ -1,15 +1,23 @@
   // ---- Triage Code from HP ----
-  on("change:hp change:hp_max sheet:opened", () => {
+  // Triggert auf jede Aenderung von hp / hp_max / hp_temp (auch via   //
+  // Spinner-Buttons im number-Input). Setzt das sichtbare Label und   //
+  // 5 versteckte State-Checkboxen (analog zur Encumbrance-Zelle), die //
+  // im CSS via :has() die Badge-Farbe steuern - Roll20 reflektiert     //
+  // :checked zuverlaessig, das HTML value-Attribut auf disabled text  //
+  // Inputs nicht.                                                      //
+  on("change:hp change:hp_max change:hp_temp sheet:opened", () => {
     getAttrs(["hp", "hp_max"], (v) => {
       const hp = parseInt(v.hp) || 0;
       const max = parseInt(v.hp_max) || 1;
       const pct = (hp / max) * 100;
-      let label = "Green";
-      if (hp <= 0) label = "Black";
-      else if (pct <= 25) label = "Red";
-      else if (pct <= 50) label = "Orange";
-      else if (pct <= 75) label = "Yellow";
-      setAttrs({ triage_label: label });
+      const flags = { triage_g: 0, triage_y: 0, triage_o: 0, triage_r: 0, triage_b: 0 };
+      let label;
+      if (hp <= 0) { label = "Black"; flags.triage_b = 1; }
+      else if (pct <= 25) { label = "Red"; flags.triage_r = 1; }
+      else if (pct <= 50) { label = "Orange"; flags.triage_o = 1; }
+      else if (pct <= 75) { label = "Yellow"; flags.triage_y = 1; }
+      else { label = "Green"; flags.triage_g = 1; }
+      setAttrs({ triage_label: label, ...flags });
     });
   });
 

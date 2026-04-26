@@ -78,7 +78,12 @@
             </div>
             <div class="atlas-hp-field atlas-hp-field-triage">
               <span class="atlas-hp-sublabel">Triage</span>
-              <input type="text" name="attr_triage_label" value="Green" disabled class="atlas-triage" />
+              <input type="text" name="attr_triage_label" value="Green" readonly class="atlas-readonly atlas-triage" title="Triage Code (automatisch aus HP / Max HP):&#10;1 Green / Healthy - 76%-100%, normale Heilung&#10;2 Yellow / Injured - 51%-75%, Heal-Divisor 2&#10;3 Orange / Wounded - 26%-50%, Heal-Divisor 5, +1 Exhaustion&#10;4 Red / Critically Wounded - 1%-25%, Heal-Divisor 10, keine Hit Dice, +2 Exhaustion&#10;5 Black / Deceased - 0%, +5 Exhaustion" />
+              <input type="checkbox" name="attr_triage_g" value="1" checked style="display:none" />
+              <input type="checkbox" name="attr_triage_y" value="1" style="display:none" />
+              <input type="checkbox" name="attr_triage_o" value="1" style="display:none" />
+              <input type="checkbox" name="attr_triage_r" value="1" style="display:none" />
+              <input type="checkbox" name="attr_triage_b" value="1" style="display:none" />
             </div>
           </div>
         </div>

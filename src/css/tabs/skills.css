@@ -55,7 +55,7 @@
 /* ---------- LANGUAGES ---------- */
 .charsheet .atlas-language-header {
   display: grid;
-  grid-template-columns: 2fr 160px 1fr auto;
+  grid-template-columns: 200px 160px 1fr auto;
   gap: 6px;
   font-size: 10px;
   color: #7a8087;
@@ -67,7 +67,7 @@
 
 .charsheet .atlas-language-row {
   display: grid;
-  grid-template-columns: 2fr 160px 1fr auto;
+  grid-template-columns: 200px 160px 1fr auto;
   gap: 6px;
   background: #262a2f;
   border: 1px solid #3a3f44;

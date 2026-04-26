@@ -18,6 +18,19 @@
   </div>
 </rolltemplate>
 
+<rolltemplate class="sheet-rolltemplate-language">
+  <div class="sheet-atlas-rt sheet-atlas-rt-language">
+    <div class="sheet-atlas-rt-head">{{title}}</div>
+    {{#who}}<div class="sheet-atlas-rt-who">{{who}}</div>{{/who}}
+    <div class="sheet-atlas-rt-body">
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Speak (CHA)</span><span class="sheet-atlas-rt-val">{{speak}}</span></div>
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Write (DEX)</span><span class="sheet-atlas-rt-val">{{write}}</span></div>
+      <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Read (INT)</span><span class="sheet-atlas-rt-val">{{read}}</span></div>
+      {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
+    </div>
+  </div>
+</rolltemplate>
+
 <rolltemplate class="sheet-rolltemplate-ability">
   <div class="sheet-atlas-rt sheet-atlas-rt-ability">
     <div class="sheet-atlas-rt-head">{{title}}</div>

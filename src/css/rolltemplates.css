@@ -8,7 +8,8 @@
 .sheet-rolltemplate-attack .sheet-atlas-rt,
 .sheet-rolltemplate-spray .sheet-atlas-rt,
 .sheet-rolltemplate-order  .sheet-atlas-rt,
-.sheet-rolltemplate-ability .sheet-atlas-rt {
+.sheet-rolltemplate-ability .sheet-atlas-rt,
+.sheet-rolltemplate-language .sheet-atlas-rt {
   background: #1a1d20 !important;
   border: 1px solid #5c7a3a !important;
   border-radius: 3px;
@@ -24,7 +25,8 @@
 .sheet-rolltemplate-attack .sheet-atlas-rt-head,
 .sheet-rolltemplate-spray .sheet-atlas-rt-head,
 .sheet-rolltemplate-order  .sheet-atlas-rt-head,
-.sheet-rolltemplate-ability .sheet-atlas-rt-head {
+.sheet-rolltemplate-ability .sheet-atlas-rt-head,
+.sheet-rolltemplate-language .sheet-atlas-rt-head {
   background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
   color: #cfe5a8 !important;
   padding: 6px 10px;
@@ -39,7 +41,8 @@
 .sheet-rolltemplate-attack .sheet-atlas-rt-who,
 .sheet-rolltemplate-spray .sheet-atlas-rt-who,
 .sheet-rolltemplate-order  .sheet-atlas-rt-who,
-.sheet-rolltemplate-ability .sheet-atlas-rt-who {
+.sheet-rolltemplate-ability .sheet-atlas-rt-who,
+.sheet-rolltemplate-language .sheet-atlas-rt-who {
   background: #262a2f !important;
   color: #b8bcc0 !important;
   padding: 2px 10px;
@@ -53,14 +56,16 @@
 .sheet-rolltemplate-attack .sheet-atlas-rt-body,
 .sheet-rolltemplate-spray .sheet-atlas-rt-body,
 .sheet-rolltemplate-order  .sheet-atlas-rt-body,
-.sheet-rolltemplate-ability .sheet-atlas-rt-body {
+.sheet-rolltemplate-ability .sheet-atlas-rt-body,
+.sheet-rolltemplate-language .sheet-atlas-rt-body {
   padding: 6px 10px;
 }
 
 .sheet-rolltemplate-check .sheet-atlas-rt-row,
 .sheet-rolltemplate-attack .sheet-atlas-rt-row,
 .sheet-rolltemplate-spray .sheet-atlas-rt-row,
-.sheet-rolltemplate-order  .sheet-atlas-rt-row {
+.sheet-rolltemplate-order  .sheet-atlas-rt-row,
+.sheet-rolltemplate-language .sheet-atlas-rt-row {
   display: flex !important;
   justify-content: space-between !important;
   align-items: baseline;
@@ -77,14 +82,16 @@
 .sheet-rolltemplate-check .sheet-atlas-rt-row:last-child,
 .sheet-rolltemplate-attack .sheet-atlas-rt-row:last-child,
 .sheet-rolltemplate-spray .sheet-atlas-rt-row:last-child,
-.sheet-rolltemplate-order  .sheet-atlas-rt-row:last-child {
+.sheet-rolltemplate-order  .sheet-atlas-rt-row:last-child,
+.sheet-rolltemplate-language .sheet-atlas-rt-row:last-child {
   border-bottom: none;
 }
 
 .sheet-rolltemplate-check .sheet-atlas-rt-label,
 .sheet-rolltemplate-attack .sheet-atlas-rt-label,
 .sheet-rolltemplate-spray .sheet-atlas-rt-label,
-.sheet-rolltemplate-order  .sheet-atlas-rt-label {
+.sheet-rolltemplate-order  .sheet-atlas-rt-label,
+.sheet-rolltemplate-language .sheet-atlas-rt-label {
   color: #c5c9cd !important;
   font-size: 11px !important;
   letter-spacing: 1px;
@@ -95,7 +102,8 @@
 .sheet-rolltemplate-check .sheet-atlas-rt-val,
 .sheet-rolltemplate-attack .sheet-atlas-rt-val,
 .sheet-rolltemplate-spray .sheet-atlas-rt-val,
-.sheet-rolltemplate-order  .sheet-atlas-rt-val {
+.sheet-rolltemplate-order  .sheet-atlas-rt-val,
+.sheet-rolltemplate-language .sheet-atlas-rt-val {
   color: #cfe5a8 !important;
   font-weight: 700;
   font-size: 14px !important;
@@ -104,7 +112,8 @@
 
 .sheet-rolltemplate-attack .sheet-atlas-rt-note,
 .sheet-rolltemplate-spray .sheet-atlas-rt-note,
-.sheet-rolltemplate-order  .sheet-atlas-rt-note {
+.sheet-rolltemplate-order  .sheet-atlas-rt-note,
+.sheet-rolltemplate-language .sheet-atlas-rt-note {
   color: #b0b0b0 !important;
   font-size: 10px !important;
   font-style: italic;
@@ -212,7 +221,8 @@
 .sheet-rolltemplate-check .inlinerollresult,
 .sheet-rolltemplate-attack .inlinerollresult,
 .sheet-rolltemplate-spray .inlinerollresult,
-.sheet-rolltemplate-order  .inlinerollresult {
+.sheet-rolltemplate-order  .inlinerollresult,
+.sheet-rolltemplate-language .inlinerollresult {
   background: #2a3a19 !important;
   background-color: #2a3a19 !important;
   color: #e8f5cc !important;
@@ -226,7 +236,8 @@
 .sheet-rolltemplate-check .inlinerollresult.fullcrit,
 .sheet-rolltemplate-attack .inlinerollresult.fullcrit,
 .sheet-rolltemplate-spray .inlinerollresult.fullcrit,
-.sheet-rolltemplate-order  .inlinerollresult.fullcrit {
+.sheet-rolltemplate-order  .inlinerollresult.fullcrit,
+.sheet-rolltemplate-language .inlinerollresult.fullcrit {
   background: #1f3a1f !important;
   background-color: #1f3a1f !important;
   color: #b8ffb8 !important;
@@ -237,7 +248,8 @@
 .sheet-rolltemplate-check .inlinerollresult.fullfail,
 .sheet-rolltemplate-attack .inlinerollresult.fullfail,
 .sheet-rolltemplate-spray .inlinerollresult.fullfail,
-.sheet-rolltemplate-order  .inlinerollresult.fullfail {
+.sheet-rolltemplate-order  .inlinerollresult.fullfail,
+.sheet-rolltemplate-language .inlinerollresult.fullfail {
   background: #3a1f1f !important;
   background-color: #3a1f1f !important;
   color: #ffb8b8 !important;
@@ -250,7 +262,8 @@
 .sheet-rolltemplate-check .inlinerollresult.importantroll,
 .sheet-rolltemplate-attack .inlinerollresult.importantroll,
 .sheet-rolltemplate-spray .inlinerollresult.importantroll,
-.sheet-rolltemplate-order  .inlinerollresult.importantroll {
+.sheet-rolltemplate-order  .inlinerollresult.importantroll,
+.sheet-rolltemplate-language .inlinerollresult.importantroll {
   background: #2a3a19 !important;
   background-color: #2a3a19 !important;
   color: #e8f5cc !important;

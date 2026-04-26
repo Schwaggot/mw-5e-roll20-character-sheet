@@ -123,7 +123,7 @@
               <span class="atlas-hp-sublabel">Max</span>
               <input type="number" name="attr_hit_dice_max" value="1" />
             </div>
-            <button type="roll" name="roll_hit_dice" class="atlas-init-btn" title="Hit Die ausgeben (1d10 + CON-Mod). Triage Red blockt HD - HP manuell anpassen. HD wird automatisch dekrementiert." value="&{template:check} {{title=Hit Dice}} {{who=@{character_name}}} {{result=+[[1d10 + @{constitution_mod}]] HP}}"></button>
+            <button type="action" name="act_roll_hd" class="atlas-init-btn" title="Hit Die ausgeben: rollt 1d10 + CON-Mod, addiert auf HP (max HP cap), dekrementiert HD. Triage Red blockt Hit Dice.">Roll HD</button>
           </div>
         </div>
         <div class="atlas-combat-cell">

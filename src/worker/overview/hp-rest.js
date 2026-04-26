@@ -25,14 +25,17 @@
   // Short: kurze Regeneration. Long: alles zurückgesetzt, HP voll.
   // Kein Chat-Output - Resets sind am Sheet selbst sichtbar.
   on("clicked:short_rest", () => {
-    getAttrs(["ld_max", "brawler_max"], (v) => {
+    getAttrs(["ld_max", "brawler_max", "short_rests_remaining"], (v) => {
+      const remaining = parseInt(v.short_rests_remaining) || 0;
+      if (remaining <= 0) return;
       setAttrs({
         second_wind_used: 0,
         ld_current: parseInt(v.ld_max) || 0,
         brawler_current: parseInt(v.brawler_max) || 0,
+        short_rests_remaining: remaining - 1,
       });
+      stressHeal("short");
     });
-    stressHeal("short");
   });
 
   on("clicked:long_rest", () => {
@@ -41,6 +44,7 @@
       "hit_dice_max", "hit_dice",
       "ifak_max", "tourniquet_max", "trauma_max", "medsupply_max",
       "tech_sensors_max", "tech_seekers_max", "tech_bugs_max",
+      "short_rests_max",
     ], (v) => {
       const hpMax = parseInt(v.hp_max) || 10;
       const hdMax = parseInt(v.hit_dice_max) || 1;
@@ -63,6 +67,7 @@
         tech_seekers: parseInt(v.tech_seekers_max) || 2,
         tech_bugs:    parseInt(v.tech_bugs_max)    || 5,
         hit_dice: newHD,
+        short_rests_remaining: parseInt(v.short_rests_max) || 2,
         ds_s1: 0, ds_s2: 0, ds_s3: 0,
         ds_f1: 0, ds_f2: 0, ds_f3: 0,
       });

@@ -186,9 +186,6 @@
     );
   }
 
-  on("clicked:stress_heal_short", () => stressHeal("short"));
-  on("clicked:stress_heal_long",  () => stressHeal("long"));
-
   // ---- Stress Damage Akkumulator ----
   // Compendium:
   //   Netto-Stress = Schaden - WIS (min 1)

@@ -266,8 +266,16 @@
     <div class="atlas-section">
       <h2>Resting</h2>
       <div class="atlas-rest-row">
-        <button type="action" name="act_short_rest" title="Short Rest (1h Pause):&#10;- Second Wind wieder verfügbar&#10;- Leadership Dice auf max zurückgesetzt&#10;- Brawler Points auf max zurückgesetzt&#10;- Hit Dice bleiben (via Roll HD ausgeben wenn gewollt)">Short Rest</button>
-        <button type="action" name="act_long_rest" title="Long Rest (8h Schlaf):&#10;- Alles von Short Rest, plus:&#10;- HP voll (Temp HP auf 0)&#10;- Death Saves cleared&#10;- Action Surge zurückgesetzt&#10;- Indomitable zurückgesetzt&#10;- Trauma Bag voll (IFAK / Tourniquets / Trauma Kit / Med Supply)&#10;- +1/2 max Hit Dice regeneriert (min 1)&#10;- Stress/Shaken-Heilung NICHT auto - Compendium-Tabelle manuell anwenden">Long Rest</button>
+        <div class="atlas-rest-counter" title="Verfuegbare Short Rests bis zum naechsten Long Rest. Long Rest setzt zurueck auf Max.">
+          <span class="atlas-rest-counter-label">Available</span>
+          <div class="atlas-hp-row">
+            <input type="number" name="attr_short_rests_remaining" value="2" min="0" />
+            <span>/</span>
+            <input type="number" name="attr_short_rests_max" value="2" min="0" />
+          </div>
+        </div>
+        <button type="action" name="act_short_rest" title="Short Rest (1h Pause):&#10;- Second Wind wieder verfügbar&#10;- Leadership Dice auf max zurückgesetzt&#10;- Brawler Points auf max zurückgesetzt&#10;- Hit Dice bleiben (via Roll HD ausgeben wenn gewollt)&#10;- Short Rests pro Long-Rest-Zyklus begrenzt (Counter links).">Short Rest</button>
+        <button type="action" name="act_long_rest" title="Long Rest (8h Schlaf):&#10;- Alles von Short Rest, plus:&#10;- HP voll (Temp HP auf 0)&#10;- Death Saves cleared&#10;- Action Surge zurückgesetzt&#10;- Indomitable zurückgesetzt&#10;- Trauma Bag voll (IFAK / Tourniquets / Trauma Kit / Med Supply)&#10;- +1/2 max Hit Dice regeneriert (min 1)&#10;- Short Rests Counter wieder auf Max&#10;- Stress/Shaken-Heilung NICHT auto - Compendium-Tabelle manuell anwenden">Long Rest</button>
       </div>
     </div>
 
@@ -329,14 +337,6 @@
         <div class="atlas-combat-cell">
           <label title="Manuell einen Stress-Save gegen den aktuellen Next-DC werfen (z.B. nach DM-Ruling).">&nbsp;</label>
           <button type="action" name="act_stress_save">Stress Save</button>
-        </div>
-        <div class="atlas-combat-cell">
-          <label title="Short Rest Heal (1h):&#10;Shaken 1: 1d6 + WIS&#10;Shaken 2: 1d4 + WIS&#10;Shaken 3: 1 (flat)&#10;Shaken 4+: Medical help, kein Self-Heal.">&nbsp;</label>
-          <button type="action" name="act_stress_heal_short">Heal Short</button>
-        </div>
-        <div class="atlas-combat-cell">
-          <label title="Long Rest Heal (8h):&#10;Shaken 1: 1d12 + WIS&#10;Shaken 2: 1d8 + WIS&#10;Shaken 3: 1d4 + WIS&#10;Shaken 4: 1 + WIS&#10;Shaken 5: Medical help.">&nbsp;</label>
-          <button type="action" name="act_stress_heal_long">Heal Long</button>
         </div>
       </div>
       <div class="atlas-hint">Stress pro Treffer = Damage - WIS (min 1). Breakpoints bei Nx WIS: DCs 12 / 15 / 20 / 25 / 30. Shaken-Level reduziert sich automatisch wenn Stress unter einen Breakpoint faellt. Heilung wird auch durch Short/Long-Rest-Buttons oben automatisch angewendet.</div>
@@ -6030,9 +6030,6 @@
     );
   }
 
-  on("clicked:stress_heal_short", () => stressHeal("short"));
-  on("clicked:stress_heal_long",  () => stressHeal("long"));
-
   // ---- Stress Damage Akkumulator ----
   // Compendium:
   //   Netto-Stress = Schaden - WIS (min 1)
@@ -6147,14 +6144,17 @@
   // Short: kurze Regeneration. Long: alles zurückgesetzt, HP voll.
   // Kein Chat-Output - Resets sind am Sheet selbst sichtbar.
   on("clicked:short_rest", () => {
-    getAttrs(["ld_max", "brawler_max"], (v) => {
+    getAttrs(["ld_max", "brawler_max", "short_rests_remaining"], (v) => {
+      const remaining = parseInt(v.short_rests_remaining) || 0;
+      if (remaining <= 0) return;
       setAttrs({
         second_wind_used: 0,
         ld_current: parseInt(v.ld_max) || 0,
         brawler_current: parseInt(v.brawler_max) || 0,
+        short_rests_remaining: remaining - 1,
       });
+      stressHeal("short");
     });
-    stressHeal("short");
   });
 
   on("clicked:long_rest", () => {
@@ -6163,6 +6163,7 @@
       "hit_dice_max", "hit_dice",
       "ifak_max", "tourniquet_max", "trauma_max", "medsupply_max",
       "tech_sensors_max", "tech_seekers_max", "tech_bugs_max",
+      "short_rests_max",
     ], (v) => {
       const hpMax = parseInt(v.hp_max) || 10;
       const hdMax = parseInt(v.hit_dice_max) || 1;
@@ -6185,6 +6186,7 @@
         tech_seekers: parseInt(v.tech_seekers_max) || 2,
         tech_bugs:    parseInt(v.tech_bugs_max)    || 5,
         hit_dice: newHD,
+        short_rests_remaining: parseInt(v.short_rests_max) || 2,
         ds_s1: 0, ds_s2: 0, ds_s3: 0,
         ds_f1: 0, ds_f2: 0, ds_f3: 0,
       });

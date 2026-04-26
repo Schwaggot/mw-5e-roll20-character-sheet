@@ -743,6 +743,32 @@
   align-items: center;
 }
 
+.charsheet .atlas-rest-counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #262a2f;
+  border: 1px solid #3a3f44;
+  padding: 4px 8px;
+}
+
+.charsheet .atlas-rest-counter-label {
+  color: #8ab85e;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: help;
+}
+
+.charsheet .atlas-rest-counter input[type="number"] {
+  width: 36px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 2px 4px;
+}
+
 .charsheet .atlas-rest-row button[type="action"] {
   min-width: 120px;
 }

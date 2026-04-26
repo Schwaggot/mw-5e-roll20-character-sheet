@@ -561,10 +561,12 @@
 }
 
 .charsheet .atlas-hp-sublabel {
+  display: block;
   color: #7a8087;
   font-size: 9px;
   letter-spacing: 1px;
   text-transform: uppercase;
+  margin-bottom: 2px;
 }
 
 .charsheet .atlas-sheet .atlas-hp-field input {

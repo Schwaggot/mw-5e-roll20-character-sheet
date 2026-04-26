@@ -489,7 +489,7 @@
             <option value="5" title="Level 5 - Lip-read:&#10;- Kann die Sprache von Lippen ablesen (ohne Ton)&#10;- Voraussetzung: Du beherrschst die Sprache bereits (typisch Level 4)&#10;- Ermöglicht Geheim-Intel-Gathering aus sicherer Entfernung">5 - Lip-read</option>
           </select>
           <input type="text" name="attr_language_notes" placeholder="z.B. Native, Militär-Slang, Dialekt ..." />
-          <button type="roll" name="roll_lroll" title="Rollt Speak (CHA) / Write (DEX) / Read (INT). DC siehe Level-Tooltip." value="&{template:language} {{title=@{language_name}}} {{who=@{character_name}}} {{speak=[[1d20 + @{charisma_mod}]]}} {{write=[[1d20 + @{dexterity_mod}]]}} {{read=[[1d20 + @{intelligence_mod}]]}} {{note=Level @{language_level} | @{language_notes}}}"></button>
+          <button type="roll" name="roll_lroll" title="Rollt Speak (CHA) / Write (DEX) / Read (INT). DC siehe Level-Tooltip." value="&{template:language} {{title=@{language_name} (Level @{language_level})}} {{who=@{character_name}}} {{speak=[[1d20 + @{charisma_mod}]]}} {{write=[[1d20 + @{dexterity_mod}]]}} {{read=[[1d20 + @{intelligence_mod}]]}} {{note=@{language_notes}}}"></button>
         </div>
       </fieldset>
       <div class="atlas-hint">Language Training Level 1-4 steigert: <strong>Speak</strong> (CHA-Check) / <strong>Write</strong> (DEX-Check) / <strong>Read</strong> (INT-Check). Level 4 = kein Check mehr nötig. Level 5 erlaubt Lippenlesen einer bekannten Sprache.</div>

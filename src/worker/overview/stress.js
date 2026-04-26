@@ -206,18 +206,20 @@
 
   // Languages-Roll nutzt type="roll" direkt im Button, kein Worker nötig.
 
-  on("clicked:apply_stress", () => {
+  // Injury: Schaden auf HP (Temp first, dann normale HP, min 0) PLUS  //
+  // Stress-Logik (Netto-Stress = Schaden - WIS, min 1; bei WIS-Multi   //
+  // wird automatisch WIS-Save mit DC pro Tier gerollt).                //
+  on("clicked:add_damage", () => {
     getAttrs([
-      "stress_damage_input",
-      "wisdom",
-      "wisdom_mod",
-      "stress_total",
+      "damage_input",
+      "wisdom", "wisdom_mod", "stress_total",
       "character_name",
-      "save_wis_prof",
-      "save_wis_extra",
-      "prof_bonus",
+      "save_wis_prof", "save_wis_extra", "prof_bonus",
+      "hp", "hp_temp",
     ], (v) => {
-      const dmg = parseInt(v.stress_damage_input) || 0;
+      const dmg = parseInt(v.damage_input) || 0;
+      if (dmg <= 0) return;
+
       const wis = Math.max(1, parseInt(v.wisdom) || 10);
       const wisMod = parseInt(v.wisdom_mod) || 0;
       const oldTotal = parseInt(v.stress_total) || 0;
@@ -225,31 +227,42 @@
       const saveProf = parseInt(v.save_wis_prof) || 0;
       const saveExtra = parseInt(v.save_wis_extra) || 0;
       const profBonus = parseInt(v.prof_bonus) || 2;
+      const hp = parseInt(v.hp) || 0;
+      const hpTemp = parseInt(v.hp_temp) || 0;
 
-      if (dmg <= 0) return;
+      // HP: Temp first, dann normale HP, min 0
+      const tempAbsorbed = Math.min(hpTemp, dmg);
+      const remaining = dmg - tempAbsorbed;
+      const newTemp = hpTemp - tempAbsorbed;
+      const newHp = Math.max(0, hp - remaining);
+      const hpLost = hp - newHp;
 
+      // Stress
       const netStress = Math.max(1, dmg - wis);
       const newTotal = oldTotal + netStress;
-
-      // Wieviele WIS-Vielfache wurden NEU gekreuzt?
       const oldMultiple = Math.floor(oldTotal / wis);
       const newMultiple = Math.floor(newTotal / wis);
 
+      const hpInfo = tempAbsorbed > 0
+        ? `Temp -${tempAbsorbed}, HP -${hpLost} (${hp} -> ${newHp} / max)`
+        : `HP -${hpLost} (${hp} -> ${newHp})`;
+
       const upd = {
+        hp: newHp,
+        hp_temp: newTemp,
         stress_total: newTotal,
-        stress_damage_input: 0,
+        damage_input: 0,
       };
 
       if (newMultiple > oldMultiple && newMultiple > 0) {
-        // Tier für den höchsten neu erreichten Wert
         const tierIdx = Math.min(newMultiple, STRESS_TIERS.length) - 1;
         const tier = STRESS_TIERS[tierIdx];
 
         setAttrs(upd);
 
         const saveBonus = wisMod + (saveProf * profBonus) + saveExtra;
-        const headline = `STRESS THRESHOLD (${newMultiple}x WIS)`;
-        const note = `Netto +${netStress} -> Stress-Total ${newTotal}. Fail = ${tier.effect}. Heilung: ${tier.heal}.`;
+        const headline = `Injury -${dmg} - STRESS THRESHOLD (${newMultiple}x WIS)`;
+        const note = `${hpInfo}. Stress +${netStress} -> Total ${newTotal}. Fail = ${tier.effect}. Heilung: ${tier.heal}.`;
 
         const rollText = `&{template:check} ` +
           `{{title=${headline}}} ` +
@@ -259,14 +272,13 @@
 
         startRoll(rollText, (results) => finishRoll(results.rollId));
       } else {
-        // Kein Schwellen-Überschreiten - schlichte Bestätigung
         setAttrs(upd);
-        const bisNächster = wis - (newTotal % wis);
+        const bisNaechster = wis - (newTotal % wis);
         const rollText = `&{template:check} ` +
-          `{{title=Stress +${netStress}}} ` +
+          `{{title=Injury -${dmg}}} ` +
           `{{who=${charName}}} ` +
-          `{{result=Total ${newTotal}}} ` +
-          `{{note=${bisNächster} bis zum nächsten WIS-Vielfachen (${newMultiple + 1}x = ${(newMultiple + 1) * wis}).}}`;
+          `{{result=${hpInfo}}} ` +
+          `{{note=Stress +${netStress} -> Total ${newTotal}. ${bisNaechster} bis zum naechsten WIS-Vielfachen (${newMultiple + 1}x = ${(newMultiple + 1) * wis}).}}`;
         startRoll(rollText, (results) => finishRoll(results.rollId));
       }
     });

@@ -152,6 +152,17 @@
       </div>
     </div>
 
+    <!-- Injury (Damage + Stress in one go) -->
+    <div class="atlas-section">
+      <h2>Injury</h2>
+      <div class="atlas-injury-row">
+        <label>Erlittener Schaden</label>
+        <input type="number" name="attr_damage_input" value="0" min="0" />
+        <button type="action" name="act_add_damage" title="Wendet den Schaden an: Temp HP zuerst, dann normale HP (min 0). Zusaetzlich Netto-Stress = Schaden - WIS (min 1) zum Stress-Total. Wenn ein WIS-Vielfaches gekreuzt wird, wird automatisch ein WIS-Save gewuerfelt.">Add Damage</button>
+      </div>
+      <div class="atlas-hint">HP-Reduktion: Temp HP first, dann HP (min 0). Netto-Stress = Schaden - WIS (min 1). Bei Ueberschreitung eines WIS-Vielfaches wird ein WIS-Save mit passendem DC gerollt.</div>
+    </div>
+
     <!-- Resting -->
     <div class="atlas-section">
       <h2>Resting</h2>
@@ -264,12 +275,6 @@
       <div class="atlas-conditions-extra">
         <label>Weitere Conditions / Notizen</label>
         <input type="text" name="attr_conditions" placeholder="z.B. Major Bleed 2x, 1d4 Rd. Arm unbrauchbar, ..." />
-      </div>
-      <div class="atlas-stress-apply">
-        <label>Erlittener Schaden</label>
-        <input type="number" name="attr_stress_damage_input" value="0" min="0" />
-        <button type="action" name="act_apply_stress">Apply Stress</button>
-        <div class="atlas-hint">Netto-Stress = Schaden - WIS (min 1). Wird zum Total addiert. Wenn Total ein WIS-Vielfaches überschreitet, wird automatisch ein WIS-Save mit passendem DC im Chat gewürfelt.</div>
       </div>
     </div>
 

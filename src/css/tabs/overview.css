@@ -477,49 +477,22 @@
   box-sizing: border-box;
 }
 
-/* Stress-Apply-Subpanel innerhalb Shaken/Stress-Section */
-.charsheet .atlas-stress-apply {
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px dashed #3a3f44;
+/* Injury-Section: Damage-Input + Add-Damage-Button. Reduziert HP      */
+/* (Temp first, dann HP) und applied Stress in einem Schritt.           */
+.charsheet .atlas-injury-row {
   display: grid;
   grid-template-columns: auto 80px auto;
   gap: 8px;
   align-items: center;
 }
 
-.charsheet .atlas-stress-apply label {
+.charsheet .atlas-injury-row > label {
   margin: 0;
   color: #c07070;
 }
 
-.charsheet .atlas-stress-apply input[type="number"] {
+.charsheet .atlas-injury-row input[type="number"] {
   width: 100%;
   text-align: center;
-}
-
-.charsheet .atlas-stress-apply button[type="action"] {
-  background: linear-gradient(180deg, #3a4d23 0%, #2a3a19 100%) !important;
-  color: #e8f5cc !important;
-  border: 1px solid #5c7a3a !important;
-  border-radius: 2px;
-  padding: 4px 12px;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  cursor: pointer;
-  text-shadow: none !important;
-  box-shadow: none !important;
-}
-
-.charsheet .atlas-stress-apply button[type="action"]:hover {
-  background: linear-gradient(180deg, #4d6830 0%, #3a4d23 100%) !important;
-  border-color: #8ab85e !important;
-}
-
-.charsheet .atlas-stress-apply .atlas-hint {
-  grid-column: 1 / -1;
-  margin-top: 4px;
 }
 

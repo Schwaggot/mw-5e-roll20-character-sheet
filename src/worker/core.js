@@ -44,3 +44,13 @@
     });
   });
 
+  // ---- Indomitable-Sichtbarkeit (Operator Level >= 9) ----
+  // Hidden-Checkbox attr_indomitable_available steuert via CSS :has()  //
+  // ob die Indomitable-Karte im Class-Features-Grid gerendert wird.    //
+  on("change:level sheet:opened", () => {
+    getAttrs(["level"], (v) => {
+      const level = parseInt(v.level) || 1;
+      setAttrs({ indomitable_available: level >= 9 ? "1" : "0" });
+    });
+  });
+

@@ -213,7 +213,7 @@
 /* ---------- FEATURE TRACKERS ---------- */
 .charsheet .atlas-features-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
@@ -708,15 +708,26 @@
   grid-template-columns: 1fr auto 1fr auto;
 }
 
-/* Heal-Button in Second-Wind-Feature-Zelle: full-width, linksbündig   */
-/* zum Cell-Rand. Specificity forciert gegen den generischen Button-   */
-/* Style, margin/padding explizit damit nichts nach rechts schiebt.     */
-.charsheet .atlas-sheet .atlas-feature .atlas-inline-roll {
-  display: block !important;
-  width: 100% !important;
-  margin: 4px 0 0 0 !important;
-  padding: 4px 10px !important;
-  box-sizing: border-box !important;
+/* Second-Wind-Cell: "verbraucht"-Checkbox und Heal-Button in einer    */
+/* Zeile, Button rechts ausgerichtet.                                    */
+.charsheet .atlas-second-wind-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Indomitable-Karte erst ab Level 9 sichtbar. Worker setzt das hidden  */
+/* Checkbox attr_indomitable_available, hier mit :not() ausblenden.     */
+.charsheet .atlas-feature-indomitable:not(:has(input[name="attr_indomitable_available"]:checked)) {
+  display: none;
+}
+
+.charsheet .atlas-sheet .atlas-feature .atlas-second-wind-row .atlas-inline-roll {
+  margin: 0 !important;
+  padding: 2px 8px !important;
+  width: auto !important;
+  font-size: 11px;
 }
 
 /* Heal-Button ausgrauen wenn Second-Wind-Checkbox gesetzt ist.         */

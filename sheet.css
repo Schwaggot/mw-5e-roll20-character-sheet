@@ -890,10 +890,10 @@
 /* Injury-Section: Damage-Input + Add-Damage-Button. Reduziert HP      */
 /* (Temp first, dann HP) und applied Stress in einem Schritt.           */
 .charsheet .atlas-injury-row {
-  display: grid;
-  grid-template-columns: auto 80px auto;
+  display: inline-flex;
   gap: 8px;
   align-items: center;
+  width: auto;
 }
 
 .charsheet .atlas-injury-row > label {
@@ -902,8 +902,13 @@
 }
 
 .charsheet .atlas-injury-row input[type="number"] {
-  width: 100%;
+  width: 80px;
   text-align: center;
+}
+
+.charsheet .atlas-injury-row button[type="action"] {
+  width: auto;
+  flex: 0 0 auto;
 }
 
 /* === src/css/tabs/skills.css === */

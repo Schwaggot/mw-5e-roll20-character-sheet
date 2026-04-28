@@ -5,6 +5,8 @@ autouploader extension.
 ## Rules
 
 - **Never edit** `sheet.html` or `sheet.css` at the repo root. Edit `src/`.
+- **Always run `npm run build`** after finishing a set of changes so the
+  root artifacts are synced for the autouploader.
 - **Never edit** `preview/` to change sheet behavior — it's dev-only scaffolding
   (stubs Roll20's sheet-worker API for local preview).
 - `src/sheet.html` is a thin skeleton. Keep the `<!-- SHEET_WORKER -->`

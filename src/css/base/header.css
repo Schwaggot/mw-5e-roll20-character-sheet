@@ -7,7 +7,8 @@
 }
 
 .charsheet .atlas-header-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
   margin-bottom: 8px;
 }
@@ -16,8 +17,15 @@
   margin-bottom: 0;
 }
 
+.charsheet .atlas-cell {
+  display: flex;
+  gap: 10px;
+  min-width: 0;
+}
+
 .charsheet .atlas-field {
   flex: 1;
+  min-width: 0;
 }
 
 .charsheet .atlas-field input,
@@ -26,10 +34,6 @@
 }
 
 .charsheet .atlas-field-narrow {
-  flex: 0 0 80px;
-}
-
-.charsheet .atlas-field-wide {
-  flex: 2;
+  flex: 0 0 60px;
 }
 

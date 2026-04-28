@@ -1,29 +1,35 @@
   <!-- ===================== HEADER ===================== -->
   <header class="atlas-header">
     <div class="atlas-header-row">
-      <div class="atlas-field">
-        <label>Vorname</label>
-        <input type="text" name="attr_firstname" />
+      <div class="atlas-cell">
+        <div class="atlas-field">
+          <label>Vorname</label>
+          <input type="text" name="attr_firstname" />
+        </div>
+        <div class="atlas-field">
+          <label>Nachname</label>
+          <input type="text" name="attr_lastname" />
+        </div>
       </div>
-      <div class="atlas-field">
-        <label>Nachname</label>
-        <input type="text" name="attr_lastname" />
+      <div class="atlas-cell">
+        <div class="atlas-field">
+          <label title="Wird in allen Roll-Templates als 'who' angezeigt. Identisch mit dem Roll20-Journal-Namen dieser Figur.">Codename</label>
+          <input type="text" name="attr_character_name" />
+        </div>
       </div>
-      <div class="atlas-field atlas-field-wide">
-        <label title="Wird in allen Roll-Templates als 'who' angezeigt. Identisch mit dem Roll20-Journal-Namen dieser Figur.">Codename</label>
-        <input type="text" name="attr_character_name" />
-      </div>
-      <div class="atlas-field">
-        <label>Spieler</label>
-        <input type="text" name="attr_player_name" />
-      </div>
-      <div class="atlas-field atlas-field-narrow">
-        <label>Level</label>
-        <input type="number" name="attr_level" value="1" min="1" max="20" />
-      </div>
-      <div class="atlas-field atlas-field-narrow">
-        <label>Prof</label>
-        <input type="number" name="attr_prof_bonus" value="2" disabled />
+      <div class="atlas-cell">
+        <div class="atlas-field">
+          <label>Spieler</label>
+          <input type="text" name="attr_player_name" />
+        </div>
+        <div class="atlas-field atlas-field-narrow">
+          <label>Level</label>
+          <input type="number" name="attr_level" value="1" min="1" max="20" />
+        </div>
+        <div class="atlas-field atlas-field-narrow">
+          <label>Prof</label>
+          <input type="number" name="attr_prof_bonus" value="2" disabled />
+        </div>
       </div>
     </div>
     <div class="atlas-header-row">

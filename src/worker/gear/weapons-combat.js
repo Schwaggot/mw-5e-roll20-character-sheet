@@ -43,6 +43,21 @@
         // the single global last_damage link (targets roll_last_damage button). No repeating row
         // id in the macro call -> no Roll20 macro-parser strip issues.
         const modeLabel = `Unarmed (${abilLabel})`;
+        const jsonPayload = buildJsonField({
+          type: "unarmed_strike",
+          actor: charName,
+          mode: modeLabel,
+          training_level: lvl,
+          ability: abilLabel,
+          ability_mod: abilMod,
+          proficient: proficient,
+          prof_bonus: profApplied,
+          d20: d20,
+          attack_bonus: atkBonus,
+          attack_total: d20 + atkBonus,
+          damage_formula: damageFormula,
+          shaken_disadvantage: shakenDisadv,
+        });
         const dmgFull =
           `&{template:damage} {{title=Unarmed Strike}} {{who=${charName}}} ` +
           `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}}`;
@@ -55,7 +70,8 @@
           `{{attack=[[${d20} + ${atkBonus}]]}} ` +
           `{{damage_link=${damageLink}}} ` +
           `{{who=${charName}}} ` +
-          `{{note=${note}}}`,
+          `{{note=${note}}} ` +
+          `{{json=${jsonPayload}}}`,
           (r) => finishRoll(r.rollId)
         );
       }
@@ -480,11 +496,51 @@
       const damageLink = (misfireKey !== "misfire_yes")
         ? `[Schaden würfeln](~@{character_id}|last_damage)`
         : "";
+      const dmgJsonPayload = buildJsonField({
+        type: "damage",
+        actor: charName,
+        weapon: wname,
+        mode: cfg.mode,
+        damage_formula: damageFormula,
+        damage_dice: damageDice,
+        damage_bonus: effDmgBonus,
+        suppressor: hasSuppressor,
+        crit_note: critNote || null,
+        zone: zoneKey,
+        zone_note: zoneNote || null,
+      });
       const dmgFull =
         `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
         `{{mode=${cfg.mode}}} {{damage=[[${damageFormula}]]}}` +
         (critNote ? ` {{crit_note=${critNote}}}` : "") +
-        (zoneNote ? ` {{zone_note=${zoneNote}}}` : "");
+        (zoneNote ? ` {{zone_note=${zoneNote}}}` : "") +
+        ` {{json=${dmgJsonPayload}}}`;
+
+      const atkJsonPayload = buildJsonField({
+        type: "weapon_attack",
+        actor: charName,
+        weapon: wname,
+        caliber: wcaliber || null,
+        mode: cfg.mode,
+        d20: d20,
+        attack_bonus: effAttack,
+        aim_bonus: aimBonus,
+        recoil_penalty: penalty,
+        zone: zoneKey,
+        zone_penalty: zone.pen,
+        attack_total: d20 + totalModifier,
+        damage_formula: damageFormula,
+        ammo_before: wammo,
+        ammo_used: ammoUsed,
+        ammo_after: ammoAfter,
+        ammo_max: wammo_max,
+        misfire: misfireKey,
+        misfire_d100: misfireKey === "misfire_yes" ? d100 : null,
+        new_weapon_status: newWeaponStatus,
+        crit: didCrit,
+        shaken_disadvantage: shakenDisadv,
+        mods: modNotes,
+      });
 
       let rollText = `&{template:attack} ` +
         `{{title=${wname}}} ` +
@@ -502,7 +558,8 @@
         (misfireKey === "misfire_yes" ? `{{misfire_d100=[[${d100}]]}} ` : "") +
         `{{ammo=${ammoDisplay}}} ` +
         ((critNote || modsInfo) ? `{{note=${critNote}${modsInfo}}} ` : "") +
-        `{{who=${charName}}}`;
+        `{{who=${charName}}} ` +
+        `{{json=${atkJsonPayload}}}`;
 
       startRoll(rollText, (results) => {
         const setUpd = {
@@ -592,17 +649,43 @@
       if (trainMelee > 0) note += ` Melee Training L${trainMelee}: +${meleeB.atk} Atk / +${meleeB.dmg} Dmg.`;
       if (shakenDisadv)  note += ` Shaken 5/Broken (Disadv: ${d20a}/${d20b} -> ${d20}).`;
 
+      const dmgJsonPayload = buildJsonField({
+        type: "damage",
+        actor: charName,
+        weapon: wname,
+        mode: modeLabel,
+        damage_formula: damageFormula,
+        damage_dice: dieStr,
+        damage_bonus: effDmgBonus,
+      });
       const damageLink = `[Schaden würfeln](~@{character_id}|last_damage)`;
       const dmgFull =
         `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
-        `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}}`;
+        `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}} ` +
+        `{{json=${dmgJsonPayload}}}`;
+      const atkJsonPayload = buildJsonField({
+        type: "cqb_melee",
+        actor: charName,
+        weapon: wname,
+        mode: modeLabel,
+        cqb_level: trainCqb,
+        proficient: proficient,
+        d20: d20,
+        attack_bonus: effAtkBonus,
+        attack_total: d20 + effAtkBonus,
+        damage_formula: damageFormula,
+        one_handed: is1H,
+        two_handed: is2H,
+        shaken_disadvantage: shakenDisadv,
+      });
       const rollText = `&{template:attack} ` +
         `{{title=${wname}}} ` +
         `{{mode=${modeLabel}}} ` +
         `{{attack=[[${d20} + ${effAtkBonus}]]}} ` +
         `{{damage_link=${damageLink}}} ` +
         `{{who=${charName}}} ` +
-        `{{note=${note}}}`;
+        `{{note=${note}}} ` +
+        `{{json=${atkJsonPayload}}}`;
 
       startRoll(rollText, (r) => {
         setAttrs({ last_damage_full: dmgFull });
@@ -882,13 +965,48 @@
       const fallbackDmgFormula = hasSuppressor ? `${fallbackBaseDmg} - 1d4` : fallbackBaseDmg;
       const zoneNote = zoneKey !== "torso" ? `${zone.label}: ${zone.effect}` : "";
       const spCritNote = headShotMultiplier > 1 ? `Kopfschuss: alle Dice x${headShotMultiplier}` : "";
+      const dmgFullJson = buildJsonField({
+        type: "damage",
+        actor: charName,
+        weapon: wname,
+        mode: modeLabel,
+        damage_formula: fallbackDmgFormula,
+        damage_dice: fallbackDmgDice,
+        damage_bonus: effDmgBonus,
+        suppressor: hasSuppressor,
+        crit_note: spCritNote || null,
+        zone: zoneKey,
+        zone_note: zoneNote || null,
+      });
       const dmgFullFallback =
         `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
         `{{mode=${modeLabel}}} {{damage=[[${fallbackDmgFormula}]]}}` +
         (spCritNote ? ` {{crit_note=${spCritNote}}}` : "") +
-        (zoneNote ? ` {{zone_note=${zoneNote}}}` : "");
+        (zoneNote ? ` {{zone_note=${zoneNote}}}` : "") +
+        ` {{json=${dmgFullJson}}}`;
 
       const damageLink = `[Schaden würfeln (pro Hit)](~@{character_id}|last_damage)`;
+
+      const sprayJson = buildJsonField({
+        type: mode === "spray" ? "spray" : "riddle",
+        actor: charName,
+        weapon: wname,
+        mode: modeLabel,
+        targets: targets,
+        targets_requested: requested,
+        attack_bonus: effAttack,
+        recoil_penalty: penalty,
+        per_target_penalty: autoTargetPen,
+        zone: zoneKey,
+        zone_penalty: zone.pen,
+        damage_formula: fallbackDmgFormula,
+        ammo_before: wammo,
+        ammo_used: ammoUsed,
+        ammo_after: ammoAfter,
+        ammo_max: wammo_max,
+        auto_weapons_level: trainAutoWeapons,
+        shaken_disadvantage: shakenDisadv,
+      });
 
       let rollText = `&{template:spray} ` +
         `{{title=${wname}}} ` +
@@ -896,7 +1014,8 @@
         `{{who=${charName}}} ` +
         `{{ammo=${ammoDisplay}}} ` +
         `{{damage_link=${damageLink}}} ` +
-        `{{note=${noteText}}}`;
+        `{{note=${noteText}}} ` +
+        `{{json=${sprayJson}}}`;
 
       for (let i = 0; i < targets; i++) {
         const targetPen = i * autoTargetPen;

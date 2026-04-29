@@ -382,6 +382,45 @@
   border-bottom: none;
 }
 
+/* JSON-Block: kompakte Zeile am Ende von attack/spray/damage         */
+/* Templates. Roll20 Chat hat keinen Clipboard-JS-Zugriff, daher zeigen */
+/* wir das JSON als auswählbaren Text - Triple-Click selektiert die    */
+/* gesamte Code-Zeile, dann Strg+C kopiert.                             */
+.sheet-rolltemplate-attack .sheet-atlas-rt-json,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-json,
+.sheet-rolltemplate-damage .sheet-atlas-rt-json {
+  background: #0d1012 !important;
+  border: 1px solid #3a3f44 !important;
+  border-radius: 2px;
+  padding: 4px 6px;
+  margin: 6px -10px -6px -10px;
+  display: block;
+  border-bottom: none !important;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-json-label,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-json-label,
+.sheet-rolltemplate-damage .sheet-atlas-rt-json-label {
+  display: block;
+  color: #6b7a55 !important;
+  font-size: 9px !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.sheet-rolltemplate-attack .sheet-atlas-rt-json-code,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-json-code,
+.sheet-rolltemplate-damage .sheet-atlas-rt-json-code {
+  display: block;
+  color: #8a9b7a !important;
+  font-family: "Consolas", "Menlo", monospace !important;
+  font-size: 10px !important;
+  line-height: 1.35;
+  word-break: break-all;
+  white-space: pre-wrap;
+  user-select: all;
+  -webkit-user-select: all;
+}
+
 /* Damage link row in the attack/spray template: make the "Schaden   */
 /* wuerfeln" link look clickable and slightly highlighted so players */
 /* notice they need to click it after the GM confirms the hit.       */

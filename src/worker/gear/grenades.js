@@ -134,6 +134,22 @@
       if (gdc) noteParts.push(gdc);
       const note = noteParts.join(" | ");
 
+      const jsonPayload = buildJsonField({
+        type: "grenade_throw",
+        actor: charName,
+        name: gname,
+        mode: "Throw / Deviation",
+        attack_bonus: dexMod + prof,
+        dex_mod: dexMod,
+        prof_bonus: prof,
+        damage_formula: `${gdamage} + ${gdmg_bonus}`,
+        range: grange,
+        blast: gblast,
+        dc: gdc || null,
+        count_before: gcount,
+        count_after: countAfter,
+      });
+
       const rollText = `&{template:attack} ` +
         `{{title=${gname}}} ` +
         `{{mode=Throw / Deviation}} ` +
@@ -141,7 +157,8 @@
         `{{damage=[[${gdamage} + ${gdmg_bonus}]]}} ` +
         (note ? `{{note=${note}}} ` : "") +
         `{{ammo=${countDisplay}}} ` +
-        `{{who=${charName}}}`;
+        `{{who=${charName}}} ` +
+        `{{json=${jsonPayload}}}`;
 
       startRoll(rollText, (results) => {
         setAttrs({ [`${rowPrefix}_gcount`]: countAfter });

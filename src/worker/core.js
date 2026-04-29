@@ -44,6 +44,19 @@
     });
   });
 
+  // ---- Roll-Template JSON-Field Builder ----
+  // Serializes an object for the {{json=...}} field of attack/spray/damage
+  // rolltemplates. Roll20's mustache parser treats `}}` as a field
+  // terminator, so we HTML-encode `{` and `}` to entities. Roll20 decodes
+  // them back when rendering chat text -- the user sees real braces and
+  // can select-and-copy valid JSON. Stays a single line so triple-click
+  // selects the whole payload.
+  function buildJsonField(obj) {
+    return JSON.stringify(obj)
+      .replace(/\{/g, "&#123;")
+      .replace(/\}/g, "&#125;");
+  }
+
   // ---- Indomitable-Sichtbarkeit (Operator Level >= 9) ----
   // Hidden-Checkbox attr_indomitable_available steuert via CSS :has()  //
   // ob die Indomitable-Karte im Class-Features-Grid gerendert wird.    //

@@ -129,9 +129,17 @@
 
       const countAfter = Math.max(0, gcount - 1);
       const countDisplay = `${gcount} &rarr; ${countAfter}`;
+      // No-damage throws (smokes, signal markers, custom rows without a
+      // damage value) -- gdamage is "-", "", or has no NdN dice pattern.
+      // Roll20 cannot evaluate `[[- + 0]]` and silently drops the entire
+      // chat message, which also prevents the count decrement in the
+      // startRoll callback. Detect and omit the damage field instead.
+      const hasDamage = /\d+\s*d\s*\d+/i.test(gdamage);
       const noteParts = [];
+      if (grange) noteParts.push(`Range ${grange}`);
       if (gblast) noteParts.push(`Blast ${gblast}`);
       if (gdc) noteParts.push(gdc);
+      if (!hasDamage) noteParts.push("Kein Schaden - reine Effekt-Granate");
       const note = noteParts.join(" | ");
 
       const jsonPayload = buildJsonField({
@@ -142,7 +150,7 @@
         attack_bonus: dexMod + prof,
         dex_mod: dexMod,
         prof_bonus: prof,
-        damage_formula: `${gdamage} + ${gdmg_bonus}`,
+        damage_formula: hasDamage ? `${gdamage} + ${gdmg_bonus}` : null,
         range: grange,
         blast: gblast,
         dc: gdc || null,
@@ -154,7 +162,7 @@
         `{{title=${gname}}} ` +
         `{{mode=Throw / Deviation}} ` +
         `{{attack=[[1d20 + ${dexMod} + ${prof}]]}} ` +
-        `{{damage=[[${gdamage} + ${gdmg_bonus}]]}} ` +
+        (hasDamage ? `{{damage=[[${gdamage} + ${gdmg_bonus}]]}} ` : "") +
         (note ? `{{note=${note}}} ` : "") +
         `{{ammo=${countDisplay}}} ` +
         `{{who=${charName}}} ` +

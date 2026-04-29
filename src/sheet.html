@@ -13,6 +13,14 @@
   <input type="hidden" name="attr_last_damage_full" value="" />
   <button type="roll" name="roll_last_damage" style="display:none" value="@{last_damage_full}"></button>
 
+  <!-- Last-chat-JSON button. Each attack/spray/grenade/etc handler -->
+  <!-- writes a JSON snapshot of the chat card into last_chat_json. -->
+  <!-- A "[ JSON ]" link in the chat card targets this button which -->
+  <!-- posts a JSON-only template containing that snapshot, so the   -->
+  <!-- payload is hidden by default and revealed on demand.          -->
+  <input type="hidden" name="attr_last_chat_json" value="" />
+  <button type="roll" name="roll_last_chat_json" style="display:none" value="/w gm &{template:json} {{json=@{last_chat_json}}}"></button>
+
   <!-- INCLUDE: src/html/header.html -->
 
   <!-- INCLUDE: src/html/tabs-nav.html -->

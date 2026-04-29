@@ -44,18 +44,25 @@
     });
   });
 
-  // ---- Roll-Template JSON-Field Builder ----
-  // Serializes an object for the {{json=...}} field of attack/spray/damage
-  // rolltemplates. Roll20's mustache parser treats `}}` as a field
-  // terminator, so we HTML-encode `{` and `}` to entities. Roll20 decodes
-  // them back when rendering chat text -- the user sees real braces and
-  // can select-and-copy valid JSON. Stays a single line so triple-click
-  // selects the whole payload.
+  // ---- Roll-Template JSON Helpers ----
+  // Each attack/spray/damage/grenade chat card stores a JSON snapshot
+  // in the global `last_chat_json` attribute and posts a "[ Show ]" link
+  // (CHAT_JSON_LINK) that targets the hidden roll_last_chat_json button.
+  // Clicking the link spawns a separate JSON-only chat card containing
+  // the snapshot for copy/paste. Inline collapsed UI is impossible:
+  // Roll20's chat sanitizer strips <details>/<summary> and form inputs,
+  // so there is no CSS-only click-toggle that survives the sandbox.
+  //
+  // Roll20's mustache parser treats `}}` as a field terminator, so we
+  // HTML-encode `{` and `}` in the stringified payload. Roll20 decodes
+  // the entities back when rendering, the user sees real braces and
+  // copies valid JSON.
   function buildJsonField(obj) {
     return JSON.stringify(obj)
       .replace(/\{/g, "&#123;")
       .replace(/\}/g, "&#125;");
   }
+  const CHAT_JSON_LINK = "[json](~@{character_id}|last_chat_json)";
 
   // ---- Indomitable-Sichtbarkeit (Operator Level >= 9) ----
   // Hidden-Checkbox attr_indomitable_available steuert via CSS :has()  //

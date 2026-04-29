@@ -68,7 +68,7 @@
       {{#damage_link}}<div class="sheet-atlas-rt-row sheet-atlas-rt-damage-link"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage_link}}</span></div>{{/damage_link}}
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>
       {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
-      {{#json}}<div class="sheet-atlas-rt-json"><span class="sheet-atlas-rt-json-label">JSON</span><code class="sheet-atlas-rt-json-code">{{json}}</code></div>{{/json}}
+      {{#json_link}}<div class="sheet-atlas-rt-json-link">{{json_link}}</div>{{/json_link}}
     </div>
   </div>
 </rolltemplate>
@@ -95,7 +95,7 @@
       {{#crit_no}}<div class="sheet-atlas-rt-row sheet-atlas-rt-crit-no"><span class="sheet-atlas-rt-label">{{crit_label}}</span><span class="sheet-atlas-rt-val">Nein</span></div>{{/crit_no}}
       {{#ammo}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>{{/ammo}}
       {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
-      {{#json}}<div class="sheet-atlas-rt-json"><span class="sheet-atlas-rt-json-label">JSON</span><code class="sheet-atlas-rt-json-code">{{json}}</code></div>{{/json}}
+      {{#json_link}}<div class="sheet-atlas-rt-json-link">{{json_link}}</div>{{/json_link}}
     </div>
   </div>
 </rolltemplate>
@@ -112,7 +112,20 @@
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage}}</span></div>
       {{#crit_note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{crit_note}}</div>{{/crit_note}}
       {{#zone_note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{zone_note}}</div>{{/zone_note}}
-      {{#json}}<div class="sheet-atlas-rt-json"><span class="sheet-atlas-rt-json-label">JSON</span><code class="sheet-atlas-rt-json-code">{{json}}</code></div>{{/json}}
+      {{#json_link}}<div class="sheet-atlas-rt-json-link">{{json_link}}</div>{{/json_link}}
+    </div>
+  </div>
+</rolltemplate>
+
+<!-- JSON-only template, rendered when the player clicks the [JSON]      -->
+<!-- link in any attack/spray/damage card. The hidden last_chat_json     -->
+<!-- attribute holds the entity-encoded payload; the global              -->
+<!-- roll_last_chat_json button substitutes it into this template.       -->
+<rolltemplate class="sheet-rolltemplate-json">
+  <div class="sheet-atlas-rt sheet-atlas-rt-json-card">
+    <div class="sheet-atlas-rt-head">JSON</div>
+    <div class="sheet-atlas-rt-body">
+      <code class="sheet-atlas-rt-json-code">{{json}}</code>
     </div>
   </div>
 </rolltemplate>

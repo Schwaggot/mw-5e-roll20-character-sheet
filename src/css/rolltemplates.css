@@ -382,39 +382,91 @@
   border-bottom: none;
 }
 
-/* JSON-Block: kompakte Zeile am Ende von attack/spray/damage         */
-/* Templates. Roll20 Chat hat keinen Clipboard-JS-Zugriff, daher zeigen */
-/* wir das JSON als auswählbaren Text - Triple-Click selektiert die    */
-/* gesamte Code-Zeile, dann Strg+C kopiert.                             */
-.sheet-rolltemplate-attack .sheet-atlas-rt-json,
-.sheet-rolltemplate-spray  .sheet-atlas-rt-json,
-.sheet-rolltemplate-damage .sheet-atlas-rt-json {
-  background: #0d1012 !important;
-  border: 1px solid #3a3f44 !important;
-  border-radius: 2px;
-  padding: 4px 6px;
-  margin: 6px -10px -6px -10px;
-  display: block;
-  border-bottom: none !important;
+/* JSON-Link: dezenter "json"-Trigger am Footer der Cards. Klick feuert */
+/* roll_last_chat_json -> whispered JSON-only Card an den GM.            */
+/* Roll20 stylt ~Char|button-Links als pinke "userscript-button" Buttons */
+/* mit inline backgrounds, daher hard-override aller Visual-Properties.  */
+.sheet-rolltemplate-attack .sheet-atlas-rt-json-link,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-json-link,
+.sheet-rolltemplate-damage .sheet-atlas-rt-json-link {
+  text-align: right;
+  padding: 2px 0 0 0;
+  margin-top: 4px;
 }
-.sheet-rolltemplate-attack .sheet-atlas-rt-json-label,
-.sheet-rolltemplate-spray  .sheet-atlas-rt-json-label,
-.sheet-rolltemplate-damage .sheet-atlas-rt-json-label {
-  display: block;
-  color: #6b7a55 !important;
+.sheet-rolltemplate-attack .sheet-atlas-rt-json-link a,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-json-link a,
+.sheet-rolltemplate-damage .sheet-atlas-rt-json-link a,
+.sheet-rolltemplate-attack .sheet-atlas-rt-json-link button,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-json-link button,
+.sheet-rolltemplate-damage .sheet-atlas-rt-json-link button {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  height: auto !important;
+  line-height: 1.2 !important;
+  display: inline !important;
+  color: #5a6248 !important;
+  text-decoration: none !important;
+  font-weight: normal !important;
+  font-style: italic;
   font-size: 9px !important;
   letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 2px;
+  text-transform: lowercase;
+  opacity: 0.6;
 }
-.sheet-rolltemplate-attack .sheet-atlas-rt-json-code,
-.sheet-rolltemplate-spray  .sheet-atlas-rt-json-code,
-.sheet-rolltemplate-damage .sheet-atlas-rt-json-code {
-  display: block;
+.sheet-rolltemplate-attack .sheet-atlas-rt-json-link a:hover,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-json-link a:hover,
+.sheet-rolltemplate-damage .sheet-atlas-rt-json-link a:hover,
+.sheet-rolltemplate-attack .sheet-atlas-rt-json-link button:hover,
+.sheet-rolltemplate-spray  .sheet-atlas-rt-json-link button:hover,
+.sheet-rolltemplate-damage .sheet-atlas-rt-json-link button:hover {
+  background: transparent !important;
+  background-color: transparent !important;
   color: #8a9b7a !important;
+  opacity: 1;
+  text-decoration: underline !important;
+}
+
+/* Standalone JSON Card (sheet-rolltemplate-json) - gepostet wenn der */
+/* User auf einen [JSON]-Link in einem Attack/Spray/Damage card        */
+/* klickt. Reine Anzeige, monospace, user-select:all auf den Code      */
+/* damit Triple-Click den ganzen Payload selektiert.                    */
+.sheet-rolltemplate-json .sheet-atlas-rt-json-card {
+  background: #0d1012 !important;
+  border: 1px solid #3a3f44 !important;
+  border-radius: 3px;
+  color: #e6e6e6 !important;
+  padding: 0;
+  font-family: "Consolas", "Menlo", monospace;
+  font-size: 12px;
+  margin: 2px 0;
+  overflow: hidden;
+}
+.sheet-rolltemplate-json .sheet-atlas-rt-head {
+  background: linear-gradient(180deg, #2a2f33 0%, #1a1d20 100%) !important;
+  color: #8a9b7a !important;
+  padding: 4px 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 11px;
+  border-bottom: 1px solid #3a3f44;
+}
+.sheet-rolltemplate-json .sheet-atlas-rt-body {
+  padding: 8px 10px;
+}
+.sheet-rolltemplate-json .sheet-atlas-rt-json-code {
+  display: block;
+  color: #cfe5a8 !important;
   font-family: "Consolas", "Menlo", monospace !important;
-  font-size: 10px !important;
-  line-height: 1.35;
+  font-size: 11px !important;
+  line-height: 1.4;
   word-break: break-all;
   white-space: pre-wrap;
   user-select: all;

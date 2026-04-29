@@ -60,8 +60,9 @@
         });
         const dmgFull =
           `&{template:damage} {{title=Unarmed Strike}} {{who=${charName}}} ` +
-          `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}}`;
-        setAttrs({ last_damage_full: dmgFull });
+          `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}} ` +
+          `{{json_link=${CHAT_JSON_LINK}}}`;
+        setAttrs({ last_damage_full: dmgFull, last_chat_json: jsonPayload });
         const damageLink = `[Schaden würfeln](~@{character_id}|last_damage)`;
         startRoll(
           `&{template:attack} ` +
@@ -71,7 +72,7 @@
           `{{damage_link=${damageLink}}} ` +
           `{{who=${charName}}} ` +
           `{{note=${note}}} ` +
-          `{{json=${jsonPayload}}}`,
+          `{{json_link=${CHAT_JSON_LINK}}}`,
           (r) => finishRoll(r.rollId)
         );
       }
@@ -514,7 +515,7 @@
         `{{mode=${cfg.mode}}} {{damage=[[${damageFormula}]]}}` +
         (critNote ? ` {{crit_note=${critNote}}}` : "") +
         (zoneNote ? ` {{zone_note=${zoneNote}}}` : "") +
-        ` {{json=${dmgJsonPayload}}}`;
+        ` {{json_link=${CHAT_JSON_LINK}}}`;
 
       const atkJsonPayload = buildJsonField({
         type: "weapon_attack",
@@ -559,12 +560,13 @@
         `{{ammo=${ammoDisplay}}} ` +
         ((critNote || modsInfo) ? `{{note=${critNote}${modsInfo}}} ` : "") +
         `{{who=${charName}}} ` +
-        `{{json=${atkJsonPayload}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
 
       startRoll(rollText, (results) => {
         const setUpd = {
           [`${rowPrefix}_wammo`]: ammoAfter,
           last_damage_full: dmgFull,
+          last_chat_json: atkJsonPayload,
         };
         if (newWeaponStatus) applyWeaponStatus(rowPrefix, newWeaponStatus, setUpd);
         setAttrs(setUpd);
@@ -662,7 +664,7 @@
       const dmgFull =
         `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
         `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}} ` +
-        `{{json=${dmgJsonPayload}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
       const atkJsonPayload = buildJsonField({
         type: "cqb_melee",
         actor: charName,
@@ -685,10 +687,10 @@
         `{{damage_link=${damageLink}}} ` +
         `{{who=${charName}}} ` +
         `{{note=${note}}} ` +
-        `{{json=${atkJsonPayload}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
 
       startRoll(rollText, (r) => {
-        setAttrs({ last_damage_full: dmgFull });
+        setAttrs({ last_damage_full: dmgFull, last_chat_json: atkJsonPayload });
         finishRoll(r.rollId);
       });
     });
@@ -983,7 +985,7 @@
         `{{mode=${modeLabel}}} {{damage=[[${fallbackDmgFormula}]]}}` +
         (spCritNote ? ` {{crit_note=${spCritNote}}}` : "") +
         (zoneNote ? ` {{zone_note=${zoneNote}}}` : "") +
-        ` {{json=${dmgFullJson}}}`;
+        ` {{json_link=${CHAT_JSON_LINK}}}`;
 
       const damageLink = `[Schaden würfeln (pro Hit)](~@{character_id}|last_damage)`;
 
@@ -1015,7 +1017,7 @@
         `{{ammo=${ammoDisplay}}} ` +
         `{{damage_link=${damageLink}}} ` +
         `{{note=${noteText}}} ` +
-        `{{json=${sprayJson}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
 
       for (let i = 0; i < targets; i++) {
         const targetPen = i * autoTargetPen;
@@ -1071,6 +1073,7 @@
         setAttrs({
           [`${rowPrefix}_wammo`]: ammoAfter,
           last_damage_full: dmgFullFallback,
+          last_chat_json: sprayJson,
         });
       });
     });

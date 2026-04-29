@@ -13,6 +13,14 @@
   <input type="hidden" name="attr_last_damage_full" value="" />
   <button type="roll" name="roll_last_damage" style="display:none" value="@{last_damage_full}"></button>
 
+  <!-- Last-chat-JSON button. Each attack/spray/grenade/etc handler -->
+  <!-- writes a JSON snapshot of the chat card into last_chat_json. -->
+  <!-- A "[ JSON ]" link in the chat card targets this button which -->
+  <!-- posts a JSON-only template containing that snapshot, so the   -->
+  <!-- payload is hidden by default and revealed on demand.          -->
+  <input type="hidden" name="attr_last_chat_json" value="" />
+  <button type="roll" name="roll_last_chat_json" style="display:none" value="/w gm &{template:json} {{json=@{last_chat_json}}}"></button>
+
   <!-- ===================== HEADER ===================== -->
   <header class="atlas-header">
     <div class="atlas-header-row">
@@ -2730,7 +2738,7 @@
       {{#damage_link}}<div class="sheet-atlas-rt-row sheet-atlas-rt-damage-link"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage_link}}</span></div>{{/damage_link}}
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>
       {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
-      {{#json}}<div class="sheet-atlas-rt-json"><span class="sheet-atlas-rt-json-label">JSON</span><code class="sheet-atlas-rt-json-code">{{json}}</code></div>{{/json}}
+      {{#json_link}}<div class="sheet-atlas-rt-json-link">{{json_link}}</div>{{/json_link}}
     </div>
   </div>
 </rolltemplate>
@@ -2757,7 +2765,7 @@
       {{#crit_no}}<div class="sheet-atlas-rt-row sheet-atlas-rt-crit-no"><span class="sheet-atlas-rt-label">{{crit_label}}</span><span class="sheet-atlas-rt-val">Nein</span></div>{{/crit_no}}
       {{#ammo}}<div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Ammo</span><span class="sheet-atlas-rt-val">{{ammo}}</span></div>{{/ammo}}
       {{#note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{note}}</div>{{/note}}
-      {{#json}}<div class="sheet-atlas-rt-json"><span class="sheet-atlas-rt-json-label">JSON</span><code class="sheet-atlas-rt-json-code">{{json}}</code></div>{{/json}}
+      {{#json_link}}<div class="sheet-atlas-rt-json-link">{{json_link}}</div>{{/json_link}}
     </div>
   </div>
 </rolltemplate>
@@ -2774,7 +2782,20 @@
       <div class="sheet-atlas-rt-row"><span class="sheet-atlas-rt-label">Schaden</span><span class="sheet-atlas-rt-val">{{damage}}</span></div>
       {{#crit_note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{crit_note}}</div>{{/crit_note}}
       {{#zone_note}}<div class="sheet-atlas-rt-row sheet-atlas-rt-note">{{zone_note}}</div>{{/zone_note}}
-      {{#json}}<div class="sheet-atlas-rt-json"><span class="sheet-atlas-rt-json-label">JSON</span><code class="sheet-atlas-rt-json-code">{{json}}</code></div>{{/json}}
+      {{#json_link}}<div class="sheet-atlas-rt-json-link">{{json_link}}</div>{{/json_link}}
+    </div>
+  </div>
+</rolltemplate>
+
+<!-- JSON-only template, rendered when the player clicks the [JSON]      -->
+<!-- link in any attack/spray/damage card. The hidden last_chat_json     -->
+<!-- attribute holds the entity-encoded payload; the global              -->
+<!-- roll_last_chat_json button substitutes it into this template.       -->
+<rolltemplate class="sheet-rolltemplate-json">
+  <div class="sheet-atlas-rt sheet-atlas-rt-json-card">
+    <div class="sheet-atlas-rt-head">JSON</div>
+    <div class="sheet-atlas-rt-body">
+      <code class="sheet-atlas-rt-json-code">{{json}}</code>
     </div>
   </div>
 </rolltemplate>
@@ -2831,18 +2852,25 @@
     });
   });
 
-  // ---- Roll-Template JSON-Field Builder ----
-  // Serializes an object for the {{json=...}} field of attack/spray/damage
-  // rolltemplates. Roll20's mustache parser treats `}}` as a field
-  // terminator, so we HTML-encode `{` and `}` to entities. Roll20 decodes
-  // them back when rendering chat text -- the user sees real braces and
-  // can select-and-copy valid JSON. Stays a single line so triple-click
-  // selects the whole payload.
+  // ---- Roll-Template JSON Helpers ----
+  // Each attack/spray/damage/grenade chat card stores a JSON snapshot
+  // in the global `last_chat_json` attribute and posts a "[ Show ]" link
+  // (CHAT_JSON_LINK) that targets the hidden roll_last_chat_json button.
+  // Clicking the link spawns a separate JSON-only chat card containing
+  // the snapshot for copy/paste. Inline collapsed UI is impossible:
+  // Roll20's chat sanitizer strips <details>/<summary> and form inputs,
+  // so there is no CSS-only click-toggle that survives the sandbox.
+  //
+  // Roll20's mustache parser treats `}}` as a field terminator, so we
+  // HTML-encode `{` and `}` in the stringified payload. Roll20 decodes
+  // the entities back when rendering, the user sees real braces and
+  // copies valid JSON.
   function buildJsonField(obj) {
     return JSON.stringify(obj)
       .replace(/\{/g, "&#123;")
       .replace(/\}/g, "&#125;");
   }
+  const CHAT_JSON_LINK = "[json](~@{character_id}|last_chat_json)";
 
   // ---- Indomitable-Sichtbarkeit (Operator Level >= 9) ----
   // Hidden-Checkbox attr_indomitable_available steuert via CSS :has()  //
@@ -3479,8 +3507,9 @@
         });
         const dmgFull =
           `&{template:damage} {{title=Unarmed Strike}} {{who=${charName}}} ` +
-          `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}}`;
-        setAttrs({ last_damage_full: dmgFull });
+          `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}} ` +
+          `{{json_link=${CHAT_JSON_LINK}}}`;
+        setAttrs({ last_damage_full: dmgFull, last_chat_json: jsonPayload });
         const damageLink = `[Schaden würfeln](~@{character_id}|last_damage)`;
         startRoll(
           `&{template:attack} ` +
@@ -3490,7 +3519,7 @@
           `{{damage_link=${damageLink}}} ` +
           `{{who=${charName}}} ` +
           `{{note=${note}}} ` +
-          `{{json=${jsonPayload}}}`,
+          `{{json_link=${CHAT_JSON_LINK}}}`,
           (r) => finishRoll(r.rollId)
         );
       }
@@ -3933,7 +3962,7 @@
         `{{mode=${cfg.mode}}} {{damage=[[${damageFormula}]]}}` +
         (critNote ? ` {{crit_note=${critNote}}}` : "") +
         (zoneNote ? ` {{zone_note=${zoneNote}}}` : "") +
-        ` {{json=${dmgJsonPayload}}}`;
+        ` {{json_link=${CHAT_JSON_LINK}}}`;
 
       const atkJsonPayload = buildJsonField({
         type: "weapon_attack",
@@ -3978,12 +4007,13 @@
         `{{ammo=${ammoDisplay}}} ` +
         ((critNote || modsInfo) ? `{{note=${critNote}${modsInfo}}} ` : "") +
         `{{who=${charName}}} ` +
-        `{{json=${atkJsonPayload}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
 
       startRoll(rollText, (results) => {
         const setUpd = {
           [`${rowPrefix}_wammo`]: ammoAfter,
           last_damage_full: dmgFull,
+          last_chat_json: atkJsonPayload,
         };
         if (newWeaponStatus) applyWeaponStatus(rowPrefix, newWeaponStatus, setUpd);
         setAttrs(setUpd);
@@ -4081,7 +4111,7 @@
       const dmgFull =
         `&{template:damage} {{title=${wname}}} {{who=${charName}}} ` +
         `{{mode=${modeLabel}}} {{damage=[[${damageFormula}]]}} ` +
-        `{{json=${dmgJsonPayload}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
       const atkJsonPayload = buildJsonField({
         type: "cqb_melee",
         actor: charName,
@@ -4104,10 +4134,10 @@
         `{{damage_link=${damageLink}}} ` +
         `{{who=${charName}}} ` +
         `{{note=${note}}} ` +
-        `{{json=${atkJsonPayload}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
 
       startRoll(rollText, (r) => {
-        setAttrs({ last_damage_full: dmgFull });
+        setAttrs({ last_damage_full: dmgFull, last_chat_json: atkJsonPayload });
         finishRoll(r.rollId);
       });
     });
@@ -4402,7 +4432,7 @@
         `{{mode=${modeLabel}}} {{damage=[[${fallbackDmgFormula}]]}}` +
         (spCritNote ? ` {{crit_note=${spCritNote}}}` : "") +
         (zoneNote ? ` {{zone_note=${zoneNote}}}` : "") +
-        ` {{json=${dmgFullJson}}}`;
+        ` {{json_link=${CHAT_JSON_LINK}}}`;
 
       const damageLink = `[Schaden würfeln (pro Hit)](~@{character_id}|last_damage)`;
 
@@ -4434,7 +4464,7 @@
         `{{ammo=${ammoDisplay}}} ` +
         `{{damage_link=${damageLink}}} ` +
         `{{note=${noteText}}} ` +
-        `{{json=${sprayJson}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
 
       for (let i = 0; i < targets; i++) {
         const targetPen = i * autoTargetPen;
@@ -4490,6 +4520,7 @@
         setAttrs({
           [`${rowPrefix}_wammo`]: ammoAfter,
           last_damage_full: dmgFullFallback,
+          last_chat_json: sprayJson,
         });
       });
     });
@@ -7091,10 +7122,13 @@
         (note ? `{{note=${note}}} ` : "") +
         `{{ammo=${countDisplay}}} ` +
         `{{who=${charName}}} ` +
-        `{{json=${jsonPayload}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
 
       startRoll(rollText, (results) => {
-        setAttrs({ [`${rowPrefix}_gcount`]: countAfter });
+        setAttrs({
+          [`${rowPrefix}_gcount`]: countAfter,
+          last_chat_json: jsonPayload,
+        });
         finishRoll(results.rollId);
       });
     });

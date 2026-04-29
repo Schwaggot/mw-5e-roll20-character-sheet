@@ -158,10 +158,13 @@
         (note ? `{{note=${note}}} ` : "") +
         `{{ammo=${countDisplay}}} ` +
         `{{who=${charName}}} ` +
-        `{{json=${jsonPayload}}}`;
+        `{{json_link=${CHAT_JSON_LINK}}}`;
 
       startRoll(rollText, (results) => {
-        setAttrs({ [`${rowPrefix}_gcount`]: countAfter });
+        setAttrs({
+          [`${rowPrefix}_gcount`]: countAfter,
+          last_chat_json: jsonPayload,
+        });
         finishRoll(results.rollId);
       });
     });

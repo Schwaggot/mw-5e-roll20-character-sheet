@@ -1,6 +1,13 @@
-Roll20 custom character sheet. Sources are split; `sheet.html` and `sheet.css`
-at the repo root are **generated artifacts** uploaded to Roll20 by an
-autouploader extension.
+Roll20 custom character sheet for **Modern Warfare 5e**, a homebrew 5e ruleset.
+The rules this sheet implements live in the `mw-5e-compendium/` git submodule -
+treat that compendium as the source of truth for game mechanics (classes,
+gear, combat designations, training programs, rules text). When implementing
+or fixing sheet behavior, consult `mw-5e-compendium/modern-warfare-5e/` (e.g.
+`gear.md`, `armor.md`, `combat-designations.md`, `rules/`, `designations/`,
+`training/`) rather than guessing at mechanics.
+
+Sources are split; `sheet.html` and `sheet.css` at the repo root are
+**generated artifacts** uploaded to Roll20 by an autouploader extension.
 
 ## Rules
 

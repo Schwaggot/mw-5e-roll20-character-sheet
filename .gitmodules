@@ -1,0 +1,3 @@
+[submodule "mw-5e-compendium"]
+	path = mw-5e-compendium
+	url = git@github.com:Schwaggot/mw-5e-compendium.git

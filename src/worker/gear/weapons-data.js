@@ -86,6 +86,7 @@
     colt_police_positive_38_special: "pistols", colt_python_357_magnum: "pistols", colt_saa_357_magnum: "pistols", colt_saa_44_40: "pistols", colt_saa_45_long_colt: "pistols", colt_single_action_army_22_lr: "pistols",
     manurhin_mr_73_357_magnum: "pistols", manurhin_mr_73_9mm_p: "pistols", taurus_model_608_357_magnum: "pistols", webley_mk_6_455_british: "pistols", ruger_super_redhawk_44_magnum: "pistols", ruger_super_redhawk_454_casull: "pistols",
     sw_model_500_500_magnum: "pistols", sw_model_629_44_magnum: "pistols",
+    bt_station_six_9_9mm_p: "pistols", bt_station_six_45_45_acp: "pistols", bt_usw_a1_9mm_p: "pistols",
     // smg (42)
     bt_mp9_9mm_p: "smg", cz_scorpion_evo_3_s1_micro_9mm_p: "smg", cz_skorpion_32_acp: "smg", cz_skorpion_380_acp: "smg", cz_skorpion_9x18_makarov: "smg", hk_mp5k_9mm_p: "smg",
     hk_mp5k_briefcase_9mm_p: "smg", hk_mp7a1_46x30mm: "smg", hk_mp7a2_46x30mm: "smg", imi_micro_uzi_9mm_p: "smg", mac_m10_9mm_p: "smg", mac_m10_45_acp: "smg",
@@ -94,6 +95,7 @@
     hk_mp5n_9mm_p: "smg", hk_mp5sd5_9mm_p: "smg", hk_mp5sd6_9mm_p: "smg", hk_ump_9mm_p: "smg", hk_ump_40_sw: "smg", hk_ump_45_acp: "smg",
     imi_mini_uzi_9mm_p: "smg", imi_uzi_9mm_p: "smg", kriss_vector_45_acp: "smg", kriss_vector_9mm_p: "smg", kriss_vector_10mm_auto: "smg", mp_40_9mm_p: "smg",
     pp_19_01_vityaz_9x19mm: "smg", sig_mpx_9mm_p: "smg", sig_mpx_40_sw: "smg", sten_mk_ii_9mm_p: "smg", sten_mk_iis_9mm_p: "smg", thompson_m1928_45_acp: "smg",
+    bt_apc10_10mm_auto: "smg", bt_apc9k_9mm_p: "smg", bt_spc9_9mm_p: "smg", bt_tp9_9mm_p: "smg", bt_apc9_sd_9mm_p: "smg", bt_apc9k_sd2_9mm_p: "smg",
     // assault_rifles (65)
     beretta_ar70_90_556_nato: "assault_rifles", beretta_arx_160_556_nato: "assault_rifles", beryl_wz96_556_nato: "assault_rifles", cetme_model_l_556_nato: "assault_rifles", colt_canada_c7_556_nato: "assault_rifles", colt_canada_c7a2_556_nato: "assault_rifles",
     colt_canada_c8_556_nato: "assault_rifles", colt_commando_556_nato: "assault_rifles", colt_m16_556_nato: "assault_rifles", colt_m16a1_556_nato: "assault_rifles", colt_m16a2_a4_556_nato: "assault_rifles", colt_m16a3_556_nato: "assault_rifles",
@@ -106,6 +108,7 @@
     kalashnikov_ak_74m_545x39mm: "assault_rifles", kalashnikov_aks_762x39mm: "assault_rifles", kalashnikov_aks_74_545x39mm: "assault_rifles", kalashnikov_aks_74u_545x39mm: "assault_rifles", kalashnikov_aks_74u_ubn_545x39mm: "assault_rifles", msbs_grot_556_nato: "assault_rifles",
     norinco_qbz_95_58x42mm: "assault_rifles", norinco_qbz_97_556_nato: "assault_rifles", sar_21_556_nato: "assault_rifles", sig_mcx_556_nato: "assault_rifles", sig_sg_550_556_nato: "assault_rifles", sig_sg_551_556_nato: "assault_rifles",
     springfield_m14_762_nato: "assault_rifles", steyr_aug_556_nato: "assault_rifles", steyr_aug_carbine_556_nato: "assault_rifles", steyr_aug_para_9mm_p: "assault_rifles", zastava_m70_762x39mm: "assault_rifles",
+    bt_apc223_carbine_556_nato: "assault_rifles", bt_apc223_pdw_556_nato: "assault_rifles",
     // dmr (36)
     armalite_ar_10_762x51mm_nato: "dmr", barrett_m107_50_bmg: "dmr", barrett_m107a1_50_bmg: "dmr", barrett_m82a1_50_bmg: "dmr", dragunov_svd_762x54r: "dmr", fn_fal_762x51mm_nato: "dmr",
     fn_fal_para_762x51mm_nato: "dmr", fn_scar_h_pr_762x51mm_nato: "dmr", hk_g28_762x51mm_nato: "dmr", hk_g3_762x51mm_nato: "dmr", hk_g3sg_1_762x51mm_nato: "dmr", hk_msg_90_762x51mm_nato: "dmr",
@@ -113,6 +116,7 @@
     kac_sr25_762x51mm_nato: "dmr", lmt_mws_l129a1_762x51mm_nato: "dmr", m1_garand_30_06: "dmr", m14_762x51mm_nato: "dmr", mk_14_ebr_762x51mm_nato: "dmr", norinco_kbu_88_58x42mm: "dmr",
     remington_rsass_m110k1_762x51mm_nato: "dmr", ruger_10_22_22_lr: "dmr", ruger_mini_14_556x45mm_nato: "dmr", ruger_mini_30_762x39mm: "dmr", ruger_sr_762_762x51mm_nato: "dmr", sig_sauer_716_762x51mm_nato: "dmr",
     simonov_sks_762x39mm: "dmr", springfield_m1a_762x51mm_nato: "dmr", springfield_m21_762x51mm_nato: "dmr", svu_a_762x54r: "dmr", vss_vintorez_9x39mm: "dmr", walther_wa_2000_300_win_mag: "dmr",
+    bt_apc300_pdw_300_blackout: "dmr", bt_apc308_carbine_762x51mm_nato: "dmr", bt_apc300_sd_300_blackout: "dmr", bt_apc308_dmr_762x51mm_nato: "dmr", bt_apc65_dmr_65_creedmoor: "dmr",
     // bolt_action (65)
     ai_aw_762_nato: "bolt_action", ai_aw_covert_762_nato: "bolt_action", ai_aw_50_50_bmg: "bolt_action", ai_awm_7mm_rem: "bolt_action", ai_awm_300_win: "bolt_action", ai_awm_338_lapua: "bolt_action",
     ai_ax50_50_bmg: "bolt_action", ai_axmc_762_nato: "bolt_action", ai_axmc_300_win: "bolt_action", ai_axmc_338_lapua: "bolt_action", amp_dsr_1_762_nato: "bolt_action", amp_dsr_1_300_win: "bolt_action",
@@ -125,6 +129,7 @@
     ruger_precision_rifle_338_lapua: "bolt_action", sako_trg_22_762_nato: "bolt_action", sako_trg_42_300_win: "bolt_action", sako_trg_42_338_lapua: "bolt_action", sig_ssg_3000_762_nato: "bolt_action", simonov_ptrd_145mm_russian: "bolt_action",
     springfield_m1903_30_06: "bolt_action", springfield_m1903a4_30_06: "bolt_action", steyr_ssg_08_762_nato: "bolt_action", steyr_ssg_08_300_win: "bolt_action", steyr_ssg_08_338_lapua: "bolt_action", steyr_ssg_69_762_nato: "bolt_action",
     weatherby_mk_v_556_nato: "bolt_action", weatherby_mk_v_7mm_rem: "bolt_action", weatherby_mk_v_762_nato: "bolt_action", weatherby_mk_v_30_06: "bolt_action", weatherby_mk_v_460_weatherby: "bolt_action",
+    bt_apr308_762_nato: "bolt_action", bt_spr300_300_blackout: "bolt_action", bt_apr308s_762_nato: "bolt_action", bt_apr338_338_lapua: "bolt_action",
     // shotguns (112)
     browning_superposed_410_slug: "shotguns", browning_superposed_410_shot: "shotguns", browning_superposed_20_ga_slug: "shotguns", browning_superposed_20_ga_shot: "shotguns", browning_superposed_12_ga_slug: "shotguns", browning_superposed_12_ga_shot: "shotguns",
     charles_daly_field_ii_hunter_410_slug: "shotguns", charles_daly_field_ii_hunter_410_shot: "shotguns", charles_daly_field_ii_hunter_20_ga_slug: "shotguns", charles_daly_field_ii_hunter_20_ga_shot: "shotguns", charles_daly_field_ii_hunter_16_ga_slug: "shotguns", charles_daly_field_ii_hunter_16_ga_shot: "shotguns",
@@ -159,7 +164,7 @@
     bofors_at4_heat: "launchers", carl_gustaf_m3: "launchers", carl_gustaf_m4: "launchers", fgm_148_javelin: "launchers", fim_92_stinger: "launchers", law_80: "launchers",
     matador: "launchers", nlaw: "launchers", panzerfaust_3: "launchers", rpg_7_pg_7v_heat: "launchers", rpg_7_tbg_7v_thermobaric: "launchers", rpg_18: "launchers",
     rpg_22: "launchers", rpg_26: "launchers", rpg_27: "launchers", rpg_29: "launchers", rpo_a_shmel: "launchers", smaw_mk_153_heaa: "launchers",
-    smaw_mk_153_hedp: "launchers", talley_m72_law: "launchers",
+    smaw_mk_153_hedp: "launchers", talley_m72_law: "launchers", bt_gl06_40mm: "launchers",
   };
 
   const WEAPON_GROUP_LABELS = {
@@ -325,6 +330,9 @@
     ruger_super_redhawk_454_casull: { name: "Ruger Super Redhawk", caliber: ".454 Casull", damage: "3d6+1", range: 45, recoil: 15, misfire: "1", crit: "19-20", ammo_max: 6, properties: "1H, CQC, Dependable, Takedown, Reloading", modes: "s", mag_class: "pistol" },
     sw_model_500_500_magnum: { name: "S&W Model 500", caliber: ".500 Magnum", damage: "4d4+2", range: 45, recoil: 15, misfire: "1", crit: "19-20", ammo_max: 5, properties: "1H, CQC, Takedown, Reloading", modes: "s", mag_class: "pistol" },
     sw_model_629_44_magnum: { name: "S&W Model 629", caliber: ".44 Magnum", damage: "2d6+2", range: 35, recoil: 15, misfire: "1", crit: "19-20", ammo_max: 6, properties: "1H, CQC, Dependable, Takedown, Reloading", modes: "s", mag_class: "pistol" },
+    bt_station_six_9_9mm_p: { name: "B&T Station Six 9", caliber: "9mm P", damage: "1d10+1", range: 20, recoil: 4, misfire: "1-2", crit: "20", ammo_max: 5, properties: "1H, Lite, Covert, CQC, Manual Action, Reloading, Integral Suppressor", modes: "s", mag_class: "pistol" },
+    bt_station_six_45_45_acp: { name: "B&T Station Six 45", caliber: ".45 ACP", damage: "1d12+1", range: 25, recoil: 5, misfire: "1-2", crit: "19-20", ammo_max: 5, properties: "1H, Lite, Covert, CQC, Manual Action, Reloading, Integral Suppressor", modes: "s", mag_class: "pistol" },
+    bt_usw_a1_9mm_p: { name: "B&T USW-A1", caliber: "9mm P", damage: "1d10+1", range: 30, recoil: 12, misfire: "1", crit: "20", ammo_max: 17, properties: "1H, CQC, Reloading", modes: "s", mag_class: "pistol" },
     // Submachine Guns
     bt_mp9_9mm_p: { name: "B&T MP9", caliber: "9mm P", damage: "1d10+1", range: 25, recoil: 10, misfire: "1-2", crit: "20", ammo_max: 30, properties: "Lite, CQC, 1H", modes: "s", mag_class: "smg" },
     cz_scorpion_evo_3_s1_micro_9mm_p: { name: "CZ Scorpion EVO 3 S1 Micro", caliber: "9mm P", damage: "1d10+1", range: 25, recoil: 9, misfire: "1-2", crit: "20", ammo_max: 30, properties: "Lite, CQC, 1H", modes: "s", mag_class: "smg" },
@@ -368,6 +376,12 @@
     sten_mk_ii_9mm_p: { name: "Sten Mk. II", caliber: "9mm P", damage: "1d10+1", range: 30, recoil: 5, misfire: "1-3", crit: "20", ammo_max: 32, properties: "2H, CQC, Dependable", modes: "s", mag_class: "smg" },
     sten_mk_iis_9mm_p: { name: "Sten Mk. II(S)", caliber: "9mm P", damage: "1d10+1", range: 30, recoil: 5, misfire: "1-3", crit: "20", ammo_max: 32, properties: "2H, CQC, Dependable", modes: "s", mag_class: "smg" },
     thompson_m1928_45_acp: { name: "Thompson M1928", caliber: ".45 ACP", damage: "1d12+1", range: 35, recoil: 3, misfire: "1-3", crit: "20", ammo_max: 30, properties: "2H, CQC, Dependable, Takedown", modes: "s", mag_class: "smg" },
+    bt_apc10_10mm_auto: { name: "B&T APC10", caliber: "10mm Auto", damage: "2d6", range: 30, recoil: 6, misfire: "1-2", crit: "20", ammo_max: 15, properties: "2H, CQC, Takedown", modes: "s", mag_class: "smg" },
+    bt_apc9k_9mm_p: { name: "B&T APC9K", caliber: "9mm P", damage: "1d10+1", range: 25, recoil: 7, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, CQC, Takedown", modes: "s", mag_class: "smg" },
+    bt_spc9_9mm_p: { name: "B&T SPC9", caliber: "9mm P", damage: "1d10+1", range: 45, recoil: 3, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, CQC, Takedown", modes: "s", mag_class: "smg" },
+    bt_tp9_9mm_p: { name: "B&T TP9", caliber: "9mm P", damage: "1d10+1", range: 25, recoil: 11, misfire: "1-3", crit: "20", ammo_max: 30, properties: "Lite, CQC, 1H", modes: "s", mag_class: "smg" },
+    bt_apc9_sd_9mm_p: { name: "B&T APC9 SD", caliber: "9mm P", damage: "1d10+1", range: 30, recoil: 4, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, CQC, Takedown, Integral Suppressor", modes: "s", mag_class: "smg" },
+    bt_apc9k_sd2_9mm_p: { name: "B&T APC9K SD2", caliber: "9mm P", damage: "1d10+1", range: 20, recoil: 8, misfire: "1-2", crit: "20", ammo_max: 30, properties: "Lite, CQC, 1H, Integral Suppressor", modes: "s", mag_class: "smg" },
     // Assault Rifles
     beretta_ar70_90_556_nato: { name: "Beretta AR70/90", caliber: "5.56 NATO", damage: "4d4", range: 125, recoil: 11, misfire: "1-3", crit: "20", ammo_max: 30, properties: "2H, Select Fire S/B/A, Reloading", modes: "sba", mag_class: "rifle_556" },
     beretta_arx_160_556_nato: { name: "Beretta ARX-160", caliber: "5.56 NATO", damage: "4d4", range: 125, recoil: 11, misfire: "1-3", crit: "20", ammo_max: 30, properties: "2H, Select Fire S/B/A, Reloading", modes: "sba", mag_class: "rifle_556" },
@@ -434,6 +448,8 @@
     steyr_aug_carbine_556_nato: { name: "Steyr AUG Carbine", caliber: "5.56 NATO", damage: "4d4", range: 100, recoil: 11, misfire: "1-3", crit: "20", ammo_max: 30, properties: "2H, Reloading", modes: "sa", mag_class: "rifle_556" },
     steyr_aug_para_9mm_p: { name: "Steyr AUG Para", caliber: "9mm P", damage: "1d10+1", range: 35, recoil: 4, misfire: "1-3", crit: "20", ammo_max: 30, properties: "2H, Reloading", modes: "sa", mag_class: "smg" },
     zastava_m70_762x39mm: { name: "Zastava M70", caliber: "7.62×39mm", damage: "3d6", range: 125, recoil: 12, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, Dependable, Reloading", modes: "sa", mag_class: "rifle_762" },
+    bt_apc223_carbine_556_nato: { name: "B&T APC223 Carbine", caliber: "5.56 NATO", damage: "4d4", range: 100, recoil: 11, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, Dependable, Select Fire S/B/A, Reloading", modes: "sba", mag_class: "rifle_556" },
+    bt_apc223_pdw_556_nato: { name: "B&T APC223 PDW", caliber: "5.56 NATO", damage: "4d4", range: 75, recoil: 13, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, Dependable, Select Fire S/B/A, Reloading", modes: "sba", mag_class: "rifle_556" },
     // Semi-Auto / DMR
     armalite_ar_10_762x51mm_nato: { name: "Armalite AR-10", caliber: "7.62×51mm NATO", damage: "4d4+2", range: 150, recoil: 14, misfire: "1-2", crit: "19-20", ammo_max: 20, properties: "2H, Reloading", modes: "s", mag_class: "rifle_762" },
     barrett_m107_50_bmg: { name: "Barrett M107", caliber: ".50 BMG", damage: "2d12+2", range: 375, recoil: 16, misfire: "1-2", crit: "18-20", ammo_max: 10, properties: "2H, Accurate +1, Takedown, Reloading", modes: "s", mag_class: "rifle_50" },
@@ -471,6 +487,11 @@
     svu_a_762x54r: { name: "SVU-A", caliber: "7.62×54R", damage: "1d8+2", range: 75, recoil: 14, misfire: "1-2", crit: "19-20", ammo_max: 10, properties: "2H, Accurate +1, Reloading", modes: "s", mag_class: "rifle_762" },
     vss_vintorez_9x39mm: { name: "VSS Vintorez", caliber: "9×39mm", damage: "2d8", range: 100, recoil: 8, misfire: "1-2", crit: "19-20", ammo_max: 10, properties: "2H, Accurate +1, Reloading, Integral Suppressor", modes: "s", mag_class: "pistol" },
     walther_wa_2000_300_win_mag: { name: "Walther WA 2000", caliber: ".300 Win Mag", damage: "2d10+2", range: 250, recoil: 12, misfire: "1-2", crit: "19-20", ammo_max: 6, properties: "2H, Accurate +3, Reloading", modes: "s", mag_class: "rifle_762" },
+    bt_apc300_pdw_300_blackout: { name: "B&T APC300 PDW", caliber: "300 Blackout", damage: "3d6", range: 75, recoil: 11, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, Reloading", modes: "s", mag_class: "rifle_556" },
+    bt_apc308_carbine_762x51mm_nato: { name: "B&T APC308 Carbine", caliber: "7.62×51mm NATO", damage: "4d4+2", range: 175, recoil: 13, misfire: "1-2", crit: "19-20", ammo_max: 20, properties: "2H, Reloading", modes: "s", mag_class: "rifle_762" },
+    bt_apc300_sd_300_blackout: { name: "B&T APC300 SD", caliber: "300 Blackout", damage: "3d6", range: 100, recoil: 10, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, Accurate +1, Reloading, Integral Suppressor", modes: "s", mag_class: "rifle_556" },
+    bt_apc308_dmr_762x51mm_nato: { name: "B&T APC308 DMR", caliber: "7.62×51mm NATO", damage: "4d4+2", range: 225, recoil: 11, misfire: "1-2", crit: "19-20", ammo_max: 20, properties: "2H, Accurate +2, Reloading", modes: "s", mag_class: "rifle_762" },
+    bt_apc65_dmr_65_creedmoor: { name: "B&T APC6.5 DMR", caliber: "6.5 Creedmoor", damage: "4d4+2", range: 250, recoil: 12, misfire: "1-2", crit: "19-20", ammo_max: 10, properties: "2H, Accurate +2, Reloading", modes: "s", mag_class: "rifle_762" },
     // Bolt-Action Rifles
     ai_aw_762_nato: { name: "AI AW", caliber: "7.62 NATO", damage: "4d4+2", range: 175, recoil: 12, misfire: "1", crit: "19-20", ammo_max: 10, properties: "2H, Accurate +1, Manual Action", modes: "s", mag_class: "rifle_762" },
     ai_aw_covert_762_nato: { name: "AI AW Covert", caliber: "7.62 NATO", damage: "4d4+2", range: 75, recoil: 2, misfire: "1", crit: "19-20", ammo_max: 10, properties: "2H, Accurate +2, Manual Action", modes: "s", mag_class: "rifle_762" },
@@ -537,6 +558,10 @@
     weatherby_mk_v_762_nato: { name: "Weatherby Mk. V", caliber: "7.62 NATO", damage: "4d4", range: "4d4+2", recoil: 18, misfire: "1", crit: "19-20", ammo_max: 5, properties: "2H", modes: "s", mag_class: "rifle_762" },
     weatherby_mk_v_30_06: { name: "Weatherby Mk. V", caliber: ".30-06", damage: "2d10+2", range: 175, recoil: 18, misfire: "1", crit: "19-20", ammo_max: 5, properties: "2H", modes: "s", mag_class: "rifle_762" },
     weatherby_mk_v_460_weatherby: { name: "Weatherby Mk. V", caliber: ".460 Weatherby", damage: "2d12", range: 250, recoil: 18, misfire: "1", crit: "19-20", ammo_max: 2, properties: "2H, Takedown", modes: "s", mag_class: "pistol" },
+    bt_apr308_762_nato: { name: "B&T APR308", caliber: "7.62 NATO", damage: "4d4+2", range: 200, recoil: 12, misfire: "1", crit: "19-20", ammo_max: 10, properties: "2H, Accurate +1, Manual Action", modes: "s", mag_class: "rifle_762" },
+    bt_spr300_300_blackout: { name: "B&T SPR300", caliber: "300 Blackout", damage: "3d6", range: 100, recoil: 8, misfire: "1", crit: "19-20", ammo_max: 10, properties: "2H, Accurate +1, Manual Action, Integral Suppressor", modes: "s", mag_class: "rifle_556" },
+    bt_apr308s_762_nato: { name: "B&T APR308S", caliber: "7.62 NATO", damage: "4d4+2", range: 175, recoil: 10, misfire: "1", crit: "19-20", ammo_max: 10, properties: "2H, Accurate +2, Manual Action, Integral Suppressor", modes: "s", mag_class: "rifle_762" },
+    bt_apr338_338_lapua: { name: "B&T APR338", caliber: ".338 Lapua", damage: "5d4", range: 275, recoil: 17, misfire: "1", crit: "19-20", ammo_max: 10, properties: "2H, Accurate +2, Manual Action", modes: "s", mag_class: "rifle_762" },
     // Shotguns
     browning_superposed_410_slug: { name: "Browning Superposed", caliber: ".410 slug", damage: "2d6+2", range: 10, recoil: 4, misfire: "1", crit: "20", ammo_max: 2, properties: "2H, Takedown, Dependable, Imprecise, Reloading", modes: "s", mag_class: "shotgun" },
     browning_superposed_410_shot: { name: "Browning Superposed", caliber: ".410 shot", damage: "3d4+1", range: 10, recoil: 4, misfire: "1", crit: "20", ammo_max: 2, properties: "2H, Takedown, Dependable, Imprecise, Reloading", modes: "s", mag_class: "shotgun" },
@@ -706,6 +731,7 @@
     rg_6_6g30_40mm: { name: "RG-6 / 6G30", caliber: "40mm", damage: "", range: 40, recoil: 6, misfire: "1-3", crit: "See Ammo", ammo_max: 6, properties: "2H, Inaccurate -5", modes: "s", mag_class: "grenade_40_standalone" },
     saco_mk_19_40mm: { name: "Saco Mk. 19", caliber: "40mm", damage: "", range: 300, recoil: 7, misfire: "1-4", crit: "See Ammo", ammo_max: 50, properties: "2H, Inaccurate -5, Mounted", modes: "s", mag_class: "grenade_40_standalone" },
     xm25_cdte_25mm: { name: "XM25 CDTE", caliber: "25mm", damage: "", range: 150, recoil: 7, misfire: "1-2", crit: "See Ammo", ammo_max: 5, properties: "2H, Accurate +1, programmable airburst", modes: "s", mag_class: "grenade_40_standalone" },
+    bt_gl06_40mm: { name: "B&T GL06", caliber: "40mm", damage: "", range: 60, recoil: 8, misfire: "1-2", crit: "See Ammo", ammo_max: 1, properties: "2H, Inaccurate -5, Dependable", modes: "s", mag_class: "grenade_40_standalone" },
     // Rocket Launchers
     bofors_at4_he: { name: "Bofors AT4 HE", caliber: "", damage: "5d10 Force", range: 50, recoil: 1, misfire: "1-2", crit: "20", ammo_max: 1, properties: "2H, Inaccurate -5, Blast 15ft", modes: "s", mag_class: "rocket" },
     bofors_at4_heat: { name: "Bofors AT4 HEAT", caliber: "", damage: "2d10 Force + 3d10 Piercing", range: 50, recoil: 1, misfire: "1-2", crit: "20", ammo_max: 1, properties: "2H, Inaccurate -5, Blast 10ft", modes: "s", mag_class: "rocket" },

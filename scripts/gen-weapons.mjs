@@ -12,8 +12,8 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-// Compendium is a sibling repo: ../../mw-5e-compendium relative to repo root.
-const COMP_DIR = resolve(__dirname, "..", "..", "mw-5e-compendium", "modern-warfare-5e", "weapons");
+// Compendium is a git submodule at <repo root>/mw-5e-compendium.
+const COMP_DIR = resolve(__dirname, "..", "mw-5e-compendium", "modern-warfare-5e", "weapons");
 
 // Group metadata for each file.
 const FILES = [

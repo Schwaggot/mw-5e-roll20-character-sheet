@@ -1,6 +1,6 @@
   // ---- Grenade/Explosive Presets (aus Compendium generiert) ----
   // weight = kg pro Einzel-Item (fuer Encumbrance-Sum, multipliziert mit gcount).
-  // Generiert via scripts/gen-grenades.mjs aus compendium/weapons/grenades-and-explosives.md.
+  // Generiert via scripts/gen-grenades.mjs aus compendium/weapons/grenades.md + explosives.md.
   //
   // `dmg` is structured: each entry is [count, sides, type] -> e.g.
   // [[2,8,FORCE],[2,8,PIERCING]] = "2d8 Force + 2d8 Piercing". The

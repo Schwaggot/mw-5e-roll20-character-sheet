@@ -148,7 +148,7 @@
     // saw_mg (30)
     browning_m1918_bar_30_06: "saw_mg", enfield_l86a1_lsw_556_nato: "saw_mg", fn_minimi_m249_556_nato: "saw_mg", fn_minimi_mk3_556_nato: "saw_mg", fn_minimi_para_556_nato: "saw_mg", hk_mg4_556_nato: "saw_mg",
     iwi_negev_556_nato: "saw_mg", norinco_qjy_88_58x42mm: "saw_mg", rpk_762x39mm: "saw_mg", rpk_74_545x39mm: "saw_mg", steyr_aug_hbar_556_nato: "saw_mg", ultimax_100_556_nato: "saw_mg",
-    fn_mag_m240_762_nato: "saw_mg", hk_mg3_762_nato: "saw_mg", hk_mg5_762_nato: "saw_mg", iwi_negev_ng7_762_nato: "saw_mg", mg_42_762_nato: "saw_mg", mg_42_8mm_mauser: "saw_mg",
+    fn_mag_m240_762_nato: "saw_mg", hk_hk21_762_nato: "saw_mg", hk_mg3_762_nato: "saw_mg", hk_mg5_762_nato: "saw_mg", iwi_negev_ng7_762_nato: "saw_mg", mg_42_762_nato: "saw_mg", mg_42_8mm_mauser: "saw_mg",
     mk_48_762_nato: "saw_mg", pk_762x54r: "saw_mg", pkm_762x54r: "saw_mg", pkp_pecheneg_762x54r: "saw_mg", saco_m60_762_nato: "saw_mg", browning_m2hb_50_bmg: "saw_mg",
     dshk_127x109mm: "saw_mg", fn_m3m_gau_21_50_bmg: "saw_mg", ge_m134_minigun_762_nato: "saw_mg", kord_127x108mm: "saw_mg", kpv_145mm_russian: "saw_mg", nsv_127x108mm: "saw_mg",
     // launchers (44)
@@ -664,6 +664,7 @@
     steyr_aug_hbar_556_nato: { name: "Steyr AUG Hbar", caliber: "5.56 NATO", damage: "4d4", range: 150, recoil: 8, misfire: "1-3", crit: "20", ammo_max: 30, properties: "2H, Select Fire S/B/A", modes: "sba", mag_class: "rifle_556" },
     ultimax_100_556_nato: { name: "Ultimax 100", caliber: "5.56 NATO", damage: "4d4", range: 150, recoil: 3, misfire: "1-3", crit: "20", ammo_max: 100, properties: "2H", modes: "ba", mag_class: "saw" },
     fn_mag_m240_762_nato: { name: "FN MAG (M240)", caliber: "7.62 NATO", damage: "4d4+2", range: 275, recoil: 7, misfire: "1-2", crit: "19-20", ammo_max: 100, properties: "2H, Dependable, Imprecise, Braced", modes: "ba", mag_class: "gpmg" },
+    hk_hk21_762_nato: { name: "H&K HK21", caliber: "7.62 NATO", damage: "4d4+2", range: 250, recoil: 7, misfire: "1-2", crit: "19-20", ammo_max: 100, properties: "2H, Dependable, Imprecise, Braced", modes: "ba", mag_class: "gpmg" },
     hk_mg3_762_nato: { name: "H&K MG3", caliber: "7.62 NATO", damage: "4d4+2", range: 200, recoil: 7, misfire: "1-3", crit: "19-20", ammo_max: 100, properties: "2H, Imprecise, Braced", modes: "ba", mag_class: "gpmg" },
     hk_mg5_762_nato: { name: "H&K MG5", caliber: "7.62 NATO", damage: "4d4+2", range: 275, recoil: 6, misfire: "1-2", crit: "19-20", ammo_max: 120, properties: "2H, Dependable, Imprecise, Braced", modes: "ba", mag_class: "gpmg" },
     iwi_negev_ng7_762_nato: { name: "IWI Negev NG7", caliber: "7.62 NATO", damage: "4d4+2", range: 250, recoil: 6, misfire: "1-2", crit: "19-20", ammo_max: 125, properties: "2H, Dependable, Imprecise, Braced", modes: "ba", mag_class: "gpmg" },

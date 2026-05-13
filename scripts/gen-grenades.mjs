@@ -1,12 +1,13 @@
 #!/usr/bin/env node
-// Parse compendium grenades-and-explosives.md -> JS preset object + HTML options.
+// Parse compendium grenades.md + explosives.md -> JS preset object + HTML options.
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const PATH = resolve(__dirname, "..", "..", "mw-5e-compendium", "modern-warfare-5e", "weapons", "grenades-and-explosives.md");
-const text = readFileSync(PATH, "utf8");
+const WEAPONS_DIR = resolve(__dirname, "..", "mw-5e-compendium", "modern-warfare-5e", "weapons");
+const text = readFileSync(resolve(WEAPONS_DIR, "grenades.md"), "utf8")
+  + "\n" + readFileSync(resolve(WEAPONS_DIR, "explosives.md"), "utf8");
 const lines = text.split(/\r?\n/);
 
 // Walk through sections; section heading (### ...) sets the category.
@@ -15,7 +16,7 @@ let currentHeading = "";
 const entries = [];
 
 for (let i = 0; i < lines.length; i++) {
-  const h = /^###\s+(.+?)\s*$/.exec(lines[i]);
+  const h = /^##\s+(.+?)\s*$/.exec(lines[i]);
   if (h) { currentHeading = h[1]; continue; }
   if (/^\|\s*Name\b/i.test(lines[i])) {
     const headerCells = lines[i].split("|").slice(1, -1).map((s) => s.trim().toLowerCase());

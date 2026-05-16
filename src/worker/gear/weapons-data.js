@@ -96,7 +96,7 @@
     imi_mini_uzi_9mm_p: "smg", imi_uzi_9mm_p: "smg", kriss_vector_45_acp: "smg", kriss_vector_9mm_p: "smg", kriss_vector_10mm_auto: "smg", mp_40_9mm_p: "smg",
     pp_19_01_vityaz_9x19mm: "smg", sig_mpx_9mm_p: "smg", sig_mpx_40_sw: "smg", sten_mk_ii_9mm_p: "smg", sten_mk_iis_9mm_p: "smg", thompson_m1928_45_acp: "smg",
     bt_apc10_10mm_auto: "smg", bt_apc9k_9mm_p: "smg", bt_spc9_9mm_p: "smg", bt_tp9_9mm_p: "smg", bt_apc9_sd_9mm_p: "smg", bt_apc9k_sd2_9mm_p: "smg",
-    // assault_rifles (65)
+    // assault_rifles (66)
     beretta_ar70_90_556_nato: "assault_rifles", beretta_arx_160_556_nato: "assault_rifles", beryl_wz96_556_nato: "assault_rifles", cetme_model_l_556_nato: "assault_rifles", colt_canada_c7_556_nato: "assault_rifles", colt_canada_c7a2_556_nato: "assault_rifles",
     colt_canada_c8_556_nato: "assault_rifles", colt_commando_556_nato: "assault_rifles", colt_m16_556_nato: "assault_rifles", colt_m16a1_556_nato: "assault_rifles", colt_m16a2_a4_556_nato: "assault_rifles", colt_m16a3_556_nato: "assault_rifles",
     colt_m4_556_nato: "assault_rifles", colt_m4_sopmod_556_nato: "assault_rifles", colt_m4a1_556_nato: "assault_rifles", cz_bren_2_556_nato: "assault_rifles", daewoo_k2_556_nato: "assault_rifles", enfield_l85a1_556_nato: "assault_rifles",
@@ -106,7 +106,7 @@
     hk_hk416_556_nato: "assault_rifles", hk_hk416c_556_nato: "assault_rifles", hk_hk417_762_nato: "assault_rifles", hk_hk53a2_a3_556_nato: "assault_rifles", howa_type_89_556_nato: "assault_rifles", iwi_tavor_tar_21_556_nato: "assault_rifles",
     iwi_x95_556_nato: "assault_rifles", kalashnikov_ak_101_556_nato: "assault_rifles", kalashnikov_ak_103_762x39mm: "assault_rifles", kalashnikov_ak_12_545x39mm: "assault_rifles", kalashnikov_ak_47_762x39mm: "assault_rifles", kalashnikov_ak_74_545x39mm: "assault_rifles",
     kalashnikov_ak_74m_545x39mm: "assault_rifles", kalashnikov_aks_762x39mm: "assault_rifles", kalashnikov_aks_74_545x39mm: "assault_rifles", kalashnikov_aks_74u_545x39mm: "assault_rifles", kalashnikov_aks_74u_ubn_545x39mm: "assault_rifles", msbs_grot_556_nato: "assault_rifles",
-    norinco_qbz_95_58x42mm: "assault_rifles", norinco_qbz_97_556_nato: "assault_rifles", sar_21_556_nato: "assault_rifles", sig_mcx_556_nato: "assault_rifles", sig_sg_550_556_nato: "assault_rifles", sig_sg_551_556_nato: "assault_rifles",
+    norinco_qbz_95_58x42mm: "assault_rifles", norinco_qbz_97_556_nato: "assault_rifles", ots_14_groza_9x39mm: "assault_rifles", sar_21_556_nato: "assault_rifles", sig_mcx_556_nato: "assault_rifles", sig_sg_550_556_nato: "assault_rifles", sig_sg_551_556_nato: "assault_rifles",
     springfield_m14_762_nato: "assault_rifles", steyr_aug_556_nato: "assault_rifles", steyr_aug_carbine_556_nato: "assault_rifles", steyr_aug_para_9mm_p: "assault_rifles", zastava_m70_762x39mm: "assault_rifles",
     bt_apc223_carbine_556_nato: "assault_rifles", bt_apc223_pdw_556_nato: "assault_rifles",
     // dmr (36)
@@ -439,6 +439,7 @@
     msbs_grot_556_nato: { name: "MSBS Grot", caliber: "5.56 NATO", damage: "4d4", range: 125, recoil: 10, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, Select Fire S/B/A, Reloading", modes: "sba", mag_class: "rifle_556" },
     norinco_qbz_95_58x42mm: { name: "NORINCO QBZ-95", caliber: "5.8×42mm", damage: "3d6+1", range: 150, recoil: 17, misfire: "1-3", crit: "19-20", ammo_max: 30, properties: "2H, Reloading", modes: "sa", mag_class: "rifle_556" },
     norinco_qbz_97_556_nato: { name: "NORINCO QBZ-97", caliber: "5.56 NATO", damage: "4d4", range: 125, recoil: 12, misfire: "1-3", crit: "20", ammo_max: 30, properties: "2H, Reloading", modes: "sa", mag_class: "rifle_556" },
+    ots_14_groza_9x39mm: { name: "OTs-14 Groza", caliber: "9×39mm", damage: "2d8", range: 100, recoil: 10, misfire: "1-3", crit: "20", ammo_max: 20, properties: "2H, Reloading", modes: "sa", mag_class: "pistol" },
     sar_21_556_nato: { name: "SAR 21", caliber: "5.56 NATO", damage: "4d4", range: 125, recoil: 10, misfire: "1-3", crit: "20", ammo_max: 30, properties: "2H, Reloading", modes: "sa", mag_class: "rifle_556" },
     sig_mcx_556_nato: { name: "SIG MCX", caliber: "5.56 NATO", damage: "4d4", range: 125, recoil: 11, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, Dependable, Select Fire S/B, Reloading", modes: "sb", mag_class: "rifle_556" },
     sig_sg_550_556_nato: { name: "SIG SG 550", caliber: "5.56 NATO", damage: "4d4", range: 125, recoil: 10, misfire: "1-2", crit: "20", ammo_max: 30, properties: "2H, Accurate +1, Dependable, Reloading", modes: "sa", mag_class: "rifle_556" },
